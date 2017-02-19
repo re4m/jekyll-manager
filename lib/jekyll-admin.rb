@@ -28,6 +28,8 @@ require "jekyll-admin/server/static_file.rb"
 require "jekyll-admin/apiable.rb"
 require "jekyll-admin/urlable.rb"
 require "jekyll-admin/data_file.rb"
+
+require "jekyll-admin/generator.rb" if Jekyll.env == "development"
 require "jekyll-admin/directory.rb"
 
 # Monkey Patches

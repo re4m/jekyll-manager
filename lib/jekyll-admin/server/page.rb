@@ -43,7 +43,7 @@ module JekyllAdmin
       end
 
       def pages
-        site.pages.select(&:html?)
+        site.pages.select(&:html?).reject { |p| p.basename == ".admin" }
       end
 
       def directory_pages

@@ -47,7 +47,7 @@ module JekyllAdmin
       end
 
       def static_files
-        site.static_files
+        site.static_files.reject { |f| f.type == :admin }
       end
 
       def file_list_dir(path) end
