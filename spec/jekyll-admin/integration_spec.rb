@@ -1,7 +1,7 @@
 describe "integration" do
   let(:source) { fixture_path("site") }
   let(:dest) { File.join(source, "_site") }
-  let(:args) { ["--detach", "--source", source, "--destination", dest, "--config", "_config_alpha.yml"] }
+  let(:args) { ["--detach", "--source", source, "--destination", dest] }
   let(:start_command) { %w(bundle exec jekyll serve).concat(args) }
   let(:stop_command) { ["pkill", "-f", "jekyll"] }
   let(:server) { "http://localhost:4000" }
@@ -21,7 +21,7 @@ describe "integration" do
 
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
-      expect(response.body).to match("You're probably looking for")
+      expect(response.body).to match("You're probably lost")
     end
   end
 
@@ -31,7 +31,7 @@ describe "integration" do
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       with_index_stubbed do
         expect(response.code).to eql("200")
-        expect(response.body).to match("Jekyll Admin")
+        expect(response.body).to match("JekyllAdmin")
       end
     end
   end
@@ -41,7 +41,7 @@ describe "integration" do
 
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
-      expect(response.body).to match("collections_api")
+      expect(response.body).to match("collect_api")
     end
   end
 end
