@@ -1,7 +1,8 @@
 describe "integration" do
   let(:source) { fixture_path("site") }
   let(:dest) { File.join(source, "_site") }
-  let(:args) { ["--detach", "--source", source, "--destination", dest] }
+  let(:configs) { "_config_alpha.yml,_config_beta.yml" }
+  let(:args) { ["--detach", "--source", source, "--destination", dest, "--config", configs] }
   let(:start_command) { %w(bundle exec jekyll serve).concat(args) }
   let(:stop_command) { ["pkill", "-f", "jekyll"] }
   let(:server) { "http://localhost:4000" }
