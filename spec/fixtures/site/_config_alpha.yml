@@ -1,0 +1,17 @@
+title: Alpha Test Matrix
+
+# Load the admin interface.
+gems:
+  - jekyll-admin
+
+# Exclude these files from being processed.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+
+# Dummy Collection.
+collections:
+  puppies:
+    foo: bar
+    output: false
