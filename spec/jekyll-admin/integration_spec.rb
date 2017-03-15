@@ -10,17 +10,11 @@ describe "integration" do
   let(:response) { Net::HTTP.get_response(uri) }
 
   before do
-    Open3.capture2e(*stop_command)
-    @stdin, @stdout, @stderr, @wait_thr = Open3.popen3(*start_command)
+    Open3.popen3(*start_command)
     sleep 3
-    @stdin.close
   end
 
-  after do
-    Open3.capture2e(*stop_command)
-    @stdout.close
-    @stderr.close
-  end
+  after { Open3.capture2e(*stop_command) }
 
   context "Jekyll site" do
     let(:path) { "/" }
@@ -53,7 +47,17 @@ describe "integration" do
 
   context "watching" do
     it "Jekyll isn't watching" do
-      expect(@stdout.read).to include("Auto-regeneration: disabled")
+      File.open(File.join(source, "page.md"), "a") do |f|
+        f.puts "peek-a-boo"
+      end
+      content = File.read(File.join(source, "page.md"))
+      output = File.read(File.join(dest, "page.html"))
+      expect(content).to include("peek-a-boo")
+      expect(output).not_to include("peek-a-boo")
+
+      File.open(File.join(source, "page.md"), "w+") do |f|
+        f.write "---\nfoo: bar\n---\n\n# Test Page\n"
+      end
     end
   end
 end
