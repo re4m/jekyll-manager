@@ -14,11 +14,13 @@ describe "integration" do
     @stdin, @stdout, @stderr, @wait_thr = Open3.popen3(*start_command)
     sleep 3
     @stdin.close
+  end
+
+  after do
+    Open3.capture2e(*stop_command)
     @stdout.close
     @stderr.close
   end
-
-  after { Open3.capture2e(*stop_command) }
 
   context "Jekyll site" do
     let(:path) { "/" }
