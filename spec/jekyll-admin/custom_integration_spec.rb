@@ -2,7 +2,17 @@ describe "integration" do
   let(:source) { fixture_path("site") }
   let(:dest) { File.join(source, "_site") }
   let(:config) { File.join(source, "_config_test.yml") }
-  let(:args) { ["--detach", "--watch", "--source", source, "--destination", dest, "--config", config] }
+
+  let(:args) do
+    [
+      "--detach",
+      "--watch",
+      "--source", source,
+      "--destination", dest,
+      "--config", config
+    ]
+  end
+
   let(:start_command) { %w(bundle exec jekyll serve).concat(args) }
   let(:stop_command) { ["pkill", "-f", "jekyll"] }
   let(:server) { "http://localhost:4000" }
@@ -43,10 +53,8 @@ describe "integration" do
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
       expect(response.body).to match(
-        %q(
-          {"content":{"title":"Admin Labs United","gems":["jekyll-admin"]},
-          "raw_content":"title: Admin Labs United\ngems:\n  - jekyll-admin\n"}
-        )
+        %q({"content":{"title":"Admin Labs United","gems":["jekyll-admin"]},) \
+        %q("raw_content":"title: Admin Labs United\ngems:\n  - jekyll-admin\n"})
       )
     end
   end
