@@ -1,0 +1,22 @@
+title: Admin Labs United
+foo: barista
+
+collections:
+  puppies:
+    foo: bar
+    output: false
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      some_front_matter: "whatever"
+
+gems:
+  - jekyll-admin
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
