@@ -1,4 +1,4 @@
-describe "integration" do
+describe "custom integration" do
   let(:source) { fixture_path("site") }
   let(:dest) { File.join(source, "_site") }
   let(:config) { File.join(source, "_config_test.yml") }
@@ -49,13 +49,13 @@ describe "integration" do
 
   context "API" do
     let(:path) { "/_api/configuration" }
+    let(:expected_response) do
+      {"content":{"gems":["jekyll-admin"]},"raw_content":"gems: [\"jekyll-admin\"]\n"}
+    end
 
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
-      expect(response.body).to match(
-        "{\"content\":{\"title\":\"Admin Labs United\",\"gems\":[\"jekyll-admin\"]}," \
-        "\"raw_content\":\"title: Admin Labs United\ngems:\n  - jekyll-admin\n\"}"
-      )
+      expect(response.body).to match(expected_response)
     end
   end
 end
