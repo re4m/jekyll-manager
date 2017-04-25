@@ -41,7 +41,7 @@ describe "integration" do
 
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
-      expect(response.body).to match("foo: bar\n")
+      expect(response.body).to include("foo: bar\n")
     end
   end
 end
