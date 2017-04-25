@@ -53,8 +53,8 @@ describe "integration" do
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
       expect(response.body).to match(
-        %q({"content":{"title":"Admin Labs United","gems":["jekyll-admin"]},) \
-        %q("raw_content":"title: Admin Labs United\ngems:\n  - jekyll-admin\n"})
+        "{\"content\":{\"title\":\"Admin Labs United\",\"gems\":[\"jekyll-admin\"]}," \
+        "\"raw_content\":\"title: Admin Labs United\ngems:\n  - jekyll-admin\n\"}"
       )
     end
   end
