@@ -26,12 +26,12 @@ describe "integration" do
   end
 
   context "Admin site" do
-    let(:path) { "/admin/configuration" }
+    let(:path) { "/admin" }
 
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       with_index_stubbed do
         expect(response.code).to eql("200")
-        expect(response.body).to match("foo: bar")
+        expect(response.body).to match("Jekyll Admin")
       end
     end
   end
@@ -41,7 +41,7 @@ describe "integration" do
 
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
-      expect(response.body).to match("\"foo\": \"bar\"")
+      expect(response.body).to match("foo: bar\n")
     end
   end
 end
