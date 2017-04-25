@@ -9,7 +9,7 @@ describe "custom integration" do
       "--watch",
       "--source", source,
       "--destination", dest,
-      "--config", config
+      "--config", config,
     ]
   end
 
@@ -49,13 +49,10 @@ describe "custom integration" do
 
   context "API" do
     let(:path) { "/_api/configuration" }
-    let(:expected_response) do
-      {"content":{"gems":["jekyll-admin"]},"raw_content":"gems: [\"jekyll-admin\"]\n"}
-    end
 
     it "serves the Jekyll site", :skip => Gem.win_platform? do
       expect(response.code).to eql("200")
-      expect(response.body).to match(expected_response)
+      expect(response.body).to match("Admin Labs United")
     end
   end
 end
