@@ -30,10 +30,10 @@ export default class Breadcrumbs extends Component {
     }
 
     let nodes = _.map(links, (link, i) => {
-      if (link.href) {
+      if (link.href && !link.label.includes('.')) {
         return <li key={i}><Link to={link.href}>{link.label}</Link></li>;
       } else {
-        return <li key={i}>{toTitleCase(link.label)}</li>;
+        return <li className="label" key={i}>{link.label}</li>;
       }
     });
 

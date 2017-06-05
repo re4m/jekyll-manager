@@ -103,7 +103,7 @@ export class PageEdit extends Component {
       'save': this.handleClickSave,
     };
 
-    const { name, raw_content, http_url, front_matter } = page;
+    const { name, path, raw_content, http_url, front_matter } = page;
     const [directory, ...rest] = params.splat;
 
     const title = front_matter && front_matter.title ? front_matter.title : '';
@@ -115,7 +115,7 @@ export class PageEdit extends Component {
         className="single">
         {errors.length > 0 && <Errors errors={errors} />}
         <div className="content-header">
-          <Breadcrumbs splat={directory || ''} type="pages" />
+          <Breadcrumbs splat={path} type="pages" />
         </div>
 
         <div className="content-wrapper">

@@ -27,4 +27,15 @@ describe('Components::Breadcrumbs', () => {
     expect(links.first().text()).toBe(capitalize(props.type));
     expect(base.prop('to')).toBe(`${ADMIN_PREFIX}/collections/${props.type}`);
   });
+
+  it('should render filename breadcrumb when present', () => {
+    const { links, base } = setup(Object.assign({}, {
+      type: 'posts',
+      splat: 'foo/bar/baz.md'
+    }));
+    expect(links.length).toBe(props.splat.split('/').length+1);//movies, test, some, other
+    expect(links.first().text()).toBe(capitalize(props.type));
+    expect(links.last().html()).toBe('<li class="label">baz.md</li>');
+    expect(base.prop('to')).toBe(`${ADMIN_PREFIX}/collections/${props.type}`);
+  });
 });

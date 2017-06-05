@@ -114,7 +114,8 @@ export class DocumentEdit extends Component {
       title, raw_content, http_url, collection, front_matter, name
     } = currentDocument;
     const [directory, ...rest] = params.splat;
-
+    const filename = rest.join('.');
+    const docPath = directory ? `${directory}/${filename}` : filename;
     const metafields = injectDefaultFields(config, directory, collection, front_matter);
 
     const keyboardHandlers = {
@@ -125,11 +126,11 @@ export class DocumentEdit extends Component {
       <HotKeys
         handlers={keyboardHandlers}
         className="single">
+
         {errors.length > 0 && <Errors errors={errors} />}
+
         <div className="content-header">
-          <Breadcrumbs
-            splat={directory || ''}
-            type={collection} />
+          <Breadcrumbs splat={docPath} type={collection} />
         </div>
 
         <div className="content-wrapper">
