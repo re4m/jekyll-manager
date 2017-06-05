@@ -2,18 +2,39 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import _ from 'underscore';
+import classnames from 'classnames';
 import { ADMIN_PREFIX } from '../constants';
 import Splitter from '../components/Splitter';
 import { fetchCollections } from '../actions/collections';
 import { capitalize } from '../utils/helpers';
 import { sidebar as SidebarTranslations } from '../constants/lang';
-import _ from 'underscore';
 
 export class Sidebar extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+    this.state = { collapsedPanel: true };
+  }
 
   componentDidMount() {
     const { fetchCollections } = this.props;
     fetchCollections();
+  }
+
+  handleClick() {
+    if (this.state.collapsedPanel == true) {
+      this.setState({
+        collapsedPanel: false
+      });
+    }
+    else {
+      this.setState({
+        collapsedPanel: true
+      });
+    }
   }
 
   renderCollections(hiddens = []) {
@@ -23,8 +44,8 @@ export class Sidebar extends Component {
       return null;
     }
 
-    return _.map(collections, (col, i) => {
-      if (_.indexOf(hiddens, col.label) == -1) {
+    const collectionItems = _.map(collections, (col, i) => {
+      if (_.indexOf(hiddens, col.label) == -1 && col.label != 'posts') {
         return (
           <li key={i}>
             <Link activeClassName="active" to={`${ADMIN_PREFIX}/collections/${col.label}`}>
@@ -33,7 +54,41 @@ export class Sidebar extends Component {
           </li>
         );
       }
+    }).filter(Boolean);
+
+    const accordionClasses = classnames({
+      "accordion-label": true,
+      "collapsed": this.state.collapsedPanel
     });
+
+    const panelHeight = this.state.collapsedPanel ? 50 : (collectionItems.length + 1) * 50;
+
+    return (
+      <div>
+        {(_.indexOf(hiddens, 'posts') == -1) &&
+          <li>
+            <Link activeClassName="active" to={`${ADMIN_PREFIX}/collections/posts`}>
+              <i className="fa fa-book" />Posts
+            </Link>
+          </li>
+        }
+        {
+          collectionItems.length > 0 &&
+            <li className={accordionClasses} style={{ maxHeight: panelHeight }}>
+              <a onClick={this.handleClick}>
+                <i className="fa fa-book" />Collections
+                <div className="counter">{collectionItems.length}</div>
+                <div className="chevrons">
+                  <i className="fa fa-chevron-up" />
+                </div>
+              </a>
+              <ul>
+                {collectionItems}
+              </ul>
+            </li>
+        }
+      </div>
+    );
   }
 
   render() {
