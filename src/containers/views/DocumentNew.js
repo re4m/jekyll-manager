@@ -86,9 +86,7 @@ export class DocumentNew extends Component {
       <HotKeys handlers={keyboardHandlers} className="single">
         {errors.length > 0 && <Errors errors={errors} />}
         <div className="content-header">
-          <Breadcrumbs
-            type={collection}
-            splat={params.splat || ''} />
+          <Breadcrumbs type={collection} splat={params.splat || ''} />
         </div>
 
         <div className="content-wrapper">

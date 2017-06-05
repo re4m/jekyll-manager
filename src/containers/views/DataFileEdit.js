@@ -221,7 +221,7 @@ export class DataFileEdit extends Component {
       return <h1>{getNotFoundMessage('content')}</h1>;
     }
 
-    const { path, raw_content, content } = datafile;
+    const { relative_path, path, raw_content, content } = datafile;
     const [directory, ...rest] = params.splat || [''];
     const filename = getFilenameFromPath(path);
     const ext = getExtensionFromPath(path);
@@ -245,7 +245,7 @@ export class DataFileEdit extends Component {
         {errors.length > 0 && <Errors errors={errors} />}
 
         <div className="content-header">
-          <Breadcrumbs splat={directory || ''} type="data files" />
+          <Breadcrumbs splat={relative_path} type="data files" />
         </div>
 
         <div className="content-wrapper">
