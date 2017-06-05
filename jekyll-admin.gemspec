@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sinatra", "~> 1.4"
   spec.add_dependency "sinatra-contrib", "~> 1.4"
   spec.add_dependency "addressable", "~> 2.4"
+  spec.add_dependency "neatjson", "~> 0.8"
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
