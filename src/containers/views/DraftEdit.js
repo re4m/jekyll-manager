@@ -114,8 +114,8 @@ export class DraftEdit extends Component {
     const [directory, ...rest] = params.splat;
 
     const title = front_matter && front_matter.title ? front_matter.title : '';
-    const inputPath = <InputPath onChange={updatePath} type="drafts" path={name} />;
-    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: name, ...front_matter}} />;
+    const inputPath = <InputPath onChange={updatePath} type="drafts" path={relative_path} />;
+    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: relative_path, ...front_matter}} />;
 
     return (
       <HotKeys
