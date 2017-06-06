@@ -52,13 +52,13 @@ export function fetchDocument(collection_name, directory, filename) {
   };
 }
 
-export function createDocument(collection, directory) {
+export function putDocument(mode, collection, directory, filename = '') {
   return (dispatch, getState) => {
     // get edited fields from metadata state
     const metadata = getState().metadata.metadata;
     let { path, raw_content, title } = metadata;
-    // if path is not given or equals to directory, generate filename from the title
-    if ((!path || (`${path}/` == directory)) && title) {
+    // if path is not given, generate filename from the title
+    if (!path && title) {
       path = generateFilenameFromTitle(metadata, collection); // override empty path
     } else { // validate otherwise
       const errors = validateDocument(metadata, collection);
@@ -72,46 +72,21 @@ export function createDocument(collection, directory) {
     const front_matter = _.omit(metadata, (value, key, object) => {
       return key == 'raw_content' || key == 'path' || value == '';
     });
-    // send the put request
-    return put(
-      // create or update document according to filename existence
-      documentAPIUrl(collection, directory, path),
-      preparePayload({ raw_content, front_matter }),
-      { type: ActionTypes.PUT_DOCUMENT_SUCCESS, name: 'doc'},
-      { type: ActionTypes.PUT_DOCUMENT_FAILURE, name: 'error'},
-      dispatch
-    );
-  };
-}
 
-export function putDocument(collection, directory, filename) {
-  return (dispatch, getState) => {
-    // get edited fields from metadata state
-    const metadata = getState().metadata.metadata;
-    let { path, raw_content, title } = metadata;
-    // if path is not given or equals to directory, generate filename from the title
-    if ((!path || (`${path}/` == directory)) && title) {
-      path = generateFilenameFromTitle(metadata, collection); // override empty path
-    } else { // validate otherwise
-      const errors = validateDocument(metadata, collection);
-      if (errors.length) {
-        return dispatch(validationError(errors));
-      }
+    let payload;
+    if (mode == 'create') {
+      filename = path;
+      payload = { front_matter, raw_content };
+    } else {
+      // add collection type prefix to relative path
+      const relative_path = `_${collection}/${path}`;
+      payload = { path: relative_path, front_matter, raw_content };
     }
-    // clear errors
-    dispatch({type: ActionTypes.CLEAR_ERRORS});
-    // omit raw_content, path and empty-value keys in metadata state from front_matter
-    const front_matter = _.omit(metadata, (value, key, object) => {
-      return key == 'raw_content' || key == 'path' || value == '';
-    });
-    // add collection type prefix to relative path
-    const relative_path = directory ?
-      `_${collection}/${directory}/${path}` : `_${collection}/${path}`;
+
     // send the put request
     return put(
-      // create or update document according to filename existence
       documentAPIUrl(collection, directory, filename),
-      preparePayload({ path: relative_path, raw_content, front_matter }),
+      preparePayload(payload),
       { type: ActionTypes.PUT_DOCUMENT_SUCCESS, name: 'doc'},
       { type: ActionTypes.PUT_DOCUMENT_FAILURE, name: 'error'},
       dispatch
@@ -160,7 +135,7 @@ const validateDocument = (metadata, collection) => {
   if (collection == 'posts') {
     validations['path'] = 'required|date';
     messages['path.date'] = getFilenameNotValidMessage();
-  }else {
+  } else {
     validations['path'] = 'required|filename';
     messages['path.filename'] = getFilenameNotValidMessage();
   }

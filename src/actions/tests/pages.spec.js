@@ -99,7 +99,7 @@ describe('Actions::Pages', () => {
 
     const store = mockStore({metadata: { metadata: page}});
 
-    return store.dispatch(actions.putPage('', 'page.md'))
+    return store.dispatch(actions.putPage('edit', '', 'page.md'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -115,9 +115,9 @@ describe('Actions::Pages', () => {
       { type: types.PUT_PAGE_SUCCESS, page }
     ];
 
-    const store = mockStore({metadata: { metadata: page}});
+    const store = mockStore({metadata: { metadata: page }});
 
-    return store.dispatch(actions.createPage(''))
+    return store.dispatch(actions.putPage('create'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -133,9 +133,9 @@ describe('Actions::Pages', () => {
       { type: types.PUT_PAGE_SUCCESS, page }
     ];
 
-    const store = mockStore({metadata: { metadata: {...new_page, path: ''}}});
+    const store = mockStore({metadata: { metadata: {...new_page, path: ''} }});
 
-    return store.dispatch(actions.createPage(''))
+    return store.dispatch(actions.putPage('create'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -164,12 +164,13 @@ describe('Actions::Pages', () => {
       {
         type: types.VALIDATION_ERROR,
         errors: [
+          "The title is required.",
           "The filename is not valid."
         ]
       }
     ];
 
-    const store = mockStore({metadata: { metadata: { path: '.invalid.'} }});
+    const store = mockStore({metadata: { metadata: { path: '', title: '' } }});
 
     store.dispatch(actions.putPage(page.name));
     expect(store.getActions()).toEqual(expectedActions);

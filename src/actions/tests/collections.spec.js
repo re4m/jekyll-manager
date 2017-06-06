@@ -125,9 +125,9 @@ describe('Actions::Collections', () => {
       { type: types.PUT_DOCUMENT_SUCCESS, doc }
     ];
 
-    const store = mockStore({metadata: { metadata: doc}});
+    const store = mockStore({metadata: { metadata: doc }});
 
-    return store.dispatch(actions.putDocument(doc.collection, '', filename))
+    return store.dispatch(actions.putDocument('edit', doc.collection, '', filename))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -143,9 +143,9 @@ describe('Actions::Collections', () => {
       { type: types.PUT_DOCUMENT_FAILURE, error: 'something awful happened' }
     ];
 
-    const store = mockStore({metadata: { metadata: doc}});
+    const store = mockStore({metadata: { metadata: doc }});
 
-    return store.dispatch(actions.putDocument(doc.collection, filename))
+    return store.dispatch(actions.putDocument('edit', doc.collection, filename))
       .then(() => {
         expect(store.getActions()[1].type).toEqual(expectedActions[1].type);
       });
@@ -161,9 +161,9 @@ describe('Actions::Collections', () => {
       { type: types.PUT_DOCUMENT_SUCCESS, doc }
     ];
 
-    const store = mockStore({metadata: { metadata: new_doc}});
+    const store = mockStore({metadata: { metadata: new_doc }});
 
-    return store.dispatch(actions.createDocument(new_doc.collection, ''))
+    return store.dispatch(actions.putDocument('create', new_doc.collection, ''))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -179,9 +179,9 @@ describe('Actions::Collections', () => {
       { type: types.PUT_DOCUMENT_SUCCESS, doc }
     ];
 
-    const store = mockStore({metadata: { metadata: {...new_doc, path: ''}}});
+    const store = mockStore({metadata: { metadata: {...new_doc, path: ''} }});
 
-    return store.dispatch(actions.createDocument(new_doc.collection, ''))
+    return store.dispatch(actions.putDocument('create', new_doc.collection, ''))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -207,7 +207,7 @@ describe('Actions::Collections', () => {
       }
     });
 
-    return store.dispatch(actions.createDocument(new_post_with_date.collection, ''))
+    return store.dispatch(actions.putDocument('create', new_post_with_date.collection, ''))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -245,7 +245,7 @@ describe('Actions::Collections', () => {
       metadata: { metadata: { title: 'test', path: '2016-33-33-title.md'} }
     });
 
-    store.dispatch(actions.putDocument('posts', doc.id));
+    store.dispatch(actions.putDocument('edit', 'posts', doc.id));
     expect(store.getActions()).toEqual(expectedActions);
   });
 });

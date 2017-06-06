@@ -19,7 +19,7 @@ const defaultProps = {
 
 function setup(props = defaultProps) {
   const actions = {
-    createPage: jest.fn(),
+    putPage: jest.fn(),
     updateTitle: jest.fn(),
     updateBody: jest.fn(),
     updatePath: jest.fn(),
@@ -53,17 +53,17 @@ describe('Containers::PageNew', () => {
     expect(errors.node).toBeTruthy();
   });
 
-  it('should not call createPage if a field is not changed.', () => {
+  it('should not call putPage if a field is not changed.', () => {
     const { saveButton, actions } = setup();
     saveButton.simulate('click');
-    expect(actions.createPage).not.toHaveBeenCalled();
+    expect(actions.putPage).not.toHaveBeenCalled();
   });
 
-  it('should call createPage if a field is changed.', () => {
+  it('should call putPage if a field is changed.', () => {
     const { saveButton, actions } = setup(Object.assign({}, defaultProps, {
       fieldChanged: true
     }));
     saveButton.simulate('click');
-    expect(actions.createPage).toHaveBeenCalled();
+    expect(actions.putPage).toHaveBeenCalled();
   });
 });

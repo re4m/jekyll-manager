@@ -93,7 +93,7 @@ describe('Containers::DataFileEdit', () => {
     });
     toggleButton.simulate('click');
     expect(component.state()).toEqual({
-      'guiPath': 'authors',
+      'guiPath': 'movies/authors',
       'extn': '.yml',
       'guiView': true
     });

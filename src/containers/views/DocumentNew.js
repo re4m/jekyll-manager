@@ -14,7 +14,7 @@ import InputTitle from '../../components/form/InputTitle';
 import MarkdownEditor from '../../components/MarkdownEditor';
 import Metadata from '../../containers/MetaFields';
 import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
-import { createDocument } from '../../actions/collections';
+import { putDocument } from '../../actions/collections';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
 import { injectDefaultFields } from '../../utils/metadata';
@@ -67,14 +67,14 @@ export class DocumentNew extends Component {
   }
 
   handleClickSave(e) {
-    const { fieldChanged, createDocument, params } = this.props;
+    const { fieldChanged, putDocument, params } = this.props;
 
     // Prevent the default event from bubbling
     preventDefault(e);
 
     if (fieldChanged) {
       const { collection_name, splat } = params;
-      createDocument(collection_name, splat);
+      putDocument('create', collection_name, splat);
     }
   }
 
@@ -136,7 +136,7 @@ export class DocumentNew extends Component {
 }
 
 DocumentNew.propTypes = {
-  createDocument: PropTypes.func.isRequired,
+  putDocument: PropTypes.func.isRequired,
   updateTitle: PropTypes.func.isRequired,
   updateBody: PropTypes.func.isRequired,
   updatePath: PropTypes.func.isRequired,
@@ -164,7 +164,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateTitle,
   updateBody,
   updatePath,
-  createDocument,
+  putDocument,
   clearErrors
 }, dispatch);
 

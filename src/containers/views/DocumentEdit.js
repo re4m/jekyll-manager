@@ -87,7 +87,7 @@ export class DocumentEdit extends Component {
       const collection = params.collection_name;
       const [directory, ...rest] = params.splat;
       const filename = rest.join('.');
-      putDocument(collection, directory, filename);
+      putDocument('edit', collection, directory, filename);
     }
   }
 
@@ -126,8 +126,8 @@ export class DocumentEdit extends Component {
     const filename = rest.join('.');
     const docPath = directory ? `${directory}/${filename}` : filename;
 
-    const inputPath = <InputPath onChange={updatePath} type={collection} path={name} />;
-    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: name, ...front_matter}} />;
+    const inputPath = <InputPath onChange={updatePath} type={collection} path={docPath} />;
+    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: docPath, ...front_matter}} />;
 
     const keyboardHandlers = {
       'save': this.handleClickSave,
