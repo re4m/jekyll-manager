@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
@@ -7,6 +8,7 @@ import Splitter from '../../components/Splitter';
 import Errors from '../../components/Errors';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
+import Collapsible from '../../components/Collapsible';
 import InputPath from '../../components/form/InputPath';
 import InputTitle from '../../components/form/InputTitle';
 import MarkdownEditor from '../../components/MarkdownEditor';
@@ -26,6 +28,8 @@ export class DocumentNew extends Component {
 
     this.routerWillLeave = this.routerWillLeave.bind(this);
     this.handleClickSave = this.handleClickSave.bind(this);
+
+    this.state = { panelHeight: 0 };
   }
 
   componentDidMount() {
@@ -40,6 +44,11 @@ export class DocumentNew extends Component {
       browserHistory.push(
         `${ADMIN_PREFIX}/collections/${nextProps.currentDocument.collection}/${splat}`
       );
+    }
+
+    if (this.props.new_field_count !== nextProps.new_field_count) {
+      const panelHeight = findDOMNode(this.refs.frontmatter).clientHeight;
+      this.setState({ panelHeight: panelHeight + 60 }); // extra height for various types of metafield field
     }
   }
 
@@ -93,6 +102,15 @@ export class DocumentNew extends Component {
           <div className="content-body">
             <InputPath onChange={updatePath} type={collection} path="" />
             <InputTitle onChange={updateTitle} title="" ref="title" />
+
+            <Collapsible
+              label="Edit Front Matter"
+              overflow={true}
+              height={this.state.panelHeight}
+              panel={<Metadata fields={{}} ref="frontmatter"/>} />
+
+            <Splitter />
+
             <MarkdownEditor
               onChange={updateBody}
               onSave={this.handleClickSave}
@@ -100,7 +118,6 @@ export class DocumentNew extends Component {
               initialValue=""
               ref="editor" />
             <Splitter />
-            <Metadata fields={metafields} />
           </div>
 
           <div className="content-side">
@@ -130,7 +147,8 @@ DocumentNew.propTypes = {
   params: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired
+  config: PropTypes.object.isRequired,
+  new_field_count: PropTypes.number
 };
 
 const mapStateToProps = (state) => ({
@@ -138,7 +156,8 @@ const mapStateToProps = (state) => ({
   fieldChanged: state.metadata.fieldChanged,
   errors: state.utils.errors,
   updated: state.collections.updated,
-  config: state.config.config
+  config: state.config.config,
+  new_field_count: state.metadata.new_field_count
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

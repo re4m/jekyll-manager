@@ -47,6 +47,14 @@
   .panel-content {
     padding: 15px;
     border: 1px solid $border-color;
+    .metafields { margin-bottom: 0; }
+  }
+  .tooltip-text {
+    right: 0 !important;
+    &:after {
+      left: 90% !important;
+      right: 5%;
+    }
   }
 }
 
