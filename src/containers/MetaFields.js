@@ -68,11 +68,8 @@ export class MetaFields extends Component {
       </div>
     ) : (
       <div className="meta-new">
-        <a onClick={() => addField('metadata')} className="tooltip">
-          <i className="fa fa-plus-circle" /> New metadata field
-          <span className="tooltip-text">
-            Metadata will be stored as the <b>YAML front matter</b> within the document.
-          </span>
+        <a onClick={() => addField('metadata')}>
+          <i className="fa fa-plus-circle" /> New front matter field
         </a>
         <small className="tooltip pull-right">
           <i className="fa fa-info-circle" />Special Keys

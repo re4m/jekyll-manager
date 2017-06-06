@@ -1,9 +1,11 @@
 import React, { PropTypes, Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import _ from 'underscore';
 import { HotKeys } from 'react-hotkeys';
+import Collapsible from '../../components/Collapsible';
 import Splitter from '../../components/Splitter';
 import Errors from '../../components/Errors';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -29,6 +31,8 @@ export class DocumentEdit extends Component {
 
     this.handleClickSave = this.handleClickSave.bind(this);
     this.routerWillLeave = this.routerWillLeave.bind(this);
+
+    this.state = { panelHeight: 0 };
   }
 
   componentDidMount() {
@@ -51,6 +55,11 @@ export class DocumentEdit extends Component {
           `${ADMIN_PREFIX}/collections/${new_path.substring(1)}` // remove `_`
         );
       }
+    }
+
+    if (this.props.new_field_count !== nextProps.new_field_count) {
+      const panelHeight = findDOMNode(this.refs.frontmatter).clientHeight;
+      this.setState({ panelHeight: panelHeight + 60 }); // extra height for various types of metafield field
     }
   }
 
@@ -116,7 +125,9 @@ export class DocumentEdit extends Component {
     const [directory, ...rest] = params.splat;
     const filename = rest.join('.');
     const docPath = directory ? `${directory}/${filename}` : filename;
-    const metafields = injectDefaultFields(config, directory, collection, front_matter);
+
+    const inputPath = <InputPath onChange={updatePath} type={collection} path={name} />;
+    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: name, ...front_matter}} />;
 
     const keyboardHandlers = {
       'save': this.handleClickSave,
@@ -135,8 +146,20 @@ export class DocumentEdit extends Component {
 
         <div className="content-wrapper">
           <div className="content-body">
-            <InputPath onChange={updatePath} type={collection} path={name} />
             <InputTitle onChange={updateTitle} title={title} ref="title" />
+
+            <Collapsible
+              label="Edit Filename or Path"
+              panel={inputPath} />
+
+            <Collapsible
+              label="Edit Front Matter"
+              overflow={true}
+              height={this.state.panelHeight}
+              panel={metafields} />
+
+            <Splitter />
+
             <MarkdownEditor
               onChange={updateBody}
               onSave={this.handleClickSave}
@@ -144,7 +167,6 @@ export class DocumentEdit extends Component {
               initialValue={raw_content}
               ref="editor" />
             <Splitter />
-            <Metadata fields={{title, path: name, raw_content, ...metafields}} />
           </div>
 
           <div className="content-side">
@@ -194,7 +216,8 @@ DocumentEdit.propTypes = {
   params: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired
+  config: PropTypes.object.isRequired,
+  new_field_count: PropTypes.number
 };
 
 const mapStateToProps = (state) => ({
@@ -203,7 +226,8 @@ const mapStateToProps = (state) => ({
   fieldChanged: state.metadata.fieldChanged,
   updated: state.collections.updated,
   errors: state.utils.errors,
-  config: state.config.config
+  config: state.config.config,
+  new_field_count: state.metadata.new_field_count
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
