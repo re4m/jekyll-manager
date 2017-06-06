@@ -1,0 +1,55 @@
+.collapsible-toggle {
+  padding: 15px;
+  cursor: pointer;
+  color: white;
+  background-color: #4f4f4f;
+  border: 1px solid #4f4f4f;
+  transition: all 0.5s;
+  z-index: 90;
+
+  .chevrons {
+    float: right;
+    transition: transform 0.5s;
+    i { margin: 0; }
+  }
+
+  &.collapsed {
+    margin-bottom: 8px;
+    color: #777;
+    background-color: #fdfdfd;
+    border-color: #eee;
+    @include border-radius($border-radius);
+    @include box-shadow(0 1px #dedede);
+    .chevrons {
+      color: #999;
+      transform: rotate(180deg);
+    }
+    + .collapsible-panel {
+      border: none;
+      margin-bottom: 0;
+      overflow: hidden;
+      + .splitter {
+        display: none;
+      }
+    }
+  }
+
+  + .collapsible-panel {
+    transition: all 0.5s;
+    margin-bottom: 20px;
+    .panel-content {
+      margin-top: -1px;
+    }
+  }
+}
+
+.collapsible-panel {
+  .panel-content {
+    padding: 15px;
+    border: 1px solid $border-color;
+  }
+}
+
+.no-overflow {
+  overflow: hidden;
+}
