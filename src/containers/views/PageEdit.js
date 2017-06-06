@@ -117,6 +117,7 @@ export class PageEdit extends Component {
 
     const title = front_matter && front_matter.title ? front_matter.title : '';
 
+    const inputPath = <InputPath onChange={updatePath} type="pages" path={name} />;
     const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: name, ...front_matter}} />;
 
     return (
@@ -132,8 +133,11 @@ export class PageEdit extends Component {
 
         <div className="content-wrapper">
           <div className="content-body">
-            <InputPath onChange={updatePath} type="pages" path={name} />
             <InputTitle onChange={updateTitle} title={title} ref="title" />
+
+            <Collapsible
+              label="Edit Filename or Path"
+              panel={inputPath} />
 
             <Collapsible
               label="Edit Front Matter"

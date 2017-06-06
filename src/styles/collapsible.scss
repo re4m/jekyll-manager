@@ -49,6 +49,17 @@
     border: 1px solid $border-color;
     .metafields { margin-bottom: 0; }
   }
+  .input-path {
+    label { display: none; }
+    textarea {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 11px;
+      background: white;
+      border: 1px solid $border-color;
+      @include border-radius($border-radius);
+    }
+  }
   .tooltip-text {
     right: 0 !important;
     &:after {

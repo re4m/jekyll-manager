@@ -126,6 +126,7 @@ export class DocumentEdit extends Component {
     const filename = rest.join('.');
     const docPath = directory ? `${directory}/${filename}` : filename;
 
+    const inputPath = <InputPath onChange={updatePath} type={collection} path={name} />;
     const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: name, ...front_matter}} />;
 
     const keyboardHandlers = {
@@ -145,8 +146,11 @@ export class DocumentEdit extends Component {
 
         <div className="content-wrapper">
           <div className="content-body">
-            <InputPath onChange={updatePath} type={collection} path={name} />
             <InputTitle onChange={updateTitle} title={title} ref="title" />
+
+            <Collapsible
+              label="Edit Filename or Path"
+              panel={inputPath} />
 
             <Collapsible
               label="Edit Front Matter"
