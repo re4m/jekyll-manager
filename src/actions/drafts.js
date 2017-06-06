@@ -59,8 +59,7 @@ export function putDraft(mode, directory, filename = '') {
       filename = path.replace('_drafts/', '');
       payload = { front_matter, raw_content };
     } else {
-      let writePath = directory ? `_drafts/${directory}/${path}` :
-        `_drafts/${path}`;
+      let writePath = `_drafts/${path}`;
       payload = { path: writePath, front_matter, raw_content };
     }
 
