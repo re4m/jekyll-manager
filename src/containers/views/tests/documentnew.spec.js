@@ -19,7 +19,7 @@ const defaultProps = {
 
 const setup = (props = defaultProps) => {
   const actions = {
-    createDocument: jest.fn(),
+    putDocument: jest.fn(),
     updateTitle: jest.fn(),
     updateBody: jest.fn(),
     updatePath: jest.fn(),
@@ -50,17 +50,17 @@ describe('Containers::DocumentNew', () => {
     expect(errors.node).toBeTruthy();
   });
 
-  it('should not call createDocument if a field is not changed.', () => {
+  it('should not call putDocument if a field is not changed.', () => {
     const { saveButton, actions } = setup();
     saveButton.simulate('click');
-    expect(actions.createDocument).not.toHaveBeenCalled();
+    expect(actions.putDocument).not.toHaveBeenCalled();
   });
 
-  it('should call createDocument if a field is changed.', () => {
+  it('should call putDocument if a field is changed.', () => {
     const { saveButton, actions } = setup(Object.assign({}, defaultProps, {
       fieldChanged: true
     }));
     saveButton.simulate('click');
-    expect(actions.createDocument).toHaveBeenCalled();
+    expect(actions.putDocument).toHaveBeenCalled();
   });
 });

@@ -81,7 +81,7 @@ export class PageEdit extends Component {
     if (fieldChanged) {
       const [directory, ...rest] = params.splat;
       const filename = rest.join('.');
-      putPage(directory, filename);
+      putPage('edit', directory, filename);
     }
   }
 
@@ -117,8 +117,8 @@ export class PageEdit extends Component {
 
     const title = front_matter && front_matter.title ? front_matter.title : '';
 
-    const inputPath = <InputPath onChange={updatePath} type="pages" path={name} />;
-    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: name, ...front_matter}} />;
+    const inputPath = <InputPath onChange={updatePath} type="pages" path={path} />;
+    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: path, ...front_matter}} />;
 
     return (
       <HotKeys

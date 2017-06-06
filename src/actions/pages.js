@@ -31,63 +31,40 @@ export function fetchPage(directory, filename) {
   };
 }
 
-export function createPage(directory) {
+export function putPage(mode, directory, filename = '') {
   return (dispatch, getState) => {
     // get edited fields from metadata state
     const metadata = getState().metadata.metadata;
     let { path, raw_content, title } = metadata;
-    // if path is not given or equals to directory, generate filename from the title
-    if (!path && title) {
-      path = `${slugify(title)}.md`;
-    } else {
-      const errors = validatePage(metadata);
-      if (errors.length) {
-        return dispatch(validationError(errors));
-      }
-    }
-    // clear errors
-    dispatch({type: ActionTypes.CLEAR_ERRORS});
-    // omit raw_content, path and empty-value keys in metadata state from front_matter
-    const front_matter = _.omit(metadata, (value, key, object) => {
-      return key == 'raw_content' || key == 'path' || value === '';
-    });
-    //send the put request
-    return put(
-      pageAPIUrl(directory, path),
-      preparePayload({ front_matter, raw_content }),
-      { type: ActionTypes.PUT_PAGE_SUCCESS, name: 'page'},
-      { type: ActionTypes.PUT_PAGE_FAILURE, name: 'error'},
-      dispatch
-    );
-  };
-}
 
-export function putPage(directory, filename) {
-  return (dispatch, getState) => {
-    // get edited fields from metadata state
-    const metadata = getState().metadata.metadata;
-    let { path, raw_content, title } = metadata;
     // if path is not given or equals to directory, generate filename from the title
     if (!path && title) {
       path = `${slugify(title)}.md`;
-    } else {
-      const errors = validatePage(metadata);
-      if (errors.length) {
-        return dispatch(validationError(errors));
-      }
+    } else if (!path && !title) {
+      return dispatch(
+        validationError(validatePage(metadata))
+      );
     }
     // clear errors
     dispatch({type: ActionTypes.CLEAR_ERRORS});
+
     // omit raw_content, path and empty-value keys in metadata state from front_matter
     const front_matter = _.omit(metadata, (value, key, object) => {
       return key == 'raw_content' || key == 'path' || value === '';
     });
-    const relative_path = directory ? `${directory}/${path}` : `${path}`;
+
+    let payload;
+    if (mode == 'create') {
+      filename = path;
+      payload = { front_matter, raw_content };
+    } else {
+      payload = { path: path, front_matter, raw_content };
+    }
+
     //send the put request
     return put(
-      // create or update page according to filename existence
       pageAPIUrl(directory, filename),
-      preparePayload({ path: relative_path, front_matter, raw_content }),
+      preparePayload(payload),
       { type: ActionTypes.PUT_PAGE_SUCCESS, name: 'page'},
       { type: ActionTypes.PUT_PAGE_FAILURE, name: 'error'},
       dispatch

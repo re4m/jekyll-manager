@@ -74,10 +74,12 @@ export class DataFileEdit extends Component {
   }
 
   toggleView() {
-    const { datafile } = this.props;
+    const { datafile, params } = this.props;
+    const [directory, ...rest] = params.splat;
+    const path = directory ? `${directory}/${datafile.slug}` : datafile.slug;
     this.setState({
       guiView: !this.state.guiView,
-      guiPath: datafile.slug,
+      guiPath: path,
       extn: datafile.ext
     });
   }
@@ -117,8 +119,7 @@ export class DataFileEdit extends Component {
         mode = 'editor';
       }
 
-      const data_path = directory ? (data_dir + `${directory}/` + name) :
-                                    (data_dir + name);
+      const data_path = data_dir + name;
 
       const new_path = (data_path != path) ? data_path : '';
       putDataFile(directory, filename, data, new_path, mode);
@@ -230,7 +231,7 @@ export class DataFileEdit extends Component {
       <InputPath
         onChange={onDataFileChanged}
         type="data files"
-        path={filename}
+        path={relative_path}
         ref="inputpath" />
     );
 

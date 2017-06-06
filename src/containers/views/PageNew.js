@@ -14,7 +14,7 @@ import InputTitle from '../../components/form/InputTitle';
 import MarkdownEditor from '../../components/MarkdownEditor';
 import Metadata from '../../containers/MetaFields';
 import { updateTitle, updateBody, updatePath, updateDraft } from '../../actions/metadata';
-import { createPage } from '../../actions/pages';
+import { putPage } from '../../actions/pages';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
 import { injectDefaultFields } from '../../utils/metadata';
@@ -63,13 +63,13 @@ export class PageNew extends Component {
   }
 
   handleClickSave(e) {
-    const { fieldChanged, createPage, params } = this.props;
+    const { fieldChanged, putPage, params } = this.props;
 
     // Prevent the default event from bubbling
     preventDefault(e);
 
     if (fieldChanged) {
-      createPage(params.splat);
+      putPage('create', params.splat);
     }
   }
 
@@ -127,7 +127,7 @@ export class PageNew extends Component {
 }
 
 PageNew.propTypes = {
-  createPage: PropTypes.func.isRequired,
+  putPage: PropTypes.func.isRequired,
   updateTitle: PropTypes.func.isRequired,
   updateBody: PropTypes.func.isRequired,
   updatePath: PropTypes.func.isRequired,
@@ -157,7 +157,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateBody,
   updatePath,
   updateDraft,
-  createPage,
+  putPage,
   clearErrors
 }, dispatch);
 
