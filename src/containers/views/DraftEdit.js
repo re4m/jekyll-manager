@@ -110,7 +110,7 @@ export class DraftEdit extends Component {
       'save': this.handleClickSave,
     };
 
-    const { name, raw_content, collection, http_url, front_matter } = draft;
+    const { name, relative_path, raw_content, collection, http_url, front_matter } = draft;
     const [directory, ...rest] = params.splat;
 
     const title = front_matter && front_matter.title ? front_matter.title : '';
@@ -123,7 +123,7 @@ export class DraftEdit extends Component {
         className="single">
         {errors.length > 0 && <Errors errors={errors} />}
         <div className="content-header">
-          <Breadcrumbs splat={directory || ''} type="drafts" />
+          <Breadcrumbs splat={relative_path} type="drafts" />
         </div>
 
         <div className="content-wrapper">

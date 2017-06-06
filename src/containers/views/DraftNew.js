@@ -88,9 +88,7 @@ export class DraftNew extends Component {
         className="single">
         {errors.length > 0 && <Errors errors={errors} />}
         <div className="content-header">
-          <Breadcrumbs
-            type="drafts"
-            splat={params.splat || ''} />
+          <Breadcrumbs splat={params.splat || ''} type="drafts" />
         </div>
 
         <div className="content-wrapper">
