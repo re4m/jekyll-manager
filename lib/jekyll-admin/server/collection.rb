@@ -29,6 +29,8 @@ module JekyllAdmin
         end
 
         write_file write_path, document_body
+        delete_file(draft_path) if request_payload["published"]
+
         json written_file.to_api(:include_content => true)
       end
 
@@ -76,6 +78,10 @@ module JekyllAdmin
         directories = directory.directories
         # merge directories with the documents at the same level
         directories.concat(directory_docs.sort_by(&:date).reverse)
+      end
+
+      def draft_path
+        sanitized_path File.join("_drafts", request_payload["draft_path"])
       end
     end
   end

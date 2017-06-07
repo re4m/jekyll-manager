@@ -16,6 +16,7 @@ import MarkdownEditor from '../../components/MarkdownEditor';
 import Metadata from '../MetaFields';
 import { fetchDraft, deleteDraft, putDraft } from '../../actions/drafts';
 import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
+import { putDocument } from '../../actions/collections';
 import { clearErrors } from '../../actions/utils';
 import { injectDefaultFields } from '../../utils/metadata';
 import { preventDefault } from '../../utils/helpers';
@@ -30,7 +31,10 @@ export class DraftEdit extends Component {
     this.routerWillLeave = this.routerWillLeave.bind(this);
     this.handleClickSave = this.handleClickSave.bind(this);
 
-    this.state = { panelHeight: 0 };
+    this.state = {
+      panelHeight: 0,
+      unpublished: true
+    };
   }
 
   componentDidMount() {
@@ -55,6 +59,10 @@ export class DraftEdit extends Component {
     if (this.props.new_field_count !== nextProps.new_field_count) {
       const panelHeight = findDOMNode(this.refs.frontmatter).clientHeight;
       this.setState({ panelHeight: panelHeight + 60 }); // extra height for various types of metafield field
+    }
+
+    if (this.props.published !== nextProps.published) {
+      browserHistory.push(`${ADMIN_PREFIX}/collections/${nextProps.doc.path.substring(1)}`);
     }
   }
 
@@ -85,6 +93,19 @@ export class DraftEdit extends Component {
     }
   }
 
+  handleClickPublish(name) {
+    const { putDocument, params } = this.props;
+    const confirm = window.confirm(
+      `Delete draft "${name}" and publish to the "_posts" directory?`
+    ); // TODO: move to 'constants/lang'
+    if (confirm) {
+      const [directory, ...rest] = params.splat;
+      const filename = rest.join('.');
+      putDocument('publish', 'posts', directory, filename);
+      this.setState({ unpublished: false });
+    }
+  }
+
   handleClickDelete(name) {
     const { deleteDraft, params } = this.props;
     const confirm = window.confirm(getDeleteMessage(name));
@@ -98,7 +119,7 @@ export class DraftEdit extends Component {
 
   render() {
     const { isFetching, draft, errors, updateTitle, updateBody, updatePath,
-      updated, fieldChanged, params, config } = this.props;
+      updated, fieldChanged, params, published } = this.props;
 
     if (isFetching) {
       return null;
@@ -167,6 +188,12 @@ export class DraftEdit extends Component {
               block />
             <Splitter />
             <Button
+              onClick={() => this.handleClickPublish(name)}
+              type="publish"
+              icon="send-o"
+              active={this.state.unpublished}
+              block />
+            <Button
               onClick={() => this.handleClickDelete(name)}
               type="delete"
               active={true}
@@ -177,7 +204,6 @@ export class DraftEdit extends Component {
       </HotKeys>
     );
   }
-
 }
 
 DraftEdit.propTypes = {
@@ -185,6 +211,7 @@ DraftEdit.propTypes = {
   fetchDraft: PropTypes.func.isRequired,
   deleteDraft: PropTypes.func.isRequired,
   putDraft: PropTypes.func.isRequired,
+  putDocument: PropTypes.func.isRequired,
   updateTitle: PropTypes.func.isRequired,
   updateBody: PropTypes.func.isRequired,
   updatePath: PropTypes.func.isRequired,
@@ -196,8 +223,9 @@ DraftEdit.propTypes = {
   params: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
-  new_field_count: PropTypes.number
+  new_field_count: PropTypes.number,
+  published: PropTypes.bool,
+  doc: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
@@ -206,14 +234,16 @@ const mapStateToProps = (state) => ({
   fieldChanged: state.metadata.fieldChanged,
   updated: state.drafts.updated,
   errors: state.utils.errors,
-  config: state.config.config,
-  new_field_count: state.metadata.new_field_count
+  new_field_count: state.metadata.new_field_count,
+  published: state.collections.updated,
+  doc: state.collections.currentDocument
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchDraft,
   deleteDraft,
   putDraft,
+  putDocument,
   updateTitle,
   updateBody,
   updatePath,

@@ -57,29 +57,48 @@ export function putDocument(mode, collection, directory, filename = '') {
     // get edited fields from metadata state
     const metadata = getState().metadata.metadata;
     let { path, raw_content, title } = metadata;
+    if (mode == 'publish') path = '';
+
     // if path is not given, generate filename from the title
     if (!path && title) {
       path = generateFilenameFromTitle(metadata, collection); // override empty path
     } else { // validate otherwise
-      const errors = validateDocument(metadata, collection);
+      const errors = validateDocument(metadata, collection, mode);
       if (errors.length) {
         return dispatch(validationError(errors));
       }
     }
+
     // clear errors
     dispatch({type: ActionTypes.CLEAR_ERRORS});
+
     // omit raw_content, path and empty-value keys in metadata state from front_matter
     const front_matter = _.omit(metadata, (value, key, object) => {
-      return key == 'raw_content' || key == 'path' || value == '';
+      return key == 'raw_content' || key == 'path' || value === '';
     });
 
-    let payload;
+    let payload, relative_path;
     if (mode == 'create') {
       filename = path;
       payload = { front_matter, raw_content };
-    } else {
+
+    } else if (mode == 'publish') {
+      let draft_path = directory ? `${directory}/${filename}` : filename;
+      filename = path;
+
       // add collection type prefix to relative path
-      const relative_path = `_${collection}/${path}`;
+      relative_path = directory ? `_${collection}/${directory}/${filename}` :
+        `_${collection}/${filename}`;
+
+      payload = {
+        published: true,
+        draft_path: draft_path,
+        path: relative_path,
+        front_matter, raw_content
+      };
+
+    } else {
+      relative_path = `_${collection}/${path}`;
       payload = { path: relative_path, front_matter, raw_content };
     }
 
@@ -124,7 +143,7 @@ const generateFilenameFromTitle = (metadata, collection) => {
   return `${slugify(metadata.title)}.md`;
 };
 
-const validateDocument = (metadata, collection) => {
+const validateDocument = (metadata, collection, mode) => {
   let validations = { title: 'required' }; // base validations
   // base messages
   let messages = {
@@ -132,7 +151,7 @@ const validateDocument = (metadata, collection) => {
     'path.required': getFilenameRequiredMessage()
   };
 
-  if (collection == 'posts') {
+  if (collection == 'posts' && mode != 'publish') {
     validations['path'] = 'required|date';
     messages['path.date'] = getFilenameNotValidMessage();
   } else {
