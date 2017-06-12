@@ -106,6 +106,7 @@ export class Configuration extends Component {
               editorChanged={editorChanged}
               onEditorChange={onEditorChange}
               content={raw_content}
+              type="yaml"
               ref="editor" />
         }
       </HotKeys>
