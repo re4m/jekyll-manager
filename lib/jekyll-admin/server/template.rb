@@ -99,7 +99,8 @@ module JekyllAdmin
       end
 
       def front_matter?(file)
-        if File.read(sanitized_path(file)) =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
+        file_path = sanitized_path(file)
+        if file_contents(file_path) =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
           true
         else
           false
@@ -177,9 +178,9 @@ module JekyllAdmin
         render_404 unless File.exist?(requested_file)
       end
 
-      def file_contents
+      def file_contents(file = requested_file)
         @file_contents ||= File.read(
-          requested_file, Jekyll::Utils.merged_file_read_opts(site, {})
+          file, Jekyll::Utils.merged_file_read_opts(site, {})
         )
       end
     end
