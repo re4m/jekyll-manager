@@ -17,6 +17,10 @@ import Drafts from './containers/views/Drafts';
 import DraftEdit from './containers/views/DraftEdit';
 import DraftNew from './containers/views/DraftNew';
 import StaticFiles from './containers/views/StaticFiles';
+import Templates from './containers/views/Templates';
+import TemplateDirectory from './containers/views/TemplateDirectory';
+import TemplateEdit from './containers/views/TemplateEdit';
+import TemplateNew from './containers/views/TemplateNew';
 import NotFound from './containers/views/NotFound';
 
 export default (
@@ -50,6 +54,12 @@ export default (
       <Route path="**" component={DataFiles} />
     </Route>
     <Route path="staticfiles" component={StaticFiles} />
+    <Route path="templates">
+      <IndexRoute component={Templates} />
+      <Route path="(**/)new" component={TemplateNew} />
+      <Route path="(**/)*.*" component={TemplateEdit} />
+      <Route path="**" component={TemplateDirectory} />
+    </Route>
     <Route path={`${ADMIN_PREFIX}/*`} component={NotFound} />
   </Route>
 );

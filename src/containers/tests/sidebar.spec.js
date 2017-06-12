@@ -15,7 +15,8 @@ const nonCollectionLinks = ['pages', 'datafiles', 'staticfiles', 'configuration'
 
 function setup(props = defaultProps) {
   const actions = {
-    fetchCollections: jest.fn()
+    fetchCollections: jest.fn(),
+    fetchTemplates: jest.fn()
   };
 
   const component = mount(<Sidebar {...props} {...actions} />);
@@ -56,9 +57,10 @@ describe('Containers::Sidebar', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('should call fetchCollections action after mounted', () => {
+  it('should call fetchCollections and fetchTemplates action after mounted', () => {
     const { actions } = setup();
     expect(actions.fetchCollections).toHaveBeenCalled();
+    expect(actions.fetchTemplates).toHaveBeenCalled();
   });
 
   it('should render fine with zero collections', () => {

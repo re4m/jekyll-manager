@@ -4,24 +4,25 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import { HotKeys } from 'react-hotkeys';
+import _ from 'underscore';
+import classnames from 'classnames';
+import Toggled from '../../components/Toggled';
 import Splitter from '../../components/Splitter';
 import Errors from '../../components/Errors';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
-import Collapsible from '../../components/Collapsible';
 import InputPath from '../../components/form/InputPath';
 import InputTitle from '../../components/form/InputTitle';
-import MarkdownEditor from '../../components/MarkdownEditor';
+import Editor from '../../components/Editor';
 import Metadata from '../../containers/MetaFields';
-import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
-import { putPage } from '../../actions/pages';
+import { updateTitle, updateBody, updatePath, updateTemplate } from '../../actions/metadata';
+import { putTemplate } from '../../actions/templates';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
-import { injectDefaultFields } from '../../utils/metadata';
-import { preventDefault } from '../../utils/helpers';
+import { preventDefault, getExtensionFromPath } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
-export class PageNew extends Component {
+export class TemplateNew extends Component {
 
   constructor(props) {
     super(props);
@@ -29,7 +30,11 @@ export class PageNew extends Component {
     this.routerWillLeave = this.routerWillLeave.bind(this);
     this.handleClickSave = this.handleClickSave.bind(this);
 
-    this.state = { panelHeight: 0 };
+    this.state = {
+      hasFrontMatter: false,
+      body: '',
+      ext: 'html'
+    };
   }
 
   componentDidMount() {
@@ -39,12 +44,7 @@ export class PageNew extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.updated !== nextProps.updated) {
-      browserHistory.push(`${ADMIN_PREFIX}/pages/${nextProps.page.path}`);
-    }
-
-    if (this.props.new_field_count !== nextProps.new_field_count) {
-      const panelHeight = findDOMNode(this.refs.frontmatter).clientHeight;
-      this.setState({ panelHeight: panelHeight + 60 }); // extra height for various types of metafield field
+      browserHistory.push(`${ADMIN_PREFIX}/templates/${nextProps.template.path}`);
     }
   }
 
@@ -62,20 +62,38 @@ export class PageNew extends Component {
     }
   }
 
+  getExtension(e) {
+    const ext = getExtensionFromPath(e.target.value);
+    this.setState({ ext: ext });
+  }
+
+  handleToggle(e) {
+    this.setState({ hasFrontMatter: e });
+  }
+
+  handleEditorChange() {
+    const { updateBody } = this.props;
+    const content = this.refs.editor.getValue();
+    updateBody();
+    this.setState({ body: content });
+  }
+
   handleClickSave(e) {
-    const { fieldChanged, putPage, params } = this.props;
+    const { fieldChanged, putTemplate, params } = this.props;
 
     // Prevent the default event from bubbling
     preventDefault(e);
 
     if (fieldChanged) {
-      putPage('create', params.splat);
+      const content = this.refs.editor.getValue();
+      const include_front_matter = this.state.hasFrontMatter;
+      putTemplate('create', content, params.splat, null, include_front_matter);
     }
   }
 
   render() {
     const {
-      errors, updated, updateTitle, updateBody, updatePath, fieldChanged, params, config
+      errors, updated, updateTitle, updateBody, updatePath, fieldChanged, params
     } = this.props;
 
     const keyboardHandlers = {
@@ -86,29 +104,32 @@ export class PageNew extends Component {
       <HotKeys handlers={keyboardHandlers} className="single">
         {errors.length > 0 && <Errors errors={errors} />}
         <div className="content-header">
-          <Breadcrumbs type="pages" splat={params.splat || ''} />
+          <Breadcrumbs type="templates" splat={params.splat || ''} />
         </div>
 
         <div className="content-wrapper">
           <div className="content-body">
-            <InputPath onChange={updatePath} type="pages" path="" />
-            <InputTitle onChange={updateTitle} title="" ref="title" />
+            <InputPath
+              onChange={updatePath}
+              onBlur={(e) => this.getExtension(e)}
+              type="new-template"
+              path="" />
 
-            <Collapsible
-              label="Edit Front Matter"
-              overflow={true}
-              height={this.state.panelHeight}
-              panel={<Metadata fields={{}} ref="frontmatter"/>} />
+            <Toggled
+              label="Front Matter"
+              checked={this.state.hasFrontMatter}
+              onChange={(e) => this.handleToggle(e)}
+              panel={<Metadata fields={{}} />} />
 
             <Splitter />
 
-            <MarkdownEditor
-              onChange={updateBody}
+            <Editor
+              onEditorChange={() => this.handleEditorChange()}
               onSave={this.handleClickSave}
-              placeholder="Body"
-              initialValue=""
+              editorChanged={fieldChanged}
+              content={this.state.body}
+              type={this.state.ext}
               ref="editor" />
-            <Splitter />
           </div>
 
           <div className="content-side">
@@ -126,8 +147,8 @@ export class PageNew extends Component {
   }
 }
 
-PageNew.propTypes = {
-  putPage: PropTypes.func.isRequired,
+TemplateNew.propTypes = {
+  putTemplate: PropTypes.func.isRequired,
   updateTitle: PropTypes.func.isRequired,
   updateBody: PropTypes.func.isRequired,
   updatePath: PropTypes.func.isRequired,
@@ -138,16 +159,14 @@ PageNew.propTypes = {
   router: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
   new_field_count: PropTypes.number
 };
 
 const mapStateToProps = (state) => ({
-  page: state.pages.page,
+  template: state.templates.template,
   fieldChanged: state.metadata.fieldChanged,
   errors: state.utils.errors,
-  updated: state.pages.updated,
-  config: state.config.config,
+  updated: state.templates.updated,
   new_field_count: state.metadata.new_field_count
 });
 
@@ -155,8 +174,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateTitle,
   updateBody,
   updatePath,
-  putPage,
+  putTemplate,
   clearErrors
 }, dispatch);
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageNew));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TemplateNew));
