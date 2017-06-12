@@ -1,5 +1,5 @@
 import {
-  UPDATE_TITLE, UPDATE_BODY, UPDATE_PATH, UPDATE_DRAFT,
+  UPDATE_TITLE, UPDATE_BODY, UPDATE_PATH, UPDATE_TEMPLATE,
   ADD_METAFIELD, REMOVE_METAFIELD,
   STORE_CONTENT_FIELDS, UPDATE_FIELD_KEY, UPDATE_FIELD_VALUE,
   MOVE_ARRAY_ITEM, CONVERT_FIELD
@@ -40,11 +40,11 @@ export default function metadata(state = {
         },
         fieldChanged: true
       });
-    case UPDATE_DRAFT:
+    case UPDATE_TEMPLATE:
       return Object.assign({}, state, {
-        draft: {
+        template: {
           ...state.metadata,
-          draft: action.draft
+          template: action.template
         },
         fieldChanged: true
       });

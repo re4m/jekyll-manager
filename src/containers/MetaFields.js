@@ -23,7 +23,7 @@ export class MetaFields extends Component {
   render() {
     const {
       metadata, addField, removeField, updateFieldKey, updateFieldValue, moveArrayItem,
-      convertField, key_prefix, dataview
+      convertField, key_prefix, dataview, type
     } = this.props;
 
     let visibleKeys = metadata;
@@ -71,12 +71,15 @@ export class MetaFields extends Component {
         <a onClick={() => addField('metadata')}>
           <i className="fa fa-plus-circle" /> New front matter field
         </a>
-        <small className="tooltip pull-right">
-          <i className="fa fa-info-circle" />Special Keys
-          <span className="tooltip-text">
-            You can use special keys like <b>date</b>, <b>file</b>, <b>image</b> for user-friendly functionalities.
-          </span>
-        </small>
+        {
+          type != "templates" &&
+            <small className="tooltip pull-right">
+              <i className="fa fa-info-circle" />Special Keys
+              <span className="tooltip-text">
+                You can use special keys like <b>date</b>, <b>file</b>, <b>image</b> for user-friendly functionalities.
+              </span>
+            </small>
+        }
       </div>
     );
 
@@ -100,7 +103,8 @@ MetaFields.propTypes = {
   updateFieldValue: PropTypes.func.isRequired,
   moveArrayItem: PropTypes.func.isRequired,
   convertField: PropTypes.func.isRequired,
-  dataview: PropTypes.bool
+  dataview: PropTypes.bool,
+  type: PropTypes.string
 };
 
 const mapStateToProps = (state) => ({

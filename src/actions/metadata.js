@@ -70,10 +70,11 @@ export function updateBody(body) {
   };
 }
 
-export function updateDraft(draft) {
+export function updateTemplate(prop, value) {
   return {
-    type: ActionTypes.UPDATE_DRAFT,
-    draft
+    type: ActionTypes.UPDATE_TEMPLATE,
+    prop,
+    value
   };
 }
 

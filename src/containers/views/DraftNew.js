@@ -13,7 +13,7 @@ import InputPath from '../../components/form/InputPath';
 import InputTitle from '../../components/form/InputTitle';
 import MarkdownEditor from '../../components/MarkdownEditor';
 import Metadata from '../../containers/MetaFields';
-import { updateTitle, updateBody, updatePath, updateDraft } from '../../actions/metadata';
+import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { putDraft } from '../../actions/drafts';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
@@ -133,7 +133,6 @@ DraftNew.propTypes = {
   updateTitle: PropTypes.func.isRequired,
   updateBody: PropTypes.func.isRequired,
   updatePath: PropTypes.func.isRequired,
-  updateDraft: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,
   errors: PropTypes.array.isRequired,
   fieldChanged: PropTypes.bool.isRequired,
@@ -158,7 +157,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateTitle,
   updateBody,
   updatePath,
-  updateDraft,
   putDraft,
   clearErrors
 }, dispatch);

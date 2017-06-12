@@ -154,7 +154,8 @@ export class DataFileNew extends Component {
                 <Editor
                   editorChanged={datafileChanged}
                   onEditorChange={onDataFileChanged}
-                  content={''}
+                  type="yaml"
+                  content=""
                   ref="editor" /></div>
             }
           </div>

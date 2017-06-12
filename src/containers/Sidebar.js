@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import { ADMIN_PREFIX } from '../constants';
 import Splitter from '../components/Splitter';
 import { fetchCollections } from '../actions/collections';
+import { fetchTemplates } from '../actions/templates';
 import { capitalize } from '../utils/helpers';
 import { sidebar as SidebarTranslations } from '../constants/lang';
 
@@ -20,8 +21,9 @@ export class Sidebar extends Component {
   }
 
   componentDidMount() {
-    const { fetchCollections } = this.props;
+    const { fetchCollections, fetchTemplates } = this.props;
     fetchCollections();
+    fetchTemplates();
   }
 
   handleClick() {
@@ -92,7 +94,7 @@ export class Sidebar extends Component {
   }
 
   render() {
-    const { config } = this.props;
+    const { config, templates } = this.props;
 
     const defaults = {
       pages: {
@@ -159,6 +161,16 @@ export class Sidebar extends Component {
           }
           {this.renderCollections(hiddenLinks)}
           {links}
+          <Splitter />
+          {
+            templates && templates.length > 0 &&
+            <li>
+              <Link activeClassName="active" to={`${ADMIN_PREFIX}/templates`}>
+                <i className="fa fa-edit" />
+                Templates
+              </Link>
+            </li>
+          }
         </ul>
       </div>
     );
@@ -168,15 +180,19 @@ export class Sidebar extends Component {
 Sidebar.propTypes = {
   collections: PropTypes.array.isRequired,
   fetchCollections: PropTypes.func.isRequired,
+  fetchTemplates: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  templates: PropTypes.array
 };
 
 const mapStateToProps = (state) => ({
-  collections: state.collections.collections
+  collections: state.collections.collections,
+  templates: state.templates.templates
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  fetchCollections
+  fetchCollections,
+  fetchTemplates
 }, dispatch);
 
 export default connect(mapStateToProps,mapDispatchToProps)(Sidebar);
