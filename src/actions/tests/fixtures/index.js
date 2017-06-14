@@ -194,3 +194,20 @@ export const staticfile = {
   path: "/index.html",
   encoded_content: "PGh0bWw+CiAgPGJvZHk+CiAgICBZb3UncmUgcHJvYmFibHkgbG9va2luZyBm"
 };
+
+export const template = {
+  raw_content: "# Test Template\n",
+  name: "test.html",
+  relative_path: "test.html",
+  exist_at_source: false,
+  http_url: null,
+  front_matter: {
+    foo: "bar"
+  }
+};
+
+export const theme = {
+  name: "test-theme",
+  version: "0.1.0",
+  directories: [template]
+};
