@@ -24,7 +24,7 @@
 body {
   color: #444;
   font-family: lato, Helvetica, Helvetica Neue;
-  background-color: #f7f7f7;
+  background-color: $background-color;
 }
 
 h1,h2,h3,h4,h5 {
@@ -89,6 +89,7 @@ div:focus {
   color: #8a6e00;
   text-align: center;
   background-color: #fff5cc;
+  border: 1px solid rgba(138, 110, 0, 0.18);
 }
 
 .pull-right {

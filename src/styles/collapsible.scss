@@ -1,15 +1,17 @@
 .collapsible-toggle {
   padding: 15px;
   cursor: pointer;
+  font-size: 15px;
   color: white;
-  background-color: #4f4f4f;
-  border: 1px solid #4f4f4f;
-  transition: all 0.5s;
+  text-transform: uppercase;
+  background-color: #3f3f3f;
+  border: 1px solid #3f3f3f;
+  @include transition(0.5s);
   z-index: 90;
 
   .chevrons {
     float: right;
-    transition: transform 0.5s;
+    @include transition(transform 0.5s);
     i { margin: 0; }
   }
 
@@ -35,7 +37,7 @@
   }
 
   + .collapsible-panel {
-    transition: all 0.5s;
+    @include transition(0.5s);
     margin-bottom: 20px;
     .panel-content {
       margin-top: -1px;
