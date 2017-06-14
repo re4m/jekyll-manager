@@ -31,7 +31,7 @@ class Editor extends Component {
   }
 
   render() {
-    const { content, type, onEditorChange } = this.props;
+    const { content, type, onEditorChange, readOnly } = this.props;
 
     let mode;
     if (type) {
@@ -56,6 +56,7 @@ class Editor extends Component {
           value={content}
           mode={mode}
           theme="monokai"
+          readOnly={readOnly}
           width="100%"
           height="400px"
           showGutter={false}
@@ -78,7 +79,8 @@ Editor.propTypes = {
   content: PropTypes.any.isRequired,
   onEditorChange: PropTypes.func.isRequired,
   editorChanged: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  readOnly: PropTypes.bool
 };
 
 export default Editor;

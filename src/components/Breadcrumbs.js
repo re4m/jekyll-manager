@@ -10,7 +10,7 @@ export default class Breadcrumbs extends Component {
     const { splat, type } = this.props;
     // generate links from `splat`
     let base;
-    if (type == 'pages' || type == 'drafts' || type == 'templates') {
+    if (type == 'pages' || type == 'drafts' || type == 'templates' || type == 'theme') {
       base = `${ADMIN_PREFIX}/${type}`;
     } else if (type == 'data files') {
       base = `${ADMIN_PREFIX}/datafiles`;

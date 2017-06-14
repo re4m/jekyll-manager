@@ -171,6 +171,15 @@ export class Sidebar extends Component {
               </Link>
             </li>
           }
+          {
+            config.theme &&
+            <li>
+              <Link activeClassName="active" to={`${ADMIN_PREFIX}/theme`}>
+                <i className="fa fa-diamond" />
+                Theme Gem
+              </Link>
+            </li>
+          }
         </ul>
       </div>
     );

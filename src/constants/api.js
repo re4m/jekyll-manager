@@ -31,3 +31,7 @@ export const staticfileAPIUrl = (filename) => `${API}/static_files/${filename}`;
 export const templatesAPIUrl = (directory = '') => `${API}/templates/${directory}`;
 export const templateAPIUrl = (directory, filename) =>
   directory ? `${API}/templates/${directory}/${filename}` : `${API}/templates/${filename}`;
+
+export const themeAPIUrl = (directory = '') =>
+  directory ? `${API}/theme/${directory}` : `${API}/theme`;
+export const themeItemAPIUrl = (directory, filename) => `${API}/theme/${directory}/${filename}`;

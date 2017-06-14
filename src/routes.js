@@ -21,6 +21,9 @@ import Templates from './containers/views/Templates';
 import TemplateDirectory from './containers/views/TemplateDirectory';
 import TemplateEdit from './containers/views/TemplateEdit';
 import TemplateNew from './containers/views/TemplateNew';
+import ThemeManifest from './containers/views/ThemeManifest';
+import ThemeDirectory from './containers/views/ThemeDirectory';
+import TemplateView from './containers/views/TemplateView';
 import NotFound from './containers/views/NotFound';
 
 export default (
@@ -59,6 +62,11 @@ export default (
       <Route path="(**/)new" component={TemplateNew} />
       <Route path="(**/)*.*" component={TemplateEdit} />
       <Route path="**" component={TemplateDirectory} />
+    </Route>
+    <Route path="theme">
+      <IndexRoute component={ThemeManifest} />
+      <Route path="(**/)*.*" component={TemplateView} />
+      <Route path="**" component={ThemeDirectory} />
     </Route>
     <Route path={`${ADMIN_PREFIX}/*`} component={NotFound} />
   </Route>
