@@ -65,6 +65,17 @@ export const draft = {
   }
 };
 
+export const template = {
+  raw_content: "# Test Template\n",
+  name: "test.html",
+  relative_path: "test.html",
+  exist_at_source: false,
+  http_url: null,
+  front_matter: {
+    foo: "bar"
+  }
+};
+
 export const page = {
   name: "about",
   content: "<h1>This is a test content.</h1>",
@@ -95,6 +106,11 @@ const directory = {
 export const page_entries = [page, page1, directory];
 export const collection_entries = [doc, directory];
 export const draft_entries = [draft, directory];
+export const theme = {
+  name: "test-theme",
+  version: "0.1.0",
+  directories: [directory]
+};
 
 export const meta = {
   layout: "post",

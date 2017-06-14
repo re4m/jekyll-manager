@@ -8,6 +8,7 @@ import drafts from './drafts';
 import datafiles from './datafiles';
 import staticfiles from './staticfiles';
 import templates from './templates';
+import theme from './theme';
 import utils from './utils';
 import notifications from './notifications';
 
@@ -21,6 +22,7 @@ export default combineReducers({
   datafiles,
   staticfiles,
   templates,
+  theme,
   utils,
   notifications
 });

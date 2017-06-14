@@ -53,7 +53,8 @@ export const sidebar = {
   drafts: 'Drafts',
   datafiles: 'Data Files',
   staticfiles: 'Static Files',
-  configuration: 'Configuration'
+  configuration: 'Configuration',
+  theme: 'Theme'
 };
 
 // button labels
@@ -78,5 +79,11 @@ export const labels = {
   viewToggle: {
     label: 'Switch View to GUI Editor',
     triggeredLabel: 'Switch View to Raw Editor'
+  },
+  edit: {
+    label: 'Edit at Source'
+  },
+  themefile: {
+    label: 'Copy to Source'
   }
 };

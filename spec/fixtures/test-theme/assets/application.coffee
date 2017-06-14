@@ -1,0 +1,4 @@
+---
+---
+
+alert "From your theme."

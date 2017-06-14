@@ -46,7 +46,7 @@ module JekyllAdmin
     end
 
     def resource_path
-      types = %w(pages data drafts templates)
+      types = %w(pages data drafts templates theme)
       if types.include?(content_type)
         "/#{content_type}/#{splat}/#{name}"
       else
