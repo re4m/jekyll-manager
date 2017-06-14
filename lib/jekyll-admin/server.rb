@@ -1,6 +1,8 @@
 module JekyllAdmin
   class Server < Sinatra::Base
-    ROUTES = %w(collections configuration data drafts pages static_files templates).freeze
+    ROUTES = %w(
+      collections configuration data drafts pages static_files templates theme
+    ).freeze
     include JekyllAdmin::PathHelper
     include JekyllAdmin::FileHelper
 
@@ -72,6 +74,7 @@ module JekyllAdmin
              end
       body << "\n---\n\n"
       body << request_payload["raw_content"].to_s
+      body << "\n"
     end
     alias page_body document_body
 
@@ -106,3 +109,4 @@ require "jekyll-admin/server/draft"
 require "jekyll-admin/server/page"
 require "jekyll-admin/server/static_file"
 require "jekyll-admin/server/template"
+require "jekyll-admin/server/theme"
