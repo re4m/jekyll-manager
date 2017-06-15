@@ -1,6 +1,7 @@
 @import url('../../node_modules/highlight.js/styles/atom-one-light.css');
 
 .editor-wrap {
+  padding: 15px 12px;
   background: #272822;
   border: 1px solid $border-color;
   @include border-radius($border-radius);

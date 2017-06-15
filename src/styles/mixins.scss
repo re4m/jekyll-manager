@@ -48,6 +48,13 @@
   transform: translateX($px);
 }
 
+@mixin animation($animation...) {
+  -webkit-animation: $animation;
+     -moz-animation: $animation;
+       -o-animation: $animation;
+          animation: $animation;
+}
+
 @mixin btn($color, $border-color, $cursor: pointer, $opacity: 1, $hover-fx: true) {
   cursor: $cursor;
   opacity: $opacity;

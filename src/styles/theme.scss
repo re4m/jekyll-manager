@@ -7,13 +7,16 @@
   table {
     margin: 0;
     background: transparent;
+    border-color: transparent;
     box-shadow: none;
   }
   tbody {
     tr:first-of-type td { border-top: none; }
     tr:hover { background: transparent; }
     td {
-      padding: 9px 0;
+      height: auto;
+      padding: 6px 0;
+      font-size: 18px;
       line-height: 1.35;
       border-top-color: transparent;
       &:first-of-type {

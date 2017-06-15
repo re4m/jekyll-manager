@@ -63,7 +63,7 @@ export class Sidebar extends Component {
       "collapsed": this.state.collapsedPanel
     });
 
-    const panelHeight = this.state.collapsedPanel ? 50 : (collectionItems.length + 1) * 50;
+    const panelHeight = this.state.collapsedPanel ? 44 : (collectionItems.length + 1) * 45;
 
     return (
       <div>
@@ -78,7 +78,7 @@ export class Sidebar extends Component {
           collectionItems.length > 0 &&
             <li className={accordionClasses} style={{ maxHeight: panelHeight }}>
               <a onClick={this.handleClick}>
-                <i className="fa fa-book" />Collections
+                <i className="fa fa-suitcase" />Collections
                 <div className="counter">{collectionItems.length}</div>
                 <div className="chevrons">
                   <i className="fa fa-chevron-up" />
@@ -166,7 +166,7 @@ export class Sidebar extends Component {
             templates && templates.length > 0 &&
             <li>
               <Link activeClassName="active" to={`${ADMIN_PREFIX}/templates`}>
-                <i className="fa fa-edit" />
+                <i className="fa fa-clone" />
                 Templates
               </Link>
             </li>
