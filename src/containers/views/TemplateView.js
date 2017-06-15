@@ -64,8 +64,6 @@ export class TemplateView extends Component {
       <div>
         <div className="content-header">
           <Breadcrumbs splat={relative_path || ''} type="theme" />
-          <div>
-          </div>
         </div>
         <div className="content-wrapper">
           <div className="content-body">
