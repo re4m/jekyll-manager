@@ -26,7 +26,8 @@ class App extends Component {
   }
 
   render() {
-    const { config, isFetching } = this.props;
+    const { isFetching } = this.props;
+    const config = this.props.config.content;
 
     if (isFetching) {
       return null;
@@ -37,11 +38,11 @@ class App extends Component {
         keyMap={keyboardShortcuts}
         className="wrapper">
         {
-          config.content &&
+          config &&
           <div>
-            <Sidebar config={config.content} />
+            <Sidebar config={config} />
             <div className="container">
-              <Header config={config.content} />
+              <Header config={config} />
               <div className="content">
                 {this.props.children}
               </div>

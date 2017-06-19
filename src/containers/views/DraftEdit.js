@@ -18,7 +18,6 @@ import { fetchDraft, deleteDraft, putDraft } from '../../actions/drafts';
 import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { putDocument } from '../../actions/collections';
 import { clearErrors } from '../../actions/utils';
-import { injectDefaultFields } from '../../utils/metadata';
 import { preventDefault } from '../../utils/helpers';
 import { getLeaveMessage, getDeleteMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';

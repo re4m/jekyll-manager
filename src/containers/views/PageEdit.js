@@ -17,7 +17,6 @@ import Metadata from '../MetaFields';
 import { fetchPage, deletePage, putPage } from '../../actions/pages';
 import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { clearErrors } from '../../actions/utils';
-import { injectDefaultFields } from '../../utils/metadata';
 import { preventDefault } from '../../utils/helpers';
 import { getLeaveMessage, getDeleteMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';

@@ -17,7 +17,6 @@ import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { putDocument } from '../../actions/collections';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
-import { injectDefaultFields } from '../../utils/metadata';
 import { preventDefault } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
@@ -88,8 +87,6 @@ export class DocumentNew extends Component {
 
     const collection = params.collection_name;
     const link = `${ADMIN_PREFIX}/collections/${collection}`;
-
-    const metafields = injectDefaultFields(config, params.splat, collection);
 
     return (
       <HotKeys handlers={keyboardHandlers} className="single">

@@ -4,7 +4,7 @@ import {
 
 export default function dashboard(state = {
   meta: {},
-  isFetching: false
+  isFetching: true
 }, action) {
   switch (action.type) {
     case FETCH_META_REQUEST:
@@ -18,7 +18,7 @@ export default function dashboard(state = {
       });
     case FETCH_META_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: true
       });
     default:
       return state;

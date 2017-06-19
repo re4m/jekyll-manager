@@ -81,7 +81,7 @@ module JekyllAdmin
         regex = %r!(assets|_(includes|layouts|sass))!
         dirs.find_all do |f|
           f.name.to_s =~ regex
-        end
+        end.sort_by!(&:name)
       end
 
       def subdir_entries
