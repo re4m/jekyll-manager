@@ -1,8 +1,9 @@
 module JekyllAdmin
   class Server < Sinatra::Base
     ROUTES = %w(
-      collections configuration data drafts pages static_files templates theme
+      collections configuration dashboard data drafts pages static_files templates theme
     ).freeze
+
     include JekyllAdmin::PathHelper
     include JekyllAdmin::FileHelper
 
@@ -104,6 +105,7 @@ end
 
 require "jekyll-admin/server/collection"
 require "jekyll-admin/server/configuration"
+require "jekyll-admin/server/dashboard"
 require "jekyll-admin/server/data"
 require "jekyll-admin/server/draft"
 require "jekyll-admin/server/page"
