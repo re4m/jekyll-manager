@@ -33,7 +33,7 @@ describe "theme" do
       theme_dirs = %w(assets _includes _layouts _sass)
       get "/theme"
       expect(last_response).to be_ok
-      expect(directories.map { |d| d["name"] }).to eq(theme_dirs)
+      expect(directories.map { |d| d["name"] }.sort!).to eq(theme_dirs.sort)
     end
 
     it "doesn't include the directory contents" do

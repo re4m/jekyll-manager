@@ -25,7 +25,7 @@ describe "templates" do
       get "/templates"
       expect(last_response).to be_ok
       expect(entries.first["type"]).to eq("directory")
-      expect(entries.first["name"]).to eq("assets")
+      expect(entries.first["name"]).to eq("_layouts")
     end
 
     it "lists entries in subdirectories" do

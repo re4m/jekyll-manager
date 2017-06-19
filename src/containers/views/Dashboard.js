@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
 import _ from 'underscore';
 import { fetchMeta } from '../../actions/dashboard';
 import Gauge from '../../components/dashboard/Gauge';
 import GaugeBoard from '../../components/dashboard/GaugeBoard';
 import Splitter from '../../components/Splitter';
-import { VERSION } from '../../constants';
 
 export class Dashboard extends Component {
 
@@ -131,7 +129,7 @@ Dashboard.propTypes = {
 const mapStateToProps = (state) => ({
   meta: state.dashboard.meta,
   config: state.config.config,
-  isFetching: state.drafts.isFetching
+  isFetching: state.dashboard.isFetching
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

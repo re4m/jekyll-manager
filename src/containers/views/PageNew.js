@@ -17,7 +17,6 @@ import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { putPage } from '../../actions/pages';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
-import { injectDefaultFields } from '../../utils/metadata';
 import { preventDefault } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
