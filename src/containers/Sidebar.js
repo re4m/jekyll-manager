@@ -149,7 +149,7 @@ export class Sidebar extends Component {
 
     return (
       <div className="sidebar">
-        <Link className="logo" to={`${ADMIN_PREFIX}/pages`} />
+        <Link className="logo" to={ADMIN_PREFIX} />
         <ul className="routes">
           {config && config.show_drafts &&
             <li>

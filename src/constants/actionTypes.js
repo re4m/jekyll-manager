@@ -1,3 +1,9 @@
+// Index Route || Dashboard
+export const FETCH_META_REQUEST = 'FETCH_META_REQUEST';
+export const FETCH_META_SUCCESS = 'FETCH_META_SUCCESS';
+export const FETCH_META_FAILURE = 'FETCH_META_FAILURE';
+
+
 // Config
 export const FETCH_CONFIG_REQUEST = 'FETCH_CONFIG_REQUEST';
 export const FETCH_CONFIG_SUCCESS = 'FETCH_CONFIG_SUCCESS';

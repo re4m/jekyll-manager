@@ -1,0 +1,166 @@
+$gauge-track: darken($background-color, 7%);
+$progress-color: $dark-orange;
+
+
+@for $i from 0 through 50 {
+  .gauge[data-progress="#{$i}"] {
+    background-image:
+      linear-gradient(#{90 + (3.6 * $i)}deg, transparent 50%, $gauge-track 50%),
+      linear-gradient(90deg, $gauge-track 50%, transparent 50%);
+  }
+}
+
+@for $i from 51 through 100 {
+  .gauge[data-progress="#{$i}"] {
+    background-image:
+      linear-gradient(#{90 + (3.6 * ($i - 50))}deg, transparent 50%, $progress-color 50%),
+      linear-gradient(90deg, $gauge-track 50%, transparent 50%);
+  }
+}
+
+.row {
+  .slot {
+    display: inline-block;
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 5px 26px;
+    text-align: center;
+    border: 1px solid transparent;
+    &:not(:last-of-type) { border-right-color: $border-color; }
+    &.single-column {
+      left: 50%;
+      @include translateX(-50%);
+      &:before, &:after {
+        position: absolute;
+        top: 50%;
+        width: calc(100% - 235px);
+        height: 1px;
+        content: "";
+        background: $border-color;
+      }
+      &:before { left: -50%; }
+      &:after { right: -50%; }
+    }
+  }
+}
+
+.gauge-board {
+  margin: 0 auto;
+  width: 1050px;
+  .caption {
+    height: 40px;
+    text-align: center;
+    border-top: 1px solid $border-color;
+    .well {
+      position: relative;
+      top: -10px;
+      padding: 8px 40px;
+      background-color: $background-color;
+      border: 1px solid $border-color;
+      border-radius: 25%;
+    }
+  }
+}
+
+.gauge-wrapper {
+  float: left;
+  margin: 7px;
+}
+
+.gauge {
+  position: relative;
+  float: left;
+  background: $progress-color;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  .core {
+    position: absolute;
+    margin: 10px;
+    padding: 50px 0;
+    width: 180px;
+    height: 180px;
+    color: #555;
+    text-align: center;
+    background: $background-color;
+    border-radius: 50%;
+    .count {
+      font-size: 3em;
+      font-weight: bold;
+      &:after {
+        margin-left: 2px;
+        content: "";
+        font-size: 0.75em;
+        font-weight: normal;
+        vertical-align: text-top;
+      }
+    }
+  }
+}
+
+.tiles {
+  .tile {
+    position: relative;
+    top: -65px;
+    min-width: 300px;
+    min-height: 90px;
+    padding: 20px 30px;
+    line-height: 1.5;
+    background-color: $background-color;
+    border: 1px solid $border-color;
+    .tile-entry {
+      .tile-key {
+        float: left;
+        margin-right: 8px;
+        font-weight: bold;
+      }
+    }
+    .label {
+      position: absolute;
+      top: -31px;
+      padding: 15px 0 0;
+      width: 100px;
+      text-align: center;
+      text-transform: uppercase;
+      background-color: $background-color;
+      border: 1px solid $border-color;
+      border-bottom: none;
+      &:before, &:after {
+        position: absolute;
+        top: 0;
+        content: "";
+        border: 15px solid;
+      }
+    }
+  }
+
+  .first {
+    float: left;
+    .label {
+      left: -1px;
+      &:before {
+        right: -31px;
+        border-color: transparent transparent $border-color $border-color;
+      }
+      &:after {
+        right: -30px;
+        border-color: transparent transparent $background-color $background-color;
+      }
+    }
+  }
+  .last {
+    float: right;
+    .label {
+      right: -1px;
+      &:before {
+        left: -31px;
+        border-color: transparent $border-color $border-color transparent;
+      }
+      &:after {
+        left: -30px;
+        border-color: transparent $background-color $background-color transparent;
+      }
+    }
+  }
+}
