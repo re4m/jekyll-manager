@@ -26,7 +26,7 @@ export class MetaArray extends Component {
   render() {
     const { fieldKey, fieldValue, namePrefix, addField,
       removeField, updateFieldKey, updateFieldValue, moveArrayItem,
-      convertField, key_prefix} = this.props;
+      convertField, key_prefix, appMeta} = this.props;
     const items = _.map(fieldValue, (item, i) => {
       let type = 'simple';
       if (_.isObject(item)) type = 'object';
@@ -46,7 +46,8 @@ export class MetaArray extends Component {
           moveArrayItem={moveArrayItem}
           convertField={convertField}
           nameAttr={`${namePrefix}[${i}]`}
-          namePrefix={namePrefix} />
+          namePrefix={namePrefix}
+          appMeta={appMeta} />
       );
     });
     return (
@@ -73,7 +74,8 @@ MetaArray.propTypes = {
   updateFieldValue: PropTypes.func.isRequired,
   convertField: PropTypes.func.isRequired,
   moveArrayItem: PropTypes.func.isRequired,
-  key_prefix: PropTypes.string.isRequired
+  key_prefix: PropTypes.string.isRequired,
+  appMeta: PropTypes.object
 };
 
 export default MetaArray;

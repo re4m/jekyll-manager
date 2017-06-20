@@ -31,8 +31,8 @@ export class Dashboard extends Component {
 
   totalSiteFiles() {
     const site = this.props.meta.site;
-    const keys = Object.keys(site).filter(key => {
-      return !key.includes('collection');
+    const keys = _.reject(Object.keys(site), key => {
+      return key.includes('collection') || key == 'layouts';
     });
 
     return _.map(keys, key => {

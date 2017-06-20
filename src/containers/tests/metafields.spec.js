@@ -8,7 +8,8 @@ import { content } from './fixtures';
 const defaultProps = {
   fields: content,
   metadata: content,
-  key_prefix: ''
+  key_prefix: '',
+  appMeta: { site: { layouts: [] } }
 };
 
 function setup(props=defaultProps) {
@@ -19,7 +20,8 @@ function setup(props=defaultProps) {
     updateFieldKey: jest.fn(),
     updateFieldValue: jest.fn(),
     moveArrayItem: jest.fn(),
-    convertField: jest.fn()
+    convertField: jest.fn(),
+    fetchMeta: jest.fn()
   };
 
   const component = mount(

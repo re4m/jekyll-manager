@@ -22,7 +22,8 @@ const defaultProps = {
   nameAttr: 'metadata["mentors"][1]',
   namePrefix: 'metadata["mentors"]',
   key_prefix: '',
-  index: 0
+  index: 0,
+  appMeta: { site: {} }
 };
 
 function setup(props = defaultProps) {

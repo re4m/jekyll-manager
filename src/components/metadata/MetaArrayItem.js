@@ -28,7 +28,7 @@ export class MetaArrayItem extends Component {
   render() {
     const { type, fieldKey, fieldValue, index, nameAttr,
       addField, removeField, updateFieldKey, updateFieldValue, moveArrayItem,
-      convertField, key_prefix } = this.props;
+      convertField, key_prefix, appMeta } = this.props;
     const FieldTypes = {
       'array': MetaArray,
       'object': MetaObject,
@@ -60,7 +60,8 @@ export class MetaArrayItem extends Component {
             moveArrayItem={moveArrayItem}
             convertField={convertField}
             nameAttr={nameAttr}
-            namePrefix={nameAttr} />
+            namePrefix={nameAttr}
+            appMeta={appMeta} />
         </div>
       </div>
     );
@@ -80,7 +81,8 @@ MetaArrayItem.propTypes = {
   convertField: PropTypes.func.isRequired,
   nameAttr: PropTypes.string.isRequired,
   namePrefix: PropTypes.string.isRequired,
-  key_prefix: PropTypes.string.isRequired
+  key_prefix: PropTypes.string.isRequired,
+  appMeta: PropTypes.object
 };
 
 export default MetaArrayItem;

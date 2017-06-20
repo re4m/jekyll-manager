@@ -36,7 +36,7 @@ export class MetaObjectItem extends Component {
   render() {
     const { type, fieldKey, fieldValue, nameAttr, addField,
       removeField, updateFieldKey, updateFieldValue, convertField, key_prefix,
-      moveArrayItem } = this.props;
+      moveArrayItem, appMeta } = this.props;
     const FieldTypes = {
       'array': MetaArray,
       'object': MetaObject,
@@ -73,7 +73,8 @@ export class MetaObjectItem extends Component {
             moveArrayItem={moveArrayItem}
             convertField={convertField}
             nameAttr={nameAttr}
-            namePrefix={nameAttr} />
+            namePrefix={nameAttr}
+            appMeta={appMeta} />
         </div>
       </div>
     );
@@ -93,6 +94,7 @@ MetaObjectItem.propTypes = {
   updateFieldKey: PropTypes.func.isRequired,
   updateFieldValue: PropTypes.func.isRequired,
   moveArrayItem: PropTypes.func.isRequired,
-  key_prefix: PropTypes.string.isRequired
+  key_prefix: PropTypes.string.isRequired,
+  appMeta: PropTypes.object
 };
 export default MetaObjectItem;

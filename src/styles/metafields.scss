@@ -7,7 +7,7 @@
     .meta-key {
       .key-field {
         max-width: 190px;
-        min-height: 46px;
+        min-height: 48px;
         margin: 0 0 10px;
         padding: 11px 10px;
         font-size: 16px;
@@ -125,6 +125,11 @@
             margin-left: 0;
             padding: 0;
           }
+        }
+        .layout-picker {
+          position: relative;
+          right: 0;
+          width: 100%;
         }
       }
       .add-field-array {
@@ -392,7 +397,34 @@
   .showing-dropdown {
     z-index: 30;
   }
-  .date-field {
+  .layout-picker {
+    position: absolute;
+
+    .rw-dropdownlist {
+      &.rw-widget {
+        color: #333;
+        border-color: lighten($border-color, 7%);
+        @include border-radius($border-radius);
+      }
+      &.rw-state-focus {
+        border-color: $dark-orange;
+        box-shadow: none;
+        background: white;
+      }
+      &:hover {
+        background-color: white;
+        border-color: $border-color;
+      }
+      .rw-input {
+        min-height: 46px;
+        padding-top: 4px;
+      }
+      .rw-btn {
+        padding-top: 4px;
+      }
+    }
+  }
+  .date-field, .layout-picker {
     float: right;
     right: 34px;
     width: calc(100% - 240px);
@@ -406,12 +438,14 @@
     input {
       padding: 11px 13px;
       width: calc(100% - 3px);
-      min-height: 46px;
+      min-height: 44px;
       @include border-radius($border-radius);
     }
   }
   .rw-popup {
-    padding: 10px;
+    padding: 0;
+    border-color: lighten($border-color, 7%);
+    @include box-shadow(0 2px 1px rgba(0, 0, 0, 0.2));
   }
   .rw-datetimepicker {
     box-shadow: none !important;
@@ -498,15 +532,21 @@
     }
   }
   .rw-state-focus {
-    color: black !important;
+    color: black;
     background: $dark-orange;
     border: 1px solid $dark-orange;
   }
   .rw-list {
     max-height: 329px;
+    padding: 0;
     .rw-list-option {
-      padding: 8px 5px;
+      padding: 11px 13px;
       border-radius: 0;
+      &.rw-state-selected {
+        color: white;
+        background: $dark-orange;
+        border: none;
+      }
       &:hover {
         color: #cdcdcd;
         background: #454545;

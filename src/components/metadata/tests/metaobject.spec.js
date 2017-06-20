@@ -13,7 +13,8 @@ const defaultProps = {
   },
   nameAttr: 'metadata["organization"]',
   namePrefix: 'metadata',
-  key_prefix: ''
+  key_prefix: '',
+  appMeta: { site: {} }
 };
 
 function setup(props = defaultProps) {
