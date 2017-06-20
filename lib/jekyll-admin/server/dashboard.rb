@@ -24,6 +24,7 @@ module JekyllAdmin
 
       def dashboard_site_payload
         {
+          "layouts"         => layout_names,
           "content_pages"   => to_html_pages,
           "data_files"      => DataFile.all.map(&:relative_path),
           "static_files"    => site.static_files.map(&:relative_path),
@@ -50,6 +51,10 @@ module JekyllAdmin
       def paths_to_drafts
         site.posts.docs.select { |post| post.output_ext == ".html" && post.draft? }
           .map! { |post| post.relative_path.sub("_drafts/", "") }
+      end
+
+      def layout_names
+        site.layouts.map { |l| l[0] }
       end
     end
   end
