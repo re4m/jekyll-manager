@@ -12,14 +12,21 @@ export default class InputFilename extends Component {
   render() {
     const { path, type, onBlur } = this.props;
 
-    let placeholder = 'example.md';
-    if (type == 'posts') {
-      const date = moment().format('YYYY-MM-DD');
-      placeholder = `${date}-your-title.md`;
-    } else if (type == 'data files') {
-      placeholder = 'your-filename.yml';
-    } else if (type == 'new-template' || 'edit-template' ) {
-      placeholder = 'directory/example.html';
+    let placeholder, date;
+    switch (type) {
+      case 'posts':
+        date = moment().format('YYYY-MM-DD');
+        placeholder = `${date}-your-title.md`;
+        break;
+      case 'data files':
+        placeholder = 'your-filename.yml';
+        break;
+      case 'new-template':
+      case 'edit-template':
+        placeholder = 'directory/example.html';
+        break;
+      default:
+        placeholder = 'example.md';
     }
 
     let tooltip, msg = null;
