@@ -8,12 +8,14 @@ import {
   storeContentFields, addField, removeField, updateFieldKey, updateFieldValue,
   moveArrayItem, convertField
 } from '../actions/metadata';
+import { fetchMeta } from '../actions/dashboard';
 
 export class MetaFields extends Component {
 
   componentDidMount() {
-    const { storeContentFields, fields } = this.props;
+    const { storeContentFields, fields, fetchMeta } = this.props;
     storeContentFields(fields);
+    fetchMeta();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -23,7 +25,7 @@ export class MetaFields extends Component {
   render() {
     const {
       metadata, addField, removeField, updateFieldKey, updateFieldValue, moveArrayItem,
-      convertField, key_prefix, dataview, type
+      convertField, key_prefix, dataview, type, appMeta
     } = this.props;
 
     let visibleKeys = metadata;
@@ -56,7 +58,8 @@ export class MetaFields extends Component {
           moveArrayItem={moveArrayItem}
           convertField={convertField}
           nameAttr={`metadata['${key}']`}
-          namePrefix={`metadata`} />
+          namePrefix={`metadata`}
+          appMeta={appMeta} />
       );
     });
 
@@ -76,7 +79,9 @@ export class MetaFields extends Component {
             <small className="tooltip pull-right">
               <i className="fa fa-info-circle" />Special Keys
               <span className="tooltip-text">
-                You can use special keys like <b>date</b>, <b>file</b>, <b>image</b> for user-friendly functionalities.
+                You can use special keys like
+                <b> layout</b>, <b>date</b>, <b>file</b>, <b>image </b>
+                for user-friendly functionalities.
               </span>
             </small>
         }
@@ -104,12 +109,15 @@ MetaFields.propTypes = {
   moveArrayItem: PropTypes.func.isRequired,
   convertField: PropTypes.func.isRequired,
   dataview: PropTypes.bool,
-  type: PropTypes.string
+  type: PropTypes.string,
+  fetchMeta: PropTypes.func,
+  appMeta: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
   metadata: state.metadata.metadata,
-  key_prefix: state.metadata.key_prefix
+  key_prefix: state.metadata.key_prefix,
+  appMeta: state.dashboard.meta
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -119,7 +127,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateFieldKey,
   updateFieldValue,
   moveArrayItem,
-  convertField
+  convertField,
+  fetchMeta
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MetaFields);

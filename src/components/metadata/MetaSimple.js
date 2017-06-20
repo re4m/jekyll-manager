@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import DropdownList from 'react-widgets/lib/DropdownList';
 import Modal from 'react-modal';
 import StaticFiles from '../../containers/views/StaticFiles';
 import moment from 'moment';
@@ -38,6 +39,11 @@ export class MetaSimple extends Component {
     const { nameAttr, updateFieldValue } = this.props;
     let formatted = moment(date).format('YYYY-MM-DD HH:mm:ss');
     updateFieldValue(nameAttr, formatted);
+  }
+
+  handleDropdownChange(value) {
+    const { nameAttr, updateFieldValue } = this.props;
+    updateFieldValue(nameAttr, value);
   }
 
   handleEditableBlur(e) {
@@ -108,6 +114,20 @@ export class MetaSimple extends Component {
     );
   }
 
+  renderLayoutPicker() {
+    const { fieldValue, appMeta } = this.props;
+    const layouts = appMeta.site.layouts;
+
+    return (
+      <div className="layout-picker">
+        <DropdownList
+          value={fieldValue || 'Select Layout'}
+          onChange={(v) => this.handleDropdownChange(v)}
+          data={['none', ...layouts]} />
+      </div>
+    );
+  }
+
   render() {
     const { fieldKey } = this.props;
     let node;
@@ -118,6 +138,9 @@ export class MetaSimple extends Component {
       case 'image':
       case 'file':
         node = this.renderStaticFilePicker();
+        break;
+      case 'layout':
+        node = this.renderLayoutPicker();
         break;
       default:
         node = this.renderEditable();
@@ -132,10 +155,11 @@ export class MetaSimple extends Component {
 
 MetaSimple.propTypes = {
   parentType: PropTypes.string.isRequired,
+  updateFieldValue: PropTypes.func.isRequired,
+  nameAttr: PropTypes.any.isRequired,
   fieldKey: PropTypes.string.isRequired,
   fieldValue: PropTypes.any,
-  updateFieldValue: PropTypes.func.isRequired,
-  nameAttr: PropTypes.any.isRequired
+  appMeta: PropTypes.object
 };
 
 export default MetaSimple;
