@@ -21,7 +21,8 @@ const defaultProps = {
   fieldValue: 'Mert',
   nameAttr: 'metadata["students"]["name"]',
   namePrefix: 'metadata["students"]',
-  key_prefix: ''
+  key_prefix: '',
+  appMeta: { site: {} }
 };
 
 function setup(props = defaultProps) {
