@@ -104,7 +104,7 @@ export class TemplateDirectory extends Component {
         </div>
 
         <div className="dirs">
-          <div className="content-table">
+          <div className="content-table theme">
             <table>
               <thead>
                 <tr>
