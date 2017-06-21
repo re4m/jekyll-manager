@@ -23,29 +23,42 @@ export class TemplateDirectory extends Component {
   }
 
   renderFileRow(splat, file) {
-    const { path, api_url, http_url } = file;
+    const { path, extname, api_url, http_url } = file;
     const to = `${ADMIN_PREFIX}/theme/${splat}/${path}`;
+    const image = /png|jpg|jpeg|gif|svg|ico/i.test(extname.substring(1));
+
     return (
       <tr key={path}>
         <td className="row-title">
-          <strong>
-            <Link to={http_url ? null : to}>
-              <i className="fa fa-file-text-o" aria-hidden="true" />
-              {path}
-            </Link>
-          </strong>
-        </td>
-        <td>
-          {http_url &&
-            <div className="row-actions">
-              <Button
-                to={http_url}
-                type="view"
-                icon="eye"
-                active={true}
-                thin />
-            </div>
-          }
+        {
+          http_url && image &&
+            <strong>
+              <a href={http_url} target="_blank">
+                <div className="image-container">
+                  <img src={http_url} />
+                  <div className="image-filename">{path}</div>
+                </div>
+              </a>
+            </strong>
+        }
+        {
+          http_url && !image &&
+            <strong>
+              <a href={http_url} target="_blank">
+                <i className="fa fa-file-text-o" aria-hidden="true" />
+                {path}
+              </a>
+            </strong>
+        }
+        {
+          !http_url &&
+            <strong>
+              <Link to={to}>
+                <i className="fa fa-file-text-o" aria-hidden="true" />
+                {path}
+              </Link>
+            </strong>
+        }
         </td>
       </tr>
     );
@@ -64,7 +77,6 @@ export class TemplateDirectory extends Component {
             </Link>
           </strong>
         </td>
-        <td />
       </tr>
     );
   }
@@ -97,7 +109,6 @@ export class TemplateDirectory extends Component {
               <thead>
                 <tr>
                   <th>Contents</th>
-                  <th />
                 </tr>
               </thead>
               <tbody>
