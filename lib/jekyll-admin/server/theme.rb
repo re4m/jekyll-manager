@@ -85,6 +85,7 @@ module JekyllAdmin
         Dir["#{directory_path}/*"].reject { |e| File.directory?(e) }.map! do |e|
           {
             :path     => relative_path_of(e).sub("#{splats.first}/", ""),
+            :extname  => File.extname(e),
             :http_url => http_url(e),
             :api_url  => api_url(e),
           }
