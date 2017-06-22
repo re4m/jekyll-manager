@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { HotKeys } from 'react-hotkeys';
 
 import { fetchConfig } from '../actions/config';
+import { fetchMeta } from '../actions/dashboard';
 import keyboardShortcuts from '../constants/keyboardShortcuts';
 
 // Components
@@ -14,8 +15,9 @@ import Notifications from './Notifications';
 class App extends Component {
 
   componentDidMount() {
-    const { fetchConfig } = this.props;
+    const { fetchConfig, fetchMeta } = this.props;
     fetchConfig();
+    fetchMeta();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,11 +29,13 @@ class App extends Component {
 
   render() {
     const { isFetching } = this.props;
-    const config = this.props.config.content;
 
     if (isFetching) {
       return null;
     }
+
+    const config = this.props.config.content;
+    const admin = this.props.meta.admin;
 
     return (
       <HotKeys
@@ -42,7 +46,7 @@ class App extends Component {
           <div>
             <Sidebar config={config} />
             <div className="container">
-              <Header config={config} />
+              <Header config={config} admin={admin} />
               <div className="content">
                 {this.props.children}
               </div>
@@ -58,19 +62,23 @@ class App extends Component {
 App.propTypes = {
   children: PropTypes.element,
   fetchConfig: PropTypes.func.isRequired,
+  fetchMeta: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
   updated: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({
   config: state.config.config,
+  meta: state.dashboard.meta,
   updated: state.config.updated,
   isFetching: state.config.isFetching,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  fetchConfig
+  fetchConfig,
+  fetchMeta
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
