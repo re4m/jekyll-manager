@@ -16,12 +16,10 @@
   }
 
   &.collapsed {
-    margin-bottom: 8px;
+    margin-bottom: 15px;
     color: #777;
-    background-color: #fdfdfd;
-    border-color: #eee;
-    @include border-radius($border-radius);
-    @include box-shadow(0 1px #dedede);
+    background-color: $background-color;
+    border-color: darken($background-color, 9%);
     .chevrons {
       color: #999;
       transform: rotate(180deg);
@@ -33,6 +31,12 @@
       + .splitter {
         display: none;
       }
+    }
+    &:hover {
+      background-color: #fdfdfd;
+      border-color: #e2e2e2;
+      @include border-radius($border-radius);
+      @include box-shadow(0 1.5px #dedede);
     }
   }
 
