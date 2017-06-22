@@ -3,7 +3,10 @@ import { mount } from 'enzyme';
 import { Header } from '../Header';
 import { config } from './fixtures';
 
-const defaultProps = { config: config.content };
+const defaultProps = {
+  admin: {},
+  config: config.content
+};
 
 function setup(props = defaultProps) {
   const component = mount(
@@ -12,7 +15,8 @@ function setup(props = defaultProps) {
 
   return {
     component: component,
-    title: component.find('h3 span')
+    title: component.find('h3 span'),
+    version: component.find('.version')
   };
 }
 
@@ -29,5 +33,12 @@ describe('Containers::Header', () => {
     }));
     const { config } = component.props();
     expect(title.text()).toEqual('You have no title!');
+  });
+
+  it('should render app version', () => {
+    const { component, version } = setup(Object.assign({}, defaultProps, {
+      admin: { version: '0.1.0' }
+    }));
+    expect(version.text()).toEqual('0.1.0');
   });
 });
