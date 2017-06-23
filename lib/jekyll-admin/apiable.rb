@@ -52,6 +52,10 @@ module JekyllAdmin
         output["relative_path"] = relative_path.sub("_drafts/", "")
       end
 
+      if is_a?(Jekyll::StaticFile)
+        output["from_theme"] = from_theme_gem?
+      end
+
       output
     end
 
@@ -64,6 +68,10 @@ module JekyllAdmin
       else
         File.join(@base, @dir, name)
       end
+    end
+
+    def from_theme_gem?
+      @base == site.in_theme_dir
     end
 
     # StaticFiles don't have `attr_accesor` set for @site or @name
