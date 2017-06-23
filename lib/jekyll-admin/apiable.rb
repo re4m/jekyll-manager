@@ -46,10 +46,7 @@ module JekyllAdmin
       if is_a?(Jekyll::Document)
         output["name"] = basename
         output["modified_time"] = mtime
-      end
-
-      if is_a?(Jekyll::Document) && draft?
-        output["relative_path"] = relative_path.sub("_drafts/", "")
+        output["relative_path"] = relative_path.sub("_drafts/", "") if draft?
       end
 
       if is_a?(Jekyll::StaticFile)
