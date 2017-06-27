@@ -85,6 +85,31 @@ $progress-color: $dark-orange;
     text-align: center;
     background: $background-color;
     border-radius: 50%;
+    &:hover {
+      .core-mask {
+        @extend .core;
+        display: table;
+        top: 0;
+        margin: 0 auto;
+        padding: 0;
+        .item-wrapper {
+          display: table-cell;
+          vertical-align: middle;
+          .item {
+            margin: 6px auto;
+            width: calc(100% - 30px);
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &.more {
+              font-size: 12px;
+              font-style: italic;
+            }
+          }
+        }
+      }
+    }
+    .core-mask { display: none; }
     .count {
       font-size: 3em;
       font-weight: bold;

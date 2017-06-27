@@ -19,7 +19,8 @@ export class GaugeBoard extends Component {
           key={index}
           percent={this.calcPercentage(dataSet[entry].length, baseValue)}
           count={dataSet[entry].length}
-          label={toTitleCase(entry.replace('_', ' '))} />
+          label={toTitleCase(entry.replace('_', ' '))}
+          hoverContents={dataSet[entry]} />
       );
     });
   }
