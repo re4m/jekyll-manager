@@ -335,7 +335,7 @@
                 width: calc(100% - 50px);
               }
             }
-            >.date-field {
+            >.date-field, .layout-picker {
               width: calc(100% - 206px);
               right: 0;
             }
@@ -358,14 +358,14 @@
     .array {
       >.meta-value {
         margin-left: 15px;
-        .imagepicker {
+        .imagepicker, .layout-picker {
           right: 0;
           width: 100%;
           .value-field {
             width: calc(100% - 50px);
           }
         }
-        .date-field {
+        .date-field, .layout-picker {
           right: 0;
           width: 100%;
         }
@@ -383,7 +383,7 @@
             margin-left: 15px;
           }
         }
-        .date-field {
+        .date-field, .layout-picker {
           right: 0;
           width: calc(100% - 204px);
         }
@@ -405,7 +405,40 @@
   .showing-dropdown {
     z-index: 30;
   }
-  .date-field {
+
+  .layout-picker {
+    position: relative;
+
+    .rw-dropdownlist {
+      &.rw-widget {
+        color: white;
+        background: #2b2b2b;
+        border-color: #2b2b2b;
+        @include border-radius($border-radius);
+      }
+      &.rw-state-focus {
+        border-color: $dark-orange;
+        background: #333;
+      }
+      &:hover {
+        border-color: #2b2b2b;
+      }
+      .rw-input {
+        min-height: 46px;
+        padding-top: 4px;
+        color: white;
+        background: #2b2b2b;
+        border-color: #2b2b2b;
+      }
+      .rw-btn {
+        padding-top: 4px;
+        color: white;
+        background: #2b2b2b;
+      }
+    }
+  }
+
+  .date-field, .layout-picker {
     float: right;
     right: 34px;
     width: calc(100% - 240px);
@@ -428,7 +461,8 @@
     padding: 10px;
     color: #818181;
     background: #2b2b2b;
-    border-color: #222;
+    border-color: #2b2b2b;
+    border-top-color: #222;
   }
   .rw-datetimepicker {
     box-shadow: none !important;
@@ -524,7 +558,7 @@
   .rw-list {
     max-height: 329px;
     .rw-list-option {
-      padding: 8px 5px;
+      padding: 12px;
       border-radius: 0;
       &:hover {
         color: #cdcdcd;
