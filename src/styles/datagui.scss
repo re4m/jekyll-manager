@@ -578,4 +578,30 @@
   .data-new {
     margin-top: 25px;
   }
+  .meta-error {
+    display: inline-block;
+    height: 48px;
+    margin-left: 15px;
+    padding: 14px 0;
+  }
+  .tags-list {
+    border-bottom-color: #121212;
+    + .tags-input { border-top-color: #424242; }
+  }
+  .tags-input input {
+    color: white;
+    background: #333;
+  }
+  .tag-suggestions {
+    border-color: #2b2b2b;
+    border-top-color: #222;
+    ul li {
+      color: #818181;
+      background-color: #2b2b2b;
+      &:hover {
+        color: #cdcdcd;
+        background-color: #454545;
+      }
+    }
+  }
 }

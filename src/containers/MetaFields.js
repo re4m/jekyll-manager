@@ -43,6 +43,7 @@ export class MetaFields extends Component {
       let type = 'simple';
       if (_.isObject(field)) type = 'object';
       if (_.isArray(field)) type = 'array';
+      if (_.isArray(field) && key == 'tags') type = 'simple';
       return (
         <MetaField
           key={key}
@@ -80,7 +81,7 @@ export class MetaFields extends Component {
               <i className="fa fa-info-circle" />Special Keys
               <span className="tooltip-text">
                 You can use special keys like
-                <b> layout</b>, <b>date</b>, <b>file</b>, <b>image </b>
+                <b> layout</b>, <b>date</b>, <b>file</b>, <b>image</b>, and <b>tags </b>
                 for user-friendly functionalities.
               </span>
             </small>

@@ -7,6 +7,7 @@ import StaticFiles from '../../containers/views/StaticFiles';
 import moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import 'react-widgets/dist/css/react-widgets.css';
+import MetaTags from './MetaTags';
 
 momentLocalizer(moment);
 
@@ -128,6 +129,18 @@ export class MetaSimple extends Component {
     );
   }
 
+  renderTagsInput() {
+    const { fieldValue, nameAttr, updateFieldValue, appMeta } = this.props;
+
+    return (
+      <MetaTags
+        fieldValue={fieldValue}
+        nameAttr={nameAttr}
+        updateFieldValue={updateFieldValue}
+        suggestions={appMeta.site.tags} />
+    );
+  }
+
   render() {
     const { fieldKey } = this.props;
     let node;
@@ -141,6 +154,9 @@ export class MetaSimple extends Component {
         break;
       case 'layout':
         node = this.renderLayoutPicker();
+        break;
+      case 'tags':
+        node = this.renderTagsInput();
         break;
       default:
         node = this.renderEditable();
