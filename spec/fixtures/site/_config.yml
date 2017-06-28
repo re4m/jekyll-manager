@@ -7,12 +7,6 @@ gems:
 # Gem-based theme for this site.
 theme: test-theme
 
-# Exclude these files from being processed.
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - README.md
-
 foo: bar
 
 # show draft posts
@@ -24,18 +18,21 @@ defaults:
       path: ""
     values:
       all: true
-  - scope:
-      path: ''
+  -
+    scope:
+      path: ""
       type: pages
     values:
       page_only: true
-  - scope:
-      path: ''
+  -
+    scope:
+      path: ""
       type: puppies
     values:
-      breed: ''
-  - scope:
-      path: 'test'
+      breed: ""
+  -
+    scope:
+      path: test
       type: posts
     values:
       post_test_only: true
