@@ -18,6 +18,7 @@ import Drafts from './containers/views/Drafts';
 import DraftEdit from './containers/views/DraftEdit';
 import DraftNew from './containers/views/DraftNew';
 import StaticFiles from './containers/views/StaticFiles';
+import StaticIndex from './containers/views/StaticIndex';
 import Templates from './containers/views/Templates';
 import TemplateDirectory from './containers/views/TemplateDirectory';
 import TemplateEdit from './containers/views/TemplateEdit';
@@ -57,7 +58,11 @@ export default (
       <Route path="(**/)*.*" component={DataFileEdit} />
       <Route path="**" component={DataFiles} />
     </Route>
-    <Route path="staticfiles" component={StaticFiles} />
+    <Route path="staticfiles">
+      <IndexRoute component={StaticFiles} />
+      <Route path="index" component={StaticIndex} />
+      <Route path="**" component={StaticFiles} />
+    </Route>
     <Route path="templates">
       <IndexRoute component={Templates} />
       <Route path="(**/)new" component={TemplateNew} />
