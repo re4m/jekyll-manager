@@ -25,6 +25,7 @@ function setup(props = defaultProps) {
     editable: component.find('.value-field'),
     datepicker: component.find('.date-field'),
     layoutpicker: component.find('.layout-picker'),
+    tagsinput: component.find('.tags-input'),
     actions,
     props
   };
@@ -50,6 +51,15 @@ describe('Components::MetaSimple', () => {
     }));
     expect(datepicker.node).toBeTruthy();
     expect(editable.node).toBeFalsy();
+  });
+
+  it('should render tagsinput if field key is called "tags"', () => {
+    const { editable, tagsinput } = setup(Object.assign({}, defaultProps, {
+      fieldKey: 'tags',
+      fieldValue: ['page']
+    }));
+    expect(tagsinput.node).toBeTruthy();
+    expect(editable.node).toBeTruthy();
   });
 
   it('should call updateFieldValue when the input is changed', () => {

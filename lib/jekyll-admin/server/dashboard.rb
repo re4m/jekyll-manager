@@ -25,6 +25,7 @@ module JekyllAdmin
       def dashboard_site_payload
         {
           "layouts"         => layout_names,
+          "tags"            => site.tags.keys,
           "content_pages"   => to_html_pages,
           "data_files"      => DataFile.all.map(&:relative_path),
           "static_files"    => site.static_files.map(&:relative_path),
