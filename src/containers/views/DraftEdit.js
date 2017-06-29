@@ -133,9 +133,15 @@ export class DraftEdit extends Component {
     const { name, relative_path, raw_content, collection, http_url, front_matter } = draft;
     const [directory, ...rest] = params.splat;
 
-    const title = front_matter && front_matter.title ? front_matter.title : '';
+    const layout = front_matter.layout || '';
+    const title = front_matter.title || '';
+
     const inputPath = <InputPath onChange={updatePath} type="drafts" path={relative_path} />;
-    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: relative_path, ...front_matter}} />;
+    const metafields = (
+      <Metadata
+        ref="frontmatter"
+        fields={{ layout, title, raw_content, path: relative_path, ...front_matter }} />
+    );
 
     return (
       <HotKeys

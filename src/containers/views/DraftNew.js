@@ -99,7 +99,7 @@ export class DraftNew extends Component {
               label="Edit Front Matter"
               overflow={true}
               height={this.state.panelHeight}
-              panel={<Metadata fields={{}} ref="frontmatter"/>} />
+              panel={<Metadata fields={{ 'layout': '' }} ref="frontmatter" />} />
 
             <Splitter />
 
