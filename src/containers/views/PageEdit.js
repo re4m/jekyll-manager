@@ -114,10 +114,13 @@ export class PageEdit extends Component {
     const { name, path, raw_content, http_url, front_matter } = page;
     const [directory, ...rest] = params.splat;
 
-    const title = front_matter && front_matter.title ? front_matter.title : '';
+    const layout = front_matter.layout || '';
+    const title = front_matter.title || '';
 
     const inputPath = <InputPath onChange={updatePath} type="pages" path={path} />;
-    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: path, ...front_matter}} />;
+    const metafields = (
+      <Metadata ref="frontmatter" fields={{ layout, title, raw_content, path: path, ...front_matter }} />
+    );
 
     return (
       <HotKeys

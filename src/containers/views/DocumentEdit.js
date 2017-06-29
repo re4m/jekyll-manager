@@ -125,8 +125,14 @@ export class DocumentEdit extends Component {
     const filename = rest.join('.');
     const docPath = directory ? `${directory}/${filename}` : filename;
 
+    const layout = front_matter.layout || '';
+
     const inputPath = <InputPath onChange={updatePath} type={collection} path={docPath} />;
-    const metafields = <Metadata ref="frontmatter" fields={{title, raw_content, path: docPath, ...front_matter}} />;
+    const metafields = (
+      <Metadata
+        ref="frontmatter"
+        fields={{ layout, title, raw_content, path: docPath, ...front_matter }} />
+    );
 
     const keyboardHandlers = {
       'save': this.handleClickSave,
