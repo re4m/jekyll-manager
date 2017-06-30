@@ -3,6 +3,8 @@ import { browserHistory, withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import Breadcrumbs from '../../components/Breadcrumbs';
 import { getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
 import InputSearch from '../../components/form/InputSearch';
@@ -10,7 +12,7 @@ import Button from '../../components/Button';
 import { fetchDataFiles, deleteDataFile } from '../../actions/datafiles';
 import { search } from '../../actions/utils';
 import { filterByFilename } from '../../reducers/datafiles';
-import { getFilenameFromPath } from '../../utils/helpers';
+import { getFilenameFromPath, generateTitle } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class DataFiles extends Component {
@@ -131,23 +133,25 @@ export class DataFiles extends Component {
     }
 
     return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs type="data files" splat={dirSplat} />
-          <div className="page-buttons">
-            <Link className="btn btn-active" to={to}>New data file</Link>
+      <DocumentTitle title={generateTitle(params.splat, 'Data Files')}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs type="data files" splat={dirSplat} />
+            <div className="page-buttons">
+              <Link className="btn btn-active" to={to}>New data file</Link>
+            </div>
+            <div className="pull-right">
+              <InputSearch searchBy="filename" search={search} />
+            </div>
           </div>
-          <div className="pull-right">
-            <InputSearch searchBy="filename" search={search} />
-          </div>
+          {
+            files.length > 0 && this.renderTable()
+          }
+          {
+            !files.length && <h1>{getNotFoundMessage('data files')}</h1>
+          }
         </div>
-        {
-          files.length > 0 && this.renderTable()
-        }
-        {
-          !files.length && <h1>{getNotFoundMessage('data files')}</h1>
-        }
-      </div>
+      </DocumentTitle>
     );
   }
 }

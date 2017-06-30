@@ -6,6 +6,8 @@ import { browserHistory, withRouter } from 'react-router';
 import { HotKeys } from 'react-hotkeys';
 import _ from 'underscore';
 import classnames from 'classnames';
+import DocumentTitle from 'react-document-title';
+
 import Toggled from '../../components/Toggled';
 import Button from '../../components/Button';
 import Splitter from '../../components/Splitter';
@@ -18,7 +20,7 @@ import Metadata from '../MetaFields';
 import { fetchTemplate, deleteTemplate, putTemplate } from '../../actions/templates';
 import { updateTitle, updateBody, updatePath, updateTemplate } from '../../actions/metadata';
 import { clearErrors } from '../../actions/utils';
-import { preventDefault, getExtensionFromPath } from '../../utils/helpers';
+import { preventDefault, getExtensionFromPath, generateTitle } from '../../utils/helpers';
 import { getLeaveMessage, getDeleteMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
@@ -128,64 +130,64 @@ export class TemplateEdit extends Component {
     const metafields = <Metadata ref="frontmatter" fields={{raw_content, path: path, ...front_matter}} />;
 
     return (
-      <HotKeys
-        handlers={keyboardHandlers}
-        className="single">
+      <DocumentTitle title={generateTitle(name, directory, 'Templates')}>
+        <HotKeys handlers={keyboardHandlers} className="single">
 
-        {errors.length > 0 && <Errors errors={errors} />}
+          {errors.length > 0 && <Errors errors={errors} />}
 
-        <div className="content-header">
-          <Breadcrumbs splat={path} type="templates" />
-        </div>
-
-        <div className="content-wrapper">
-          <div className="content-body">
-            <InputPath onChange={updatePath} type="edit-template" path={path} />
-
-            <Toggled
-              label="Front Matter"
-              checked={has_front_matter}
-              onChange={(e) => this.handleToggle(e)}
-              panel={metafields} />
-
-            <Splitter />
-
-            <Editor
-              onEditorChange={updateBody}
-              onSave={this.handleClickSave}
-              editorChanged={fieldChanged}
-              content={raw_content}
-              type={ext}
-              ref="editor" />
+          <div className="content-header">
+            <Breadcrumbs splat={path} type="templates" />
           </div>
 
-          <div className="content-side">
-            <Button
-              onClick={this.handleClickSave}
-              type="save"
-              active={fieldChanged}
-              triggered={updated}
-              icon="save"
-              block />
-            {
-              http_url &&
+          <div className="content-wrapper">
+            <div className="content-body">
+              <InputPath onChange={updatePath} type="edit-template" path={path} />
+
+              <Toggled
+                label="Front Matter"
+                checked={has_front_matter}
+                onChange={(e) => this.handleToggle(e)}
+                panel={metafields} />
+
+              <Splitter />
+
+              <Editor
+                onEditorChange={updateBody}
+                onSave={this.handleClickSave}
+                editorChanged={fieldChanged}
+                content={raw_content}
+                type={ext}
+                ref="editor" />
+            </div>
+
+            <div className="content-side">
               <Button
-                to={http_url}
-                type="view"
-                icon="eye"
-                active={true}
+                onClick={this.handleClickSave}
+                type="save"
+                active={fieldChanged}
+                triggered={updated}
+                icon="save"
                 block />
-            }
-            <Splitter />
-            <Button
-              onClick={() => this.handleClickDelete(name)}
-              type="delete"
-              active={true}
-              icon="trash"
-              block />
+              {
+                http_url &&
+                <Button
+                  to={http_url}
+                  type="view"
+                  icon="eye"
+                  active={true}
+                  block />
+              }
+              <Splitter />
+              <Button
+                onClick={() => this.handleClickDelete(name)}
+                type="delete"
+                active={true}
+                icon="trash"
+                block />
+            </div>
           </div>
-        </div>
-      </HotKeys>
+        </HotKeys>
+      </DocumentTitle>
     );
   }
 }

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import { HotKeys } from 'react-hotkeys';
 import Collapsible from '../../components/Collapsible';
 import Splitter from '../../components/Splitter';
@@ -17,10 +19,8 @@ import Metadata from '../../containers/MetaFields';
 import { fetchDocument, deleteDocument, putDocument } from '../../actions/collections';
 import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { clearErrors } from '../../actions/utils';
-import { preventDefault } from '../../utils/helpers';
-import {
-  getLeaveMessage, getDeleteMessage, getNotFoundMessage
-} from '../../constants/lang';
+import { preventDefault, capitalize, generateTitle } from '../../utils/helpers';
+import { getLeaveMessage, getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class DocumentEdit extends Component {
@@ -138,69 +138,71 @@ export class DocumentEdit extends Component {
       'save': this.handleClickSave,
     };
 
+    const docTitle = generateTitle(title, directory, capitalize(collection));
+
     return (
-      <HotKeys
-        handlers={keyboardHandlers}
-        className="single">
+      <DocumentTitle title={docTitle}>
+        <HotKeys handlers={keyboardHandlers} className="single">
 
-        {errors.length > 0 && <Errors errors={errors} />}
+          {errors.length > 0 && <Errors errors={errors} />}
 
-        <div className="content-header">
-          <Breadcrumbs splat={docPath} type={collection} />
-        </div>
-
-        <div className="content-wrapper">
-          <div className="content-body">
-            <InputTitle onChange={updateTitle} title={title} ref="title" />
-
-            <Collapsible
-              label="Edit Filename or Path"
-              panel={inputPath} />
-
-            <Collapsible
-              label="Edit Front Matter"
-              overflow={true}
-              height={this.state.panelHeight}
-              panel={metafields} />
-
-            <Splitter />
-
-            <MarkdownEditor
-              onChange={updateBody}
-              onSave={this.handleClickSave}
-              placeholder="Body"
-              initialValue={raw_content}
-              ref="editor" />
-            <Splitter />
+          <div className="content-header">
+            <Breadcrumbs splat={docPath} type={collection} />
           </div>
 
-          <div className="content-side">
-            <Button
-              onClick={this.handleClickSave}
-              type="save"
-              active={fieldChanged}
-              triggered={updated}
-              icon="save"
-              block />
-            {
-              http_url &&
-                <Button
-                  to={http_url}
-                  type="view"
-                  icon="eye"
-                  active={true}
-                  block />
-            }
-            <Splitter />
-            <Button
-              onClick={() => this.handleClickDelete()}
-              type="delete"
-              active={true}
-              icon="trash"
-              block />
+          <div className="content-wrapper">
+            <div className="content-body">
+              <InputTitle onChange={updateTitle} title={title} ref="title" />
+
+              <Collapsible
+                label="Edit Filename or Path"
+                panel={inputPath} />
+
+              <Collapsible
+                label="Edit Front Matter"
+                overflow={true}
+                height={this.state.panelHeight}
+                panel={metafields} />
+
+              <Splitter />
+
+              <MarkdownEditor
+                onChange={updateBody}
+                onSave={this.handleClickSave}
+                placeholder="Body"
+                initialValue={raw_content}
+                ref="editor" />
+              <Splitter />
+            </div>
+
+            <div className="content-side">
+              <Button
+                onClick={this.handleClickSave}
+                type="save"
+                active={fieldChanged}
+                triggered={updated}
+                icon="save"
+                block />
+              {
+                http_url &&
+                  <Button
+                    to={http_url}
+                    type="view"
+                    icon="eye"
+                    active={true}
+                    block />
+              }
+              <Splitter />
+              <Button
+                onClick={() => this.handleClickDelete()}
+                type="delete"
+                active={true}
+                icon="trash"
+                block />
+            </div>
           </div>
-        </div>
-      </HotKeys>
+        </HotKeys>
+      </DocumentTitle>
     );
   }
 }

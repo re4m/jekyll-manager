@@ -3,9 +3,12 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
 import { fetchTemplates } from '../../actions/templates';
+import { generateTitle } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class Templates extends Component {
@@ -66,17 +69,19 @@ export class Templates extends Component {
     const to = `${ADMIN_PREFIX}/templates/new`;
 
     return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs type="templates" splat="" />
-          <div className="template-buttons">
-            <Link className="btn btn-active" to={to}>New template</Link>
+      <DocumentTitle title={generateTitle('Templates')}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs type="templates" splat="" />
+            <div className="template-buttons">
+              <Link className="btn btn-active" to={to}>New template</Link>
+            </div>
           </div>
+          {
+            templates.length > 0 && this.renderTable()
+          }
         </div>
-        {
-          templates.length > 0 && this.renderTable()
-        }
-      </div>
+      </DocumentTitle>
     );
   }
 }

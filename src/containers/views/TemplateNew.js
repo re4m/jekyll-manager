@@ -6,6 +6,8 @@ import { browserHistory, withRouter } from 'react-router';
 import { HotKeys } from 'react-hotkeys';
 import _ from 'underscore';
 import classnames from 'classnames';
+import DocumentTitle from 'react-document-title';
+
 import Toggled from '../../components/Toggled';
 import Splitter from '../../components/Splitter';
 import Errors from '../../components/Errors';
@@ -19,7 +21,7 @@ import { updateTitle, updateBody, updatePath, updateTemplate } from '../../actio
 import { putTemplate } from '../../actions/templates';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
-import { preventDefault, getExtensionFromPath } from '../../utils/helpers';
+import { preventDefault, getExtensionFromPath, generateTitle } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class TemplateNew extends Component {
@@ -101,48 +103,50 @@ export class TemplateNew extends Component {
     };
 
     return (
-      <HotKeys handlers={keyboardHandlers} className="single">
-        {errors.length > 0 && <Errors errors={errors} />}
-        <div className="content-header">
-          <Breadcrumbs type="templates" splat={params.splat || ''} />
-        </div>
-
-        <div className="content-wrapper">
-          <div className="content-body">
-            <InputPath
-              onChange={updatePath}
-              onBlur={(e) => this.getExtension(e)}
-              type="new-template"
-              path="" />
-
-            <Toggled
-              label="Front Matter"
-              checked={this.state.hasFrontMatter}
-              onChange={(e) => this.handleToggle(e)}
-              panel={<Metadata fields={{}} />} />
-
-            <Splitter />
-
-            <Editor
-              onEditorChange={() => this.handleEditorChange()}
-              onSave={this.handleClickSave}
-              editorChanged={fieldChanged}
-              content={this.state.body}
-              type={this.state.ext}
-              ref="editor" />
+      <DocumentTitle title={generateTitle('New Template')}>
+        <HotKeys handlers={keyboardHandlers} className="single">
+          {errors.length > 0 && <Errors errors={errors} />}
+          <div className="content-header">
+            <Breadcrumbs type="templates" splat={params.splat || ''} />
           </div>
 
-          <div className="content-side">
-            <Button
-              onClick={this.handleClickSave}
-              type="create"
-              active={fieldChanged}
-              triggered={updated}
-              icon="plus-square"
-              block />
+          <div className="content-wrapper">
+            <div className="content-body">
+              <InputPath
+                onChange={updatePath}
+                onBlur={(e) => this.getExtension(e)}
+                type="new-template"
+                path="" />
+
+              <Toggled
+                label="Front Matter"
+                checked={this.state.hasFrontMatter}
+                onChange={(e) => this.handleToggle(e)}
+                panel={<Metadata fields={{}} />} />
+
+              <Splitter />
+
+              <Editor
+                onEditorChange={() => this.handleEditorChange()}
+                onSave={this.handleClickSave}
+                editorChanged={fieldChanged}
+                content={this.state.body}
+                type={this.state.ext}
+                ref="editor" />
+            </div>
+
+            <div className="content-side">
+              <Button
+                onClick={this.handleClickSave}
+                type="create"
+                active={fieldChanged}
+                triggered={updated}
+                icon="plus-square"
+                block />
+            </div>
           </div>
-        </div>
-      </HotKeys>
+        </HotKeys>
+      </DocumentTitle>
     );
   }
 }

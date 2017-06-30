@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router';
 import { HotKeys } from 'react-hotkeys';
+import DocumentTitle from 'react-document-title';
+
 import DataGUI from '../MetaFields';
 import Editor from '../../components/Editor';
 import Errors from '../../components/Errors';
@@ -10,7 +12,7 @@ import Button from '../../components/Button';
 import { putConfig, onEditorChange } from '../../actions/config';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
-import { preventDefault } from '../../utils/helpers';
+import { preventDefault, generateTitle } from '../../utils/helpers';
 
 export class Configuration extends Component {
 
@@ -71,45 +73,47 @@ export class Configuration extends Component {
     };
 
     return (
-      <HotKeys handlers={keyboardHandlers} className="single">
-        {errors && errors.length > 0 && <Errors errors={errors} />}
-        <div className="content-header">
-          <h1>Configuration</h1>
-          <div className="page-buttons multiple">
-            <Button // TODO: Hide toggle for non-YAML config files (e.g. '_config.toml')
-              onClick={this.toggleView}
-              type="view-toggle"
-              active={true}
-              triggered={this.state.guiView}
-              block />
-            <Button
-              onClick={this.handleClickSave}
-              type="save"
-              active={editorChanged || fieldChanged}
-              triggered={updated}
-              block />
+      <DocumentTitle title={generateTitle('Configuration')}>
+        <HotKeys handlers={keyboardHandlers} className="single">
+          {errors && errors.length > 0 && <Errors errors={errors} />}
+          <div className="content-header">
+            <h1>Configuration</h1>
+            <div className="page-buttons multiple">
+              <Button // TODO: Hide toggle for non-YAML config files (e.g. '_config.toml')
+                onClick={this.toggleView}
+                type="view-toggle"
+                active={true}
+                triggered={this.state.guiView}
+                block />
+              <Button
+                onClick={this.handleClickSave}
+                type="save"
+                active={editorChanged || fieldChanged}
+                triggered={updated}
+                block />
+            </div>
           </div>
-        </div>
-          {
-            this.state.guiView && content &&
-              <div className="content-body">
-                <div className="warning">
-                  CAUTION! Any existing comments and formatting will be lost when editing via this view.
-                  Switch to the <strong>Raw Editor</strong> to preserve comments and formatting.
+            {
+              this.state.guiView && content &&
+                <div className="content-body">
+                  <div className="warning">
+                    CAUTION! Any existing comments and formatting will be lost when editing via this view.
+                    Switch to the <strong>Raw Editor</strong> to preserve comments and formatting.
+                  </div>
+                  <DataGUI fields={content} dataview/>
                 </div>
-                <DataGUI fields={content} dataview/>
-              </div>
+            }
+          {
+            !this.state.guiView && raw_content &&
+              <Editor
+                editorChanged={editorChanged}
+                onEditorChange={onEditorChange}
+                content={raw_content}
+                type="yaml"
+                ref="editor" />
           }
-        {
-          !this.state.guiView && raw_content &&
-            <Editor
-              editorChanged={editorChanged}
-              onEditorChange={onEditorChange}
-              content={raw_content}
-              type="yaml"
-              ref="editor" />
-        }
-      </HotKeys>
+        </HotKeys>
+      </DocumentTitle>
     );
   }
 }

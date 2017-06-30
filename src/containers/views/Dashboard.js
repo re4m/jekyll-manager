@@ -2,9 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import { fetchMeta } from '../../actions/dashboard';
 import Gauge from '../../components/dashboard/Gauge';
 import GaugeBoard from '../../components/dashboard/GaugeBoard';
+import { generateTitle } from '../../utils/helpers';
 import Splitter from '../../components/Splitter';
 
 export class Dashboard extends Component {
@@ -91,30 +94,32 @@ export class Dashboard extends Component {
 
 
     return (
-      <div className="single">
-        <div className="content-header">
-          <h1>Welcome, {user}!</h1>
-        </div>
-        <div className="dashboard">
-          <div className="main">
-            <GaugeBoard
-              dataSet={site}
-              baseValue={size}
-              layoutArray={gaugeList} />
+      <DocumentTitle title={generateTitle('Dashboard')}>
+        <div className="single">
+          <div className="content-header">
+            <h1>Welcome, {user}!</h1>
           </div>
-          <Splitter />
-          <div className="tiles">
-            <div className="first tile">
-              <div className="label">Jekyll</div>
-              {this.renderTile(jekyll)}
+          <div className="dashboard">
+            <div className="main">
+              <GaugeBoard
+                dataSet={site}
+                baseValue={size}
+                layoutArray={gaugeList} />
             </div>
-            <div className="last tile">
-              <div className="label">Admin</div>
-              {this.renderTile(admin)}
+            <Splitter />
+            <div className="tiles">
+              <div className="first tile">
+                <div className="label">Jekyll</div>
+                {this.renderTile(jekyll)}
+              </div>
+              <div className="last tile">
+                <div className="label">Admin</div>
+                {this.renderTile(admin)}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </DocumentTitle>
     );
   }
 }

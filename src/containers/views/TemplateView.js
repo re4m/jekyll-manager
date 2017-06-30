@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, Link } from 'react-router';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import Button from '../../components/Button';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Editor from '../../components/Editor';
 import { fetchThemeItem, putThemeItem } from '../../actions/theme';
-import { getExtensionFromPath } from '../../utils/helpers';
+import { getExtensionFromPath, generateTitle } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class TemplateView extends Component {
@@ -61,54 +63,56 @@ export class TemplateView extends Component {
     const ext = getExtensionFromPath(path);
 
     return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs splat={relative_path || ''} type="theme" />
-        </div>
-        <div className="content-wrapper">
-          <div className="content-body">
-            { raw_content &&
-              <Editor
-                onEditorChange={() => this.blankFunc()}
-                editorChanged={false}
-                content={raw_content}
-                type={ext}
-                ref="editor"
-                readOnly={true} />
-            }
+      <DocumentTitle title={generateTitle(name, directory, 'Theme')}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs splat={relative_path || ''} type="theme" />
           </div>
-          <div className="content-side">
-            {
-              exist_at_source &&
+          <div className="content-wrapper">
+            <div className="content-body">
+              { raw_content &&
+                <Editor
+                  onEditorChange={() => this.blankFunc()}
+                  editorChanged={false}
+                  content={raw_content}
+                  type={ext}
+                  ref="editor"
+                  readOnly={true} />
+              }
+            </div>
+            <div className="content-side">
+              {
+                exist_at_source &&
+                <Button
+                  onClick={() => this.browse(edit_url)}
+                  type="edit"
+                  icon="edit"
+                  active={true}
+                  block />
+              }
               <Button
-                onClick={() => this.browse(edit_url)}
-                type="edit"
-                icon="edit"
-                active={true}
+                onClick={this.handleClickEdit}
+                type="theme-file"
+                active={force_copy}
+                icon="copy"
                 block />
-            }
-            <Button
-              onClick={this.handleClickEdit}
-              type="theme-file"
-              active={force_copy}
-              icon="copy"
-              block />
-            {
-              exist_at_source &&
-                <div className="theme-checkbox">
-                  <input
-                    type="checkbox"
-                    id="source-check"
-                    checked={this.state.checkboxState}
-                    onClick={(e) => this.toggle(e)} />
-                  <label htmlFor="source-check">
-                    <span>Overwrite file at Source</span>
-                  </label>
-                </div>
-            }
+              {
+                exist_at_source &&
+                  <div className="theme-checkbox">
+                    <input
+                      type="checkbox"
+                      id="source-check"
+                      checked={this.state.checkboxState}
+                      onClick={(e) => this.toggle(e)} />
+                    <label htmlFor="source-check">
+                      <span>Overwrite file at Source</span>
+                    </label>
+                  </div>
+              }
+            </div>
           </div>
         </div>
-      </div>
+      </DocumentTitle>
     );
   }
 }

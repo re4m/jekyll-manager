@@ -3,11 +3,14 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
 import InputSearch from '../../components/form/InputSearch';
 import { fetchPages, deletePage } from '../../actions/pages';
 import { search } from '../../actions/utils';
+import { generateTitle } from '../../utils/helpers';
 import { filterBySearchInput } from '../../reducers/pages';
 import { getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
@@ -123,23 +126,25 @@ export class Pages extends Component {
       `${ADMIN_PREFIX}/pages/new`;
 
     return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs type="pages" splat={params.splat || ''} />
-          <div className="page-buttons">
-            <Link className="btn btn-active" to={to}>New page</Link>
+      <DocumentTitle title={generateTitle(params.splat, 'Pages')}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs type="pages" splat={params.splat || ''} />
+            <div className="page-buttons">
+              <Link className="btn btn-active" to={to}>New page</Link>
+            </div>
+            <div className="pull-right">
+              <InputSearch searchBy="filename" search={search} />
+            </div>
           </div>
-          <div className="pull-right">
-            <InputSearch searchBy="filename" search={search} />
-          </div>
+          {
+            pages.length > 0 && this.renderTable()
+          }
+          {
+            !pages.length && <h1>{getNotFoundMessage('pages')}</h1>
+          }
         </div>
-        {
-          pages.length > 0 && this.renderTable()
-        }
-        {
-          !pages.length && <h1>{getNotFoundMessage('pages')}</h1>
-        }
-      </div>
+      </DocumentTitle>
     );
   }
 }

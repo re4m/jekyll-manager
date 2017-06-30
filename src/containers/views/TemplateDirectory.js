@@ -3,15 +3,16 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
 import InputSearch from '../../components/form/InputSearch';
 import { fetchTemplates, deleteTemplate } from '../../actions/templates';
 import { search } from '../../actions/utils';
+import { generateTitle } from '../../utils/helpers';
 import { filterBySearchInput } from '../../reducers/templates';
-import {
-  getLeaveMessage, getDeleteMessage, getNotFoundMessage
-} from '../../constants/lang';
+import { getLeaveMessage, getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class TemplateDirectory extends Component {
@@ -120,23 +121,25 @@ export class TemplateDirectory extends Component {
     const to = `${ADMIN_PREFIX}/templates/${params.splat}/new`;
 
     return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs type="templates" splat={params.splat} />
-          <div className="template-buttons">
-            <Link className="btn btn-active" to={to}>New template</Link>
+      <DocumentTitle title={generateTitle(params.splat, 'Template Directory')}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs type="templates" splat={params.splat} />
+            <div className="template-buttons">
+              <Link className="btn btn-active" to={to}>New template</Link>
+            </div>
+            <div className="pull-right">
+              <InputSearch searchBy="filename" search={search} />
+            </div>
           </div>
-          <div className="pull-right">
-            <InputSearch searchBy="filename" search={search} />
-          </div>
+          {
+            templates.length > 0 && this.renderTable()
+          }
+          {
+            !templates.length && <h1>{getNotFoundMessage("templates")}</h1>
+          }
         </div>
-        {
-          templates.length > 0 && this.renderTable()
-        }
-        {
-          !templates.length && <h1>{getNotFoundMessage("templates")}</h1>
-        }
-      </div>
+      </DocumentTitle>
     );
   }
 }

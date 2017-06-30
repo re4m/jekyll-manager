@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import _ from 'underscore';
 import { HotKeys } from 'react-hotkeys';
+import DocumentTitle from 'react-document-title';
+
 import DataGUI from '../MetaFields';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import InputPath from '../../components/form/InputPath';
@@ -12,13 +14,9 @@ import Errors from '../../components/Errors';
 import Editor from '../../components/Editor';
 import Button from '../../components/Button';
 import { clearErrors } from '../../actions/utils';
-import { getFilenameFromPath, getExtensionFromPath, preventDefault } from '../../utils/helpers';
-import {
-  fetchDataFile, putDataFile, deleteDataFile, onDataFileChanged
-} from '../../actions/datafiles';
-import {
-  getLeaveMessage, getDeleteMessage, getNotFoundMessage
-} from '../../constants/lang';
+import { getFilenameFromPath, getExtensionFromPath, preventDefault, generateTitle } from '../../utils/helpers';
+import { fetchDataFile, putDataFile, deleteDataFile, onDataFileChanged } from '../../actions/datafiles';
+import { etLeaveMessage, getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class DataFileEdit extends Component {
@@ -240,44 +238,46 @@ export class DataFileEdit extends Component {
     };
 
     return (
-      <HotKeys
-        handlers={keyboardHandlers}
-        className="single">
-        {errors.length > 0 && <Errors errors={errors} />}
+      <DocumentTitle title={generateTitle(filename, directory, 'Data Files')}>
+        <HotKeys
+          handlers={keyboardHandlers}
+          className="single">
+          {errors.length > 0 && <Errors errors={errors} />}
 
-        <div className="content-header">
-          <Breadcrumbs splat={relative_path} type="data files" />
-        </div>
+          <div className="content-header">
+            <Breadcrumbs splat={relative_path} type="data files" />
+          </div>
 
-        <div className="content-wrapper">
-          {
-            this.state.guiView &&
-              <div className="content-body">
-                <div className="warning">
-                  CAUTION! Any existing comments will be lost when editing via this view.
-                  Switch to the <strong>Raw Editor</strong> to preserve comments.
+          <div className="content-wrapper">
+            {
+              this.state.guiView &&
+                <div className="content-body">
+                  <div className="warning">
+                    CAUTION! Any existing comments will be lost when editing via this view.
+                    Switch to the <strong>Raw Editor</strong> to preserve comments.
+                  </div>
+                  {this.renderGUInputs()}
+                  <DataGUI fields={content} dataview/>
                 </div>
-                {this.renderGUInputs()}
-                <DataGUI fields={content} dataview/>
-              </div>
-          }
-          {
-            !this.state.guiView && raw_content &&
-              <div className="content-body">
-                {input_path}
-                <Editor
-                  editorChanged={datafileChanged}
-                  onEditorChange={onDataFileChanged}
-                  content={raw_content}
-                  type={ext || 'yml'}
-                  ref="editor" />
-              </div>
-          }
+            }
+            {
+              !this.state.guiView && raw_content &&
+                <div className="content-body">
+                  {input_path}
+                  <Editor
+                    editorChanged={datafileChanged}
+                    onEditorChange={onDataFileChanged}
+                    content={raw_content}
+                    type={ext || 'yml'}
+                    ref="editor" />
+                </div>
+            }
 
-          {this.renderAside()}
+            {this.renderAside()}
 
-        </div>
-      </HotKeys>
+          </div>
+        </HotKeys>
+      </DocumentTitle>
     );
   }
 }

@@ -3,12 +3,14 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
+import DocumentTitle from 'react-document-title';
+
 import FilePreview from '../../components/FilePreview';
 import Button from '../../components/Button';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import InputSearch from '../../components/form/InputSearch';
 import { search } from '../../actions/utils';
-import { existingUploadedFilenames } from '../../utils/helpers';
+import { existingUploadedFilenames, generateTitle } from '../../utils/helpers';
 import { filterByFilename } from '../../reducers/staticfiles';
 import { getOverrideMessage } from '../../constants/lang';
 import { fetchStaticFiles } from '../../actions/staticfiles';
@@ -58,23 +60,25 @@ export class StaticIndex extends Component {
     }
 
     return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs type="static files" splat="" />
-          {
-            !modalView &&
-              <div className="page-buttons">
-                <Link className="btn btn-view" to={`${ADMIN_PREFIX}/staticfiles`}>
-                  Directory Listing
-                </Link>
-              </div>
-          }
-          <div className="pull-right">
-            <InputSearch searchBy="filename" search={search} />
+      <DocumentTitle title={generateTitle('Static File Listing')}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs type="static files" splat="" />
+            {
+              !modalView &&
+                <div className="page-buttons">
+                  <Link className="btn btn-view" to={`${ADMIN_PREFIX}/staticfiles`}>
+                    Directory Listing
+                  </Link>
+                </div>
+            }
+            <div className="pull-right">
+              <InputSearch searchBy="filename" search={search} />
+            </div>
           </div>
+          <div className="static-list">{node}</div>
         </div>
-        <div className="static-list">{node}</div>
-      </div>
+      </DocumentTitle>
     );
   }
 }

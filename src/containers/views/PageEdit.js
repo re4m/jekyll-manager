@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import _ from 'underscore';
 import { HotKeys } from 'react-hotkeys';
+import DocumentTitle from 'react-document-title';
+
 import Collapsible from '../../components/Collapsible';
 import Button from '../../components/Button';
 import Splitter from '../../components/Splitter';
@@ -17,7 +19,7 @@ import Metadata from '../MetaFields';
 import { fetchPage, deletePage, putPage } from '../../actions/pages';
 import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { clearErrors } from '../../actions/utils';
-import { preventDefault } from '../../utils/helpers';
+import { preventDefault, generateTitle } from '../../utils/helpers';
 import { getLeaveMessage, getDeleteMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
@@ -123,65 +125,67 @@ export class PageEdit extends Component {
     );
 
     return (
-      <HotKeys
-        handlers={keyboardHandlers}
-        className="single">
+      <DocumentTitle title={generateTitle(name, directory, 'Pages')}>
+        <HotKeys
+          handlers={keyboardHandlers}
+          className="single">
 
-        {errors.length > 0 && <Errors errors={errors} />}
+          {errors.length > 0 && <Errors errors={errors} />}
 
-        <div className="content-header">
-          <Breadcrumbs splat={path} type="pages" />
-        </div>
-
-        <div className="content-wrapper">
-          <div className="content-body">
-            <InputTitle onChange={updateTitle} title={title} ref="title" />
-
-            <Collapsible
-              label="Edit Filename or Path"
-              panel={inputPath} />
-
-            <Collapsible
-              label="Edit Front Matter"
-              overflow={true}
-              height={this.state.panelHeight}
-              panel={metafields} />
-
-            <Splitter />
-
-            <MarkdownEditor
-              onChange={updateBody}
-              onSave={this.handleClickSave}
-              placeholder="Body"
-              initialValue={raw_content}
-              ref="editor" />
-            <Splitter />
+          <div className="content-header">
+            <Breadcrumbs splat={path} type="pages" />
           </div>
 
-          <div className="content-side">
-            <Button
-              onClick={this.handleClickSave}
-              type="save"
-              active={fieldChanged}
-              triggered={updated}
-              icon="save"
-              block />
-            <Button
-              to={http_url}
-              type="view"
-              icon="eye"
-              active={true}
-              block />
-            <Splitter />
-            <Button
-              onClick={() => this.handleClickDelete(name)}
-              type="delete"
-              active={true}
-              icon="trash"
-              block />
+          <div className="content-wrapper">
+            <div className="content-body">
+              <InputTitle onChange={updateTitle} title={title} ref="title" />
+
+              <Collapsible
+                label="Edit Filename or Path"
+                panel={inputPath} />
+
+              <Collapsible
+                label="Edit Front Matter"
+                overflow={true}
+                height={this.state.panelHeight}
+                panel={metafields} />
+
+              <Splitter />
+
+              <MarkdownEditor
+                onChange={updateBody}
+                onSave={this.handleClickSave}
+                placeholder="Body"
+                initialValue={raw_content}
+                ref="editor" />
+              <Splitter />
+            </div>
+
+            <div className="content-side">
+              <Button
+                onClick={this.handleClickSave}
+                type="save"
+                active={fieldChanged}
+                triggered={updated}
+                icon="save"
+                block />
+              <Button
+                to={http_url}
+                type="view"
+                icon="eye"
+                active={true}
+                block />
+              <Splitter />
+              <Button
+                onClick={() => this.handleClickDelete(name)}
+                type="delete"
+                active={true}
+                icon="trash"
+                block />
+            </div>
           </div>
-        </div>
-      </HotKeys>
+        </HotKeys>
+      </DocumentTitle>
     );
   }
 }

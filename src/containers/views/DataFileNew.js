@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import { HotKeys } from 'react-hotkeys';
+import DocumentTitle from 'react-document-title';
+
 import DataGUI from '../MetaFields';
 import Errors from '../../components/Errors';
 import Editor from '../../components/Editor';
@@ -11,7 +13,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import InputPath from '../../components/form/InputPath';
 import { putDataFile, onDataFileChanged } from '../../actions/datafiles';
 import { clearErrors } from '../../actions/utils';
-import { preventDefault, getFilenameFromPath } from '../../utils/helpers';
+import { preventDefault, getFilenameFromPath, generateTitle } from '../../utils/helpers';
 import { getLeaveMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
@@ -131,52 +133,54 @@ export class DataFileNew extends Component {
     }
 
     return (
-      <HotKeys handlers={keyboardHandlers}>
-        {errors.length > 0 && <Errors errors={errors} />}
-        <div className="content-header">
-          <Breadcrumbs splat={params.splat || ''} type="data files" />
-        </div>
-
-        <div className="content-wrapper">
-          <div className="content-body">
-            {
-              this.state.guiView && <div>
-                {this.renderGUInputs()}
-                <DataGUI fields={{'key': 'value'}} dataview /></div>
-            }
-            {
-              !this.state.guiView && <div>
-                <InputPath
-                  onChange={onDataFileChanged}
-                  type="data files"
-                  path=""
-                  ref="inputpath" />
-                <Editor
-                  editorChanged={datafileChanged}
-                  onEditorChange={onDataFileChanged}
-                  type="yaml"
-                  content=""
-                  ref="editor" /></div>
-            }
+      <DocumentTitle title={generateTitle('New Data File', params.splat)}>
+        <HotKeys handlers={keyboardHandlers}>
+          {errors.length > 0 && <Errors errors={errors} />}
+          <div className="content-header">
+            <Breadcrumbs splat={params.splat || ''} type="data files" />
           </div>
 
-          <div className="content-side">
-            <Button
-              onClick={this.handleClickSave}
-              type="create"
-              active={activator}
-              triggered={updated}
-              icon="plus-square"
-              block />
-            <Button
-              onClick={this.toggleView}
-              type="view-toggle"
-              active={true}
-              triggered={this.state.guiView}
-              block />
+          <div className="content-wrapper">
+            <div className="content-body">
+              {
+                this.state.guiView && <div>
+                  {this.renderGUInputs()}
+                  <DataGUI fields={{'key': 'value'}} dataview /></div>
+              }
+              {
+                !this.state.guiView && <div>
+                  <InputPath
+                    onChange={onDataFileChanged}
+                    type="data files"
+                    path=""
+                    ref="inputpath" />
+                  <Editor
+                    editorChanged={datafileChanged}
+                    onEditorChange={onDataFileChanged}
+                    type="yaml"
+                    content=""
+                    ref="editor" /></div>
+              }
+            </div>
+
+            <div className="content-side">
+              <Button
+                onClick={this.handleClickSave}
+                type="create"
+                active={activator}
+                triggered={updated}
+                icon="plus-square"
+                block />
+              <Button
+                onClick={this.toggleView}
+                type="view-toggle"
+                active={true}
+                triggered={this.state.guiView}
+                block />
+            </div>
           </div>
-        </div>
-      </HotKeys>
+        </HotKeys>
+      </DocumentTitle>
     );
   }
 }

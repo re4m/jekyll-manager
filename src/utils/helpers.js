@@ -134,3 +134,14 @@ export const trimObject = (object) => {
     return acc;
   }, Array.isArray(object) ? [] : {});
 };
+
+/**
+ * Given an array of strings, generate stylized string for <title> tag.
+ * @param {Array} args
+ * @return {String} string
+ */
+export const generateTitle = (...args) => {
+  let filteredArray = args.filter(Boolean);
+  filteredArray.push('Jekyll Admin');
+  return filteredArray.join(`\xa0 | \xa0`);
+};

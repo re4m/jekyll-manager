@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import { HotKeys } from 'react-hotkeys';
+import DocumentTitle from 'react-document-title';
+
 import Splitter from '../../components/Splitter';
 import Errors from '../../components/Errors';
 import Breadcrumbs from '../../components/Breadcrumbs';
@@ -17,7 +19,7 @@ import { updateTitle, updateBody, updatePath } from '../../actions/metadata';
 import { putDraft } from '../../actions/drafts';
 import { clearErrors } from '../../actions/utils';
 import { getLeaveMessage } from '../../constants/lang';
-import { preventDefault } from '../../utils/helpers';
+import { preventDefault, generateTitle } from '../../utils/helpers';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class DraftNew extends Component {
@@ -82,6 +84,7 @@ export class DraftNew extends Component {
     };
 
     return (
+      <DocumentTitle title={generateTitle('New Draft', params.splat)}>
       <HotKeys
         handlers={keyboardHandlers}
         className="single">
@@ -122,7 +125,7 @@ export class DraftNew extends Component {
               block />
           </div>
         </div>
-      </HotKeys>
+      </HotKeys></DocumentTitle>
     );
   }
 }

@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
 import moment from 'moment';
+import DocumentTitle from 'react-document-title';
+
 import InputSearch from '../../components/form/InputSearch';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
 import { fetchCollection, deleteDocument } from '../../actions/collections';
 import { filterBySearchInput } from '../../reducers/collections';
 import { search } from '../../actions/utils';
+import { capitalize, generateTitle } from '../../utils/helpers';
 import { getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
@@ -145,26 +148,30 @@ export class Documents extends Component {
       `${ADMIN_PREFIX}/collections/${collection_name}/${splat}/new` :
       `${ADMIN_PREFIX}/collections/${collection_name}/new`;
 
+    const docTitle = generateTitle(params.splat, capitalize(collection_name));
+
     return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs type={collection_name} splat={splat} />
-          <div className="page-buttons">
-            <Link className="btn btn-active" to={to}>
-              {collection_name == 'posts' ? 'New post' : 'New document'}
-            </Link>
+      <DocumentTitle title={docTitle}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs type={collection_name} splat={splat} />
+            <div className="page-buttons">
+              <Link className="btn btn-active" to={to}>
+                {collection_name == 'posts' ? 'New post' : 'New document'}
+              </Link>
+            </div>
+            <div className="pull-right">
+              <InputSearch searchBy="title" search={search} />
+            </div>
           </div>
-          <div className="pull-right">
-            <InputSearch searchBy="title" search={search} />
-          </div>
+          {
+            documents.length > 0 && this.renderTable()
+          }
+          {
+            !documents.length && <h1>{getNotFoundMessage('documents')}</h1>
+          }
         </div>
-        {
-          documents.length > 0 && this.renderTable()
-        }
-        {
-          !documents.length && <h1>{getNotFoundMessage('documents')}</h1>
-        }
-      </div>
+      </DocumentTitle>
     );
   }
 }

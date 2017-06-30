@@ -3,10 +3,13 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
-import { ADMIN_PREFIX } from '../../constants';
+import DocumentTitle from 'react-document-title';
+
 import { fetchTheme } from '../../actions/theme';
+import { generateTitle } from '../../utils/helpers';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
+import { ADMIN_PREFIX } from '../../constants';
 
 export class TemplateDirectory extends Component {
 
@@ -97,27 +100,30 @@ export class TemplateDirectory extends Component {
   render() {
     const { params } = this.props;
     const directory = params.splat;
-    return (
-      <div>
-        <div className="content-header">
-          <Breadcrumbs splat={directory || ''} type="theme" />
-        </div>
 
-        <div className="dirs">
-          <div className="content-table theme">
-            <table>
-              <thead>
-                <tr>
-                  <th>Contents</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderRows()}
-              </tbody>
-            </table>
+    return (
+      <DocumentTitle title={generateTitle(directory, 'Theme')}>
+        <div>
+          <div className="content-header">
+            <Breadcrumbs splat={directory} type="theme" />
+          </div>
+
+          <div className="dirs">
+            <div className="content-table theme">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Contents</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.renderRows()}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      </DocumentTitle>
     );
   }
 }

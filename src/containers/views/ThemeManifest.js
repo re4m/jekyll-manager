@@ -3,10 +3,13 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
-import { ADMIN_PREFIX } from '../../constants';
+import DocumentTitle from 'react-document-title';
+
 import { fetchTheme } from '../../actions/theme';
+import { generateTitle } from '../../utils/helpers';
 import Button from '../../components/Button';
 import Collapsible from '../../components/Collapsible';
+import { ADMIN_PREFIX } from '../../constants';
 
 export class ThemeManifest extends Component {
 
@@ -66,32 +69,34 @@ export class ThemeManifest extends Component {
     );
 
     return (
-      <div>
-        <div className="content-header">
-          <h1>Theme Manifest</h1>
-        </div>
+      <DocumentTitle title={generateTitle(theme.name, 'Theme Manifest')}>
+        <div>
+          <div className="content-header">
+            <h1>Theme Manifest</h1>
+          </div>
 
-        <div className="content-table theme-dirs">
-          <table>
-            <thead>
-              <tr>
-                <th>Directories</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                _.map(directories, entry => {
-                  return this.renderDirectoryRow(entry);
-                })
-              }
-            </tbody>
-          </table>
-        </div>
+          <div className="content-table theme-dirs">
+            <table>
+              <thead>
+                <tr>
+                  <th>Directories</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  _.map(directories, entry => {
+                    return this.renderDirectoryRow(entry);
+                  })
+                }
+              </tbody>
+            </table>
+          </div>
 
-        <Collapsible
-          label="Theme Metadata"
-          panel={theme_meta} />
-      </div>
+          <Collapsible
+            label="Theme Metadata"
+            panel={theme_meta} />
+        </div>
+      </DocumentTitle>
     );
   }
 }
