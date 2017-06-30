@@ -16,7 +16,7 @@ import Button from '../../components/Button';
 import { clearErrors } from '../../actions/utils';
 import { getFilenameFromPath, getExtensionFromPath, preventDefault, generateTitle } from '../../utils/helpers';
 import { fetchDataFile, putDataFile, deleteDataFile, onDataFileChanged } from '../../actions/datafiles';
-import { etLeaveMessage, getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
+import { getLeaveMessage, getDeleteMessage, getNotFoundMessage } from '../../constants/lang';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class DataFileEdit extends Component {
@@ -239,9 +239,7 @@ export class DataFileEdit extends Component {
 
     return (
       <DocumentTitle title={generateTitle(filename, directory, 'Data Files')}>
-        <HotKeys
-          handlers={keyboardHandlers}
-          className="single">
+        <HotKeys handlers={keyboardHandlers} className="single">
           {errors.length > 0 && <Errors errors={errors} />}
 
           <div className="content-header">

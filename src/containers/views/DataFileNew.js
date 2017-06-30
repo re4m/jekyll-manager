@@ -135,7 +135,9 @@ export class DataFileNew extends Component {
     return (
       <DocumentTitle title={generateTitle('New Data File', params.splat)}>
         <HotKeys handlers={keyboardHandlers}>
+
           {errors.length > 0 && <Errors errors={errors} />}
+
           <div className="content-header">
             <Breadcrumbs splat={params.splat || ''} type="data files" />
           </div>

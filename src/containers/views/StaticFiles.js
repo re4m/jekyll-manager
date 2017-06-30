@@ -13,9 +13,7 @@ import { search } from '../../actions/utils';
 import { existingUploadedFilenames, generateTitle } from '../../utils/helpers';
 import { filterByFilename } from '../../reducers/staticfiles';
 import { getOverrideMessage } from '../../constants/lang';
-import {
-  fetchStaticFiles, uploadStaticFiles, deleteStaticFile
-} from '../../actions/staticfiles';
+import { fetchStaticFiles, uploadStaticFiles, deleteStaticFile } from '../../actions/staticfiles';
 import { ADMIN_PREFIX } from '../../constants';
 
 export class StaticFiles extends Component {

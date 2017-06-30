@@ -86,7 +86,9 @@ export class PageNew extends Component {
     return (
       <DocumentTitle title={generateTitle('New Page', params.splat)}>
         <HotKeys handlers={keyboardHandlers} className="single">
+
           {errors.length > 0 && <Errors errors={errors} />}
+
           <div className="content-header">
             <Breadcrumbs type="pages" splat={params.splat || ''} />
           </div>

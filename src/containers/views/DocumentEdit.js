@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory, withRouter } from 'react-router';
 import _ from 'underscore';
+import { HotKeys } from 'react-hotkeys';
 import DocumentTitle from 'react-document-title';
 
-import { HotKeys } from 'react-hotkeys';
 import Collapsible from '../../components/Collapsible';
 import Splitter from '../../components/Splitter';
 import Errors from '../../components/Errors';

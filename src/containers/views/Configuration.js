@@ -75,7 +75,9 @@ export class Configuration extends Component {
     return (
       <DocumentTitle title={generateTitle('Configuration')}>
         <HotKeys handlers={keyboardHandlers} className="single">
+
           {errors && errors.length > 0 && <Errors errors={errors} />}
+
           <div className="content-header">
             <h1>Configuration</h1>
             <div className="page-buttons multiple">

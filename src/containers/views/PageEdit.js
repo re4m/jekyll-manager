@@ -126,9 +126,7 @@ export class PageEdit extends Component {
 
     return (
       <DocumentTitle title={generateTitle(name, directory, 'Pages')}>
-        <HotKeys
-          handlers={keyboardHandlers}
-          className="single">
+        <HotKeys handlers={keyboardHandlers} className="single">
 
           {errors.length > 0 && <Errors errors={errors} />}
 
