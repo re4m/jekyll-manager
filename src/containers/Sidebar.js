@@ -4,12 +4,10 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import _ from 'underscore';
 import classnames from 'classnames';
-import { ADMIN_PREFIX } from '../constants';
-import Splitter from '../components/Splitter';
-import { fetchCollections } from '../actions/collections';
+
 import { fetchTemplates } from '../actions/templates';
 import { capitalize } from '../utils/helpers';
-import { sidebar as SidebarTranslations } from '../constants/lang';
+import { ADMIN_PREFIX } from '../constants';
 
 export class Sidebar extends Component {
 
@@ -21,8 +19,7 @@ export class Sidebar extends Component {
   }
 
   componentDidMount() {
-    const { fetchCollections, fetchTemplates } = this.props;
-    fetchCollections();
+    const { fetchTemplates } = this.props;
     fetchTemplates();
   }
 
@@ -31,155 +28,167 @@ export class Sidebar extends Component {
       this.setState({
         collapsedPanel: false
       });
-    }
-    else {
+    } else {
       this.setState({
         collapsedPanel: true
       });
     }
   }
 
-  renderCollections(hiddens = []) {
-    const { collections } = this.props;
-
-    if (!collections.length) {
-      return null;
-    }
-
-    const collectionItems = _.map(collections, (col, i) => {
-      if (_.indexOf(hiddens, col.label) == -1 && col.label != 'posts') {
-        return (
-          <li key={i}>
-            <Link activeClassName="active" to={`${ADMIN_PREFIX}/collections/${col.label}`}>
-              <i className="fa fa-book" />{capitalize(col.label)}
-            </Link>
-          </li>
-        );
-      }
-    }).filter(Boolean);
-
-    const accordionClasses = classnames({
-      "accordion-label": true,
-      "collapsed": this.state.collapsedPanel
-    });
-
-    const panelHeight = this.state.collapsedPanel ? 44 : (collectionItems.length + 1) * 45;
-
-    return (
-      <div>
-        {(_.indexOf(hiddens, 'posts') == -1) &&
-          <li>
-            <Link activeClassName="active" to={`${ADMIN_PREFIX}/collections/posts`}>
-              <i className="fa fa-book" />Posts
-            </Link>
-          </li>
-        }
-        {
-          collectionItems.length > 0 &&
-            <li className={accordionClasses} style={{ maxHeight: panelHeight }}>
-              <a onClick={this.handleClick}>
-                <i className="fa fa-suitcase" />Collections
-                <div className="counter">{collectionItems.length}</div>
-                <div className="chevrons">
-                  <i className="fa fa-chevron-up" />
-                </div>
-              </a>
-              <ul>
-                {collectionItems}
-              </ul>
-            </li>
-        }
-      </div>
-    );
+  linkTo(item, label) {
+    return item.type === 'collection' ?
+      `${ADMIN_PREFIX}/collections/${label}` :
+      `${ADMIN_PREFIX}/${label}`;
   }
 
-  render() {
-    const { config, templates } = this.props;
-
-    const defaults = {
-      pages: {
-        icon: 'file-text',
-        link: 'pages',
-        translation: 'pages'
-      },
-      datafiles: {
-        icon: 'database',
-        link: 'datafiles',
-        translation: 'datafiles',
-        splitterBefore: true
-      },
-      staticfiles: {
-        icon: 'file',
-        link: 'staticfiles',
-        translation: 'staticfiles'
-      },
-      configuration: {
-        icon: 'cog',
-        link: 'configuration',
-        translation: 'configuration',
-        splitterBefore: true
-      },
-    };
-
-    const defaultLinks = _.keys(defaults);
-    let hiddenLinks;
-    try {
-      hiddenLinks = config.jekyll_admin.hidden_links;
-    } catch (e) {
-      hiddenLinks = [];
-    }
-
-    const visibleLinks = _.difference(defaultLinks, hiddenLinks);
-
-    const links = [];
-    _.each(visibleLinks, (link, index, list) => {
-      const current = defaults[link];
-      if (current.splitterBefore) {
-        links.push(<Splitter key={'splitter'+index} />);
-      }
-      links.push(
-        <li key={index}>
-          <Link activeClassName="active" to={`${ADMIN_PREFIX}/${current.link}`}>
-            <i className={`fa fa-${current.icon}`} />
-            {SidebarTranslations[current.translation]}
+  renderPanels(item) {
+    return _.map(item.panels, (panel, i) => {
+      return (
+        <li key={i}>
+          <Link activeClassName="active" to={this.linkTo(item, panel)}>
+            <i className="fa fa-book" />{capitalize(panel)}
           </Link>
         </li>
       );
     });
+  }
 
+  renderAccordionRoute(item, index) {
+    const panelHeight = this.state.collapsedPanel ? 47 : (item.panels.length + 1) * 49;
+    const accordionClasses = classnames({
+      'accordion-label': true,
+      'collapsed': this.state.collapsedPanel
+    });
+
+    return (
+      <li className={accordionClasses} style={{ maxHeight: panelHeight }} key={index}>
+        <a onClick={this.handleClick}>
+          <i className={`fa fa-${item.icon}`} />
+          {capitalize(item.label)}
+          <div className="counter">{item.panels.length}</div>
+          <div className="chevrons">
+            <i className="fa fa-chevron-up" />
+          </div>
+        </a>
+        <ul>
+          {this.renderPanels(item)}
+        </ul>
+      </li>
+    );
+  }
+
+  renderRoute(item, index) {
+    if (item.render) {
+      return (
+        <li key={index}>
+          <Link activeClassName="active" to={this.linkTo(item, item.link || item.label)}>
+            <i className={`fa fa-${item.icon}`} />
+            {capitalize(item.label)}
+          </Link>
+        </li>
+      );
+    }
+  }
+
+  renderRouteSection(section) {
+    return _.map(section, (item, index) => {
+      if (item.panels && item.panels.length > 0) {
+        return this.renderAccordionRoute(item, index);
+      } else {
+        return this.renderRoute(item, index);
+      }
+    });
+  }
+
+  renderRoutes() {
+    const { config, site, templates } = this.props;
+    const collections = _.filter(site.collections, label => label !== 'posts');
+
+    const routes = [
+      [
+        {
+          'label': 'pages',
+          'icon': 'file-text',
+          'render': site.content_pages.length > 0
+        }
+      ],
+      [
+        {
+          'label': 'drafts',
+          'icon': 'edit',
+          'render': site.drafts.length > 0
+        },
+        {
+          'label': 'posts',
+          'icon': 'book',
+          'type': 'collection',
+          'render': site.posts.length > 0
+        }
+      ],
+      [
+        {
+          'label': 'collections',
+          'icon': 'briefcase',
+          'type': 'collection',
+          'panels': collections,
+          'render': collections.length > 0
+        }
+      ],
+      [
+        {
+          'label': 'data files',
+          'icon': 'database',
+          'link': 'datafiles',
+          'render': site.data_files.length > 0
+        },
+        {
+          'label': 'static files',
+          'icon': 'file',
+          'link': 'staticfiles',
+          'render': site.static_files.length > 0
+        }
+      ],
+      [
+        {
+          'label': 'templates',
+          'icon': 'clone',
+          'render': templates.length > 0
+        },
+        {
+          'label': 'theme gem',
+          'icon': 'diamond',
+          'link': 'theme',
+          'render': config.theme ? true : false
+        }
+      ],
+      [
+        {
+          'label': 'configuration',
+          'icon': 'cog',
+          'render': true
+        }
+      ]
+    ];
+
+    return _.map(routes, (section, index) => {
+      const section_size = _.map(section, entry => entry.render).filter(Boolean).length;
+
+      if (section_size > 0) {
+        return (
+          <div className="route-section" key={index}>
+            {this.renderRouteSection(section)}
+          </div>
+        );
+      }
+    });
+  }
+
+  render() {
     return (
       <div className="sidebar">
         <Link className="logo" to={ADMIN_PREFIX} />
         <ul className="routes">
-          {config && config.show_drafts &&
-            <li>
-              <Link activeClassName="active" to={`${ADMIN_PREFIX}/drafts`}>
-                <i className="fa fa-edit" />
-                {SidebarTranslations.drafts}
-              </Link>
-            </li>
-          }
-          {this.renderCollections(hiddenLinks)}
-          {links}
-          <Splitter />
-          {
-            templates && templates.length > 0 &&
-            <li>
-              <Link activeClassName="active" to={`${ADMIN_PREFIX}/templates`}>
-                <i className="fa fa-clone" />
-                Templates
-              </Link>
-            </li>
-          }
-          {
-            config.theme &&
-            <li>
-              <Link activeClassName="active" to={`${ADMIN_PREFIX}/theme`}>
-                <i className="fa fa-diamond" />
-                Theme Gem
-              </Link>
-            </li>
-          }
+          {this.renderRoutes()}
         </ul>
       </div>
     );
@@ -187,20 +196,17 @@ export class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  collections: PropTypes.array.isRequired,
-  fetchCollections: PropTypes.func.isRequired,
   fetchTemplates: PropTypes.func.isRequired,
+  site: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
-  templates: PropTypes.array
+  templates: PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  collections: state.collections.collections,
   templates: state.templates.templates
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  fetchCollections,
   fetchTemplates
 }, dispatch);
 

@@ -6,7 +6,7 @@
   width: $sidebar-width;
   overflow-y: auto;
   min-height: 100%;
-  background-color: #333;
+  background-color: $sidebar-color;
   .logo {
     display: block;
     height: 75px;
@@ -18,22 +18,32 @@
     }
   }
   .routes {
-    padding: 10px 0;
+    padding: 0;
     list-style: none;
+    .route-section {
+      border: 1px solid;
+      border-color: lighten($sidebar-color, 6%) lighten($sidebar-color, 3%) darken($sidebar-color, 7%) transparent;
+      &:first-of-type {
+        border-top: none;
+      }
+      &:last-of-type {
+        border-bottom: none;
+      }
+    }
     li {
       overflow-y: hidden;
       @include transition(max-height 0.5s);
       a {
         display: block;
-        padding: 12px 20px;
+        padding: 14px 20px;
         font-size: 17px;
         color: #beb9b1;
-        &:hover, &.active {
+        &.active {
           color: $dark-orange;
         }
       }
       &:hover {
-        background-color: #3d3d3d;
+        background-color: lighten($sidebar-color, 3%);
       }
       &.accordion-label {
         position: relative;
@@ -47,7 +57,7 @@
           font-size: 12px;
           font-weight: bold;
           text-align: center;
-          color: #333;
+          color: $sidebar-color;
           background: #beb9b1;
           @include border-radius(10px);
         }
@@ -73,9 +83,15 @@
           list-style: none;
 
           li {
-            background: #282828;
-            border-top: 1px solid #333;
-            border-bottom: 1px solid #181818;
+            background: darken($sidebar-color, 3%);
+            border-top: 1px solid $sidebar-color;
+            border-bottom: 1px solid darken($sidebar-color, 6%);
+            &:last-of-type {
+              border-bottom-color: transparent;
+            }
+            &:hover {
+              background: darken($sidebar-color, 6%);
+            }
 
             a { padding-left: 40px; }
           }
@@ -85,7 +101,7 @@
   }
   // webkit-browser-only styling
   &::-webkit-scrollbar-thumb {
-    background-color: #4f4f4f;
-    border: 1px solid #575757;
+    background-color: lighten($sidebar-color, 11%);
+    border: 1px solid lighten($sidebar-color, 14%);
   }
 }
