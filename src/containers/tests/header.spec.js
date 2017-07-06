@@ -5,7 +5,7 @@ import { config } from './fixtures';
 
 const defaultProps = {
   admin: {},
-  config: config.content
+  config: config
 };
 
 function setup(props = defaultProps) {

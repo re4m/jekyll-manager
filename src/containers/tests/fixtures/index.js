@@ -1,11 +1,8 @@
 export const config = {
-  content: {
-    title: "Your awesome title",
-    email: "your-email@domain.com",
-    baseurl: "",
-    url: "http://yourdomain.com"
-  },
-  raw_content: "title: Your awesome title\nemail: your-email@domain.com\nbaseurl:\nurl: http://yourdomain.com"
+  title: "Your awesome title",
+  email: "your-email@domain.com",
+  baseurl: "",
+  url: "http://yourdomain.com"
 };
 
 export const collections = [
