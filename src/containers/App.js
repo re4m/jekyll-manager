@@ -36,7 +36,7 @@ class App extends Component {
     }
 
     const config = this.props.config.content;
-    const admin = this.props.meta.admin;
+    const { admin, site } = this.props.meta;
 
     return (
       <DocumentTitle title="Jekyll Admin">
@@ -44,7 +44,7 @@ class App extends Component {
           {
             config &&
             <div>
-              <Sidebar config={config} />
+              <Sidebar config={config} site={site} />
               <div className="container">
                 <Header config={config} admin={admin} />
                 <div className="content">

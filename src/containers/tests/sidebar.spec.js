@@ -4,18 +4,18 @@ import { mount } from 'enzyme';
 import { Link } from 'react-router';
 import { Sidebar } from '../Sidebar';
 
-import { collections, config } from './fixtures';
+import { config, site, blank_site } from './fixtures';
 
 const defaultProps = {
   config,
-  collections,
+  site,
+  templates: ['_layouts/test.html']
 };
 
-const nonCollectionLinks = ['pages', 'datafiles', 'staticfiles', 'configuration'];
+const nonCollectionLinks = ['content_pages', 'data_files', 'static_files', 'configuration', 'drafts', 'posts'];
 
 function setup(props = defaultProps) {
   const actions = {
-    fetchCollections: jest.fn(),
     fetchTemplates: jest.fn()
   };
 
@@ -24,52 +24,49 @@ function setup(props = defaultProps) {
   return {
     component: component,
     actions: actions,
-    links: component.find('.routes').find(Link)
+    links: component.find('.routes').find('li')
   };
 }
 
 describe('Containers::Sidebar', () => {
   it('should render correctly', () => {
     const { links, component } = setup();
+    const { config, templates } = component.props();
+
+    const keys = _.filter(_.keys(site), key => nonCollectionLinks.includes(key));
+    const collections = site.collections.length > 1 ? site.collections.length : 0;
+    const theme = config.theme ? 1 : 0;
+
     const actual = links.length;
-    const expected = nonCollectionLinks.length + component.prop('collections').length;
+    const expected = keys.length + collections + templates.length + theme + 1; // the link to /configuration
 
     expect(actual).toEqual(expected);
   });
 
-  it('should not render hidden links', () => {
-    const config_with_hidden_links = _.extend(config, {
-      jekyll_admin: {
-        hidden_links: [
-          'posts',
-          'pages'
-        ]
-      }
-    });
-
-    const { component, links } = setup(Object.assign({}, defaultProps, {
-      config: config_with_hidden_links
-    }));
-
-    const actual = links.length;
-    const expected =
-      (nonCollectionLinks.length - 1) + (component.prop('collections').length - 1);
-    expect(actual).toEqual(expected);
-  });
-
-  it('should call fetchCollections and fetchTemplates action after mounted', () => {
+  it('should call fetchTemplates action after mounted', () => {
     const { actions } = setup();
-    expect(actions.fetchCollections).toHaveBeenCalled();
     expect(actions.fetchTemplates).toHaveBeenCalled();
   });
 
-  it('should render fine with zero collections', () => {
+  it('should render collapsible list-item for collections', () => {
+    const { component, links } = setup();
+    const listItem = links.find('.accordion-label');
+    expect(listItem.text()).toContain('Collections');
+    expect(component.state('collapsedPanel')).toBe(true);
+
+    listItem.find('a').first().simulate('click');
+    expect(component.state('collapsedPanel')).toBe(false);
+    listItem.find('a').first().simulate('click');
+    expect(component.state('collapsedPanel')).toBe(true);
+  });
+
+  it('should render fine for a "blank" Jekyll site', () => {
+    const minimal_config = { gems: ['jekyll-admin'] };
     const { component, links, actions } = setup(Object.assign({}, defaultProps, {
-      collections: [],
-      config: {
-        jekyll_admin: {}
-      }
+      site: blank_site,
+      config: minimal_config,
+      templates: []
     }));
-    expect(links.length).toEqual(4);
+    expect(links.length).toEqual(1); // the link to /Configuration
   });
 });
