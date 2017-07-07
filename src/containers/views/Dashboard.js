@@ -34,17 +34,17 @@ export class Dashboard extends Component {
 
   totalSiteFiles() {
     const site = this.props.meta.site;
-    const keys = _.reject(Object.keys(site), key => {
-      return key.includes('collection') || key == 'layouts';
-    });
+    const contentKeys = [
+      'content_pages', 'data_files', 'static_files', 'collection_docs', 'drafts', 'posts'
+    ];
 
-    return _.map(keys, key => {
-      return site[key].length;
-    }).reduce((a, b) => a + b, 0);
+    return _.map(
+      contentKeys, key => site[key].length
+    ).reduce((a, b) => a + b, 0);
   }
 
   renderTile(obj) {
-    const keys = Object.keys(obj);
+    const keys = _.keys(obj);
     return _.map(keys, (key, i) => {
       return (
         <div className="tile-entry" key={i}>
@@ -65,33 +65,17 @@ export class Dashboard extends Component {
 
     const user = this.getUsername();
     const size = this.totalSiteFiles();
+    const site_keys = _.keys(site);
 
-
-    const { collections } = site;
-    const site_keys = Object.keys(site);
-
-
-    const pages = site_keys.filter(key => {
-      return key.includes('_pages');
-    });
-
-    const files = site_keys.filter(key => {
-      return key.includes('_files');
-    });
-
-    const posts = site_keys.filter(key => {
-      return ['drafts', 'posts'].includes(key);
-    });
-
-    const collection_docs = site_keys.filter(key => {
-      return key == 'collection_docs';
-    });
+    const pages = _.filter(site_keys, key => key.includes('_pages'));
+    const files = _.filter(site_keys, key => key.includes('_files'));
+    const posts = _.filter(site_keys, key => ['drafts', 'posts'].includes(key));
+    const collection_docs = _.filter(site_keys, key => key == 'collection_docs');
 
     const gaugeList = [
       [pages, files, collection_docs],
       [posts]
     ];
-
 
     return (
       <DocumentTitle title={generateTitle('Dashboard')}>
