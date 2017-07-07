@@ -16,7 +16,7 @@ export class Gauge extends Component {
     let more;
     if (count > 3) {
       more = (
-        <div className="item more">
+        <div className="hover-item more">
           ...and {count - 3} more {this.singularize(count - 3, 'items')}
         </div>
       );
@@ -25,7 +25,7 @@ export class Gauge extends Component {
     const items = (
       _.map(content, (item, i) => {
         return (
-          <div key={i} className="item">
+          <div key={i} className="hover-item">
             <strong>{item}</strong>
           </div>
         );
@@ -34,7 +34,7 @@ export class Gauge extends Component {
 
     return (
       <div className="core-mask">
-        <div className="item-wrapper">
+        <div className="hover-item-wrapper">
           {items}
           {more}
         </div>

@@ -61,6 +61,7 @@ export class Dashboard extends Component {
       return null;
     }
 
+    const config = this.props.config.content;
     const { jekyll, admin, site } = meta;
 
     const user = this.getUsername();
@@ -88,7 +89,8 @@ export class Dashboard extends Component {
               <GaugeBoard
                 dataSet={site}
                 baseValue={size}
-                layoutArray={gaugeList} />
+                layoutArray={gaugeList}
+                config={config} />
             </div>
             <Splitter />
             <div className="tiles">
