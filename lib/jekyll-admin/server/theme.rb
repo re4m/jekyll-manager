@@ -123,7 +123,7 @@ module JekyllAdmin
       end
 
       def raw_content
-        File.open(file_path).read.encode("UTF-8")
+        File.read(file_path, Jekyll::Utils.merged_file_read_opts(site, {}))
       end
     end
   end
