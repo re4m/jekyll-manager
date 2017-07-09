@@ -32,12 +32,12 @@ export class TemplateDirectory extends Component {
   }
 
   renderFileRow(splat, file) {
-    const { path, extname, api_url, http_url } = file;
-    const to = `${ADMIN_PREFIX}/theme/${splat}/${path}`;
+    const { name, extname, api_url, http_url } = file;
+    const to = `${ADMIN_PREFIX}/theme/${splat}/${name}`;
     const image = /png|jpg|jpeg|gif|svg|ico/i.test(extname.substring(1));
 
     return (
-      <tr key={path}>
+      <tr key={name}>
         <td className="row-title">
         {
           http_url && image &&
@@ -45,7 +45,7 @@ export class TemplateDirectory extends Component {
               <a href={http_url} target="_blank">
                 <div className="image-container">
                   <img src={http_url} onError={(e) => this.handleImageError(e)} />
-                  <div className="image-filename">{path}</div>
+                  <div className="image-filename">{name}</div>
                 </div>
               </a>
             </strong>
@@ -55,7 +55,7 @@ export class TemplateDirectory extends Component {
             <strong>
               <a href={http_url} target="_blank">
                 <i className="fa fa-file-text-o" aria-hidden="true" />
-                {path}
+                {name}
               </a>
             </strong>
         }
@@ -64,7 +64,7 @@ export class TemplateDirectory extends Component {
             <strong>
               <Link to={to}>
                 <i className="fa fa-file-text-o" aria-hidden="true" />
-                {path}
+                {name}
               </Link>
             </strong>
         }

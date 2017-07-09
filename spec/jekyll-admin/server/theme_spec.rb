@@ -47,7 +47,7 @@ describe "theme" do
   context "getting a single theme directory" do
     it "returns the requested directory" do
       expected = {
-        "path"     => "default.html",
+        "name"     => "default.html",
         "extname"  => ".html",
         "api_url"  => "http://example.org/_api/theme/_layouts/default.html",
         "http_url" => nil,
@@ -60,7 +60,7 @@ describe "theme" do
 
     it "returns subdirectories" do
       expected = {
-        "path"     => "icon-dark.png",
+        "name"     => "icon-dark.png",
         "extname"  => ".png",
         "http_url" => "http://example.org/assets/images/icon-dark.png",
         "api_url"  => "http://example.org/_api/theme/assets/images/icon-dark.png",
