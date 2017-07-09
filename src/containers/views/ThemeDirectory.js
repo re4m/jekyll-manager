@@ -11,7 +11,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import Button from '../../components/Button';
 import { ADMIN_PREFIX } from '../../constants';
 
-export class TemplateDirectory extends Component {
+export class ThemeDirectory extends Component {
 
   componentDidMount() {
     const { fetchTheme, params } = this.props;
@@ -134,7 +134,7 @@ export class TemplateDirectory extends Component {
   }
 }
 
-TemplateDirectory.propTypes = {
+ThemeDirectory.propTypes = {
   theme: PropTypes.object.isRequired,
   fetchTheme: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired
@@ -148,4 +148,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchTheme
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(TemplateDirectory);
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeDirectory);
