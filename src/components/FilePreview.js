@@ -21,7 +21,8 @@ export default class FilePreview extends Component {
 
   render() {
     const { onClick, file, splat } = this.props;
-    const extension = file.extname.substring(1);
+    let extension = file.extname || '';
+    extension = extension.substring(1);
     const image = /png|jpg|gif|jpeg|svg|ico/i.test(extension);
     let node;
     if (image) {
