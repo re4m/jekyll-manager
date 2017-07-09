@@ -25,6 +25,12 @@ export class TemplateDirectory extends Component {
     }
   }
 
+  handleImageError(e) {
+    return (
+      e.target.src = require('../../assets/images/no-image.svg')
+    );
+  }
+
   renderFileRow(splat, file) {
     const { path, extname, api_url, http_url } = file;
     const to = `${ADMIN_PREFIX}/theme/${splat}/${path}`;
@@ -38,7 +44,7 @@ export class TemplateDirectory extends Component {
             <strong>
               <a href={http_url} target="_blank">
                 <div className="image-container">
-                  <img src={http_url} />
+                  <img src={http_url} onError={(e) => this.handleImageError(e)} />
                   <div className="image-filename">{path}</div>
                 </div>
               </a>

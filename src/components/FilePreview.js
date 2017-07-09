@@ -13,13 +13,19 @@ export default class FilePreview extends Component {
     }
   }
 
+  handleImageError(e) {
+    return (
+      e.target.src = require('../assets/images/no-image.svg')
+    );
+  }
+
   render() {
     const { onClick, file, splat } = this.props;
     const extension = file.extname.substring(1);
     const image = /png|jpg|gif|jpeg|svg|ico/i.test(extension);
     let node;
     if (image) {
-      node = <img src={file.http_url} />;
+      node = <img src={file.http_url} onError={(e) => this.handleImageError(e)} />;
     } else {
       node = <div><i className="fa fa-file-text-o" aria-hidden="true"/></div>;
     }

@@ -52,6 +52,7 @@
   margin: 0 auto;
   img {
     width: 100%;
+    border: 1px solid lighten($border-color, 5%);
   }
   .image-filename {
     padding: 15px 0;
