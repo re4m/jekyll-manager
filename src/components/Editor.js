@@ -14,18 +14,6 @@ import Splitter from './Splitter';
 
 class Editor extends Component {
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.type !== this.props.type;
-  }
-
-  handleChange() {
-    // TODO better handling
-    const { onEditorChange, editorChanged } = this.props;
-    if (!editorChanged) {
-      onEditorChange();
-    }
-  }
-
   getValue() {
     return this.refs.ace.editor.getValue();
   }
@@ -52,7 +40,7 @@ class Editor extends Component {
       <div>
       <div className="editor-wrap">
         <AceEditor
-          editorProps={{ $blockScrolling: Infinity}}
+          editorProps={{ $blockScrolling: Infinity }}
           value={content}
           mode={mode}
           theme="monokai"
@@ -65,8 +53,7 @@ class Editor extends Component {
           className="editor"
           fontSize={14}
           ref="ace"
-          onChange={() => this.handleChange()}
-          onBlur={onEditorChange} />
+          onChange={onEditorChange} />
       </div>
       <div className="editor-mode">Syntax Mode: {mode}</div>
       <Splitter />
@@ -78,8 +65,8 @@ class Editor extends Component {
 Editor.propTypes = {
   content: PropTypes.any.isRequired,
   onEditorChange: PropTypes.func.isRequired,
-  editorChanged: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
+  editorChanged: PropTypes.bool,
   readOnly: PropTypes.bool
 };
 

@@ -31,9 +31,4 @@ describe('Components::Editor', () => {
     editor.simulate('change');
     expect(actions.onEditorChange).toHaveBeenCalled();
   });
-  it('should not call onEditorChange again if editor is already changed', () => {
-    const { actions, editor } = setup({ content, editorChanged: true, type: 'yaml' });
-    editor.simulate('change');
-    expect(actions.onEditorChange).not.toHaveBeenCalled();
-  });
 });
