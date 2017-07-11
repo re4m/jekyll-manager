@@ -76,7 +76,7 @@ export class TemplateNew extends Component {
   handleEditorChange() {
     const { updateBody } = this.props;
     const content = this.refs.editor.getValue();
-    updateBody();
+    updateBody(content);
     this.setState({ body: content });
   }
 
@@ -89,7 +89,7 @@ export class TemplateNew extends Component {
     if (fieldChanged) {
       const content = this.refs.editor.getValue();
       const include_front_matter = this.state.hasFrontMatter;
-      putTemplate('create', content, params.splat, null, include_front_matter);
+      putTemplate('create', params.splat, null, include_front_matter);
     }
   }
 

@@ -32,7 +32,10 @@ export class TemplateEdit extends Component {
     this.routerWillLeave = this.routerWillLeave.bind(this);
     this.handleClickSave = this.handleClickSave.bind(this);
 
-    this.state = { hasFrontMatter: null };
+    this.state = {
+      hasFrontMatter: null,
+      body: ''
+    };
   }
 
   componentDidMount() {
@@ -75,6 +78,13 @@ export class TemplateEdit extends Component {
     updateTemplate("FRONT MATTER", e);
   }
 
+  handleEditorChange() {
+    const { updateBody } = this.props;
+    const content = this.refs.editor.getValue();
+    updateBody(content);
+    this.setState({ body: content });
+  }
+
   handleClickSave(e) {
     const { putTemplate, fieldChanged, params, template } = this.props;
     const hasFrontMatter = this.state.hasFrontMatter;
@@ -93,7 +103,7 @@ export class TemplateEdit extends Component {
       const [directory, ...rest] = params.splat;
       const filename = rest.join('.');
       const content = this.refs.editor.getValue();
-      putTemplate('edit', content, directory, filename, include_front_matter);
+      putTemplate('edit', directory, filename, include_front_matter);
     }
   }
 
@@ -152,10 +162,10 @@ export class TemplateEdit extends Component {
               <Splitter />
 
               <Editor
-                onEditorChange={updateBody}
+                onEditorChange={() => this.handleEditorChange()}
                 onSave={this.handleClickSave}
                 editorChanged={fieldChanged}
-                content={raw_content}
+                content={this.state.body || raw_content}
                 type={ext}
                 ref="editor" />
             </div>

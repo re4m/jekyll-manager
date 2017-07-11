@@ -198,6 +198,7 @@ export const staticfile = {
 export const template = {
   raw_content: "# Test Template\n",
   name: "test.html",
+  path: "test.html",
   relative_path: "test.html",
   exist_at_source: false,
   http_url: null,

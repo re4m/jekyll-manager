@@ -31,12 +31,12 @@ export function fetchTemplate(directory, filename) {
   };
 }
 
-export function putTemplate(mode, content, directory, filename = '', include_front_matter = true) {
+export function putTemplate(mode, directory, filename = '', include_front_matter = true) {
   return (dispatch, getState) => {
     // get edited fields from metadata state
     const metadata = getState().metadata.metadata;
 
-    let { path } = metadata;
+    let { path, raw_content } = metadata;
     if (!path) {
       return dispatch(
         validationError(validateTemplate(metadata))
@@ -55,15 +55,15 @@ export function putTemplate(mode, content, directory, filename = '', include_fro
     if (mode == 'create') {
       filename = path;
       if (include_front_matter == false) {
-        payload = { raw_content: content };
+        payload = { raw_content };
       } else {
-        payload = { front_matter, raw_content: content };
+        payload = { front_matter, raw_content };
       }
     } else {
       if (include_front_matter == false) {
-        payload = { path: path, raw_content: content };
+        payload = { path: path, raw_content };
       } else {
-        payload = { path: path, front_matter, raw_content: content };
+        payload = { path: path, front_matter, raw_content };
       }
     }
 
