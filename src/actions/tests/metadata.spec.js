@@ -92,6 +92,15 @@ describe('Actions::Metadata', () => {
     expect(actions.updateBody('Test Body')).toEqual(expectedAction);
   });
 
+  it('creates UPDATE_TEMPLATE', () => {
+    const expectedAction = {
+      type: types.UPDATE_TEMPLATE,
+      prop: 'Front Matter',
+      value: true
+    };
+    expect(actions.updateTemplate('Front Matter', true)).toEqual(expectedAction);
+  });
+
   it('creates UPDATE_PATH', () => {
     const expectedAction = {
       type: types.UPDATE_PATH,
