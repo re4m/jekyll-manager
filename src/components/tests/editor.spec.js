@@ -1,13 +1,21 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import _ from 'underscore';
 import Editor from '../Editor';
 import { json } from './fixtures';
 
 const content = JSON.stringify(json);
 
-function setup(props = {content, editorChanged: false, type: 'yaml'}) {
+const defaultProps = {
+  content,
+  editorChanged: false,
+  type: 'yaml'
+};
+
+function setup(props = defaultProps) {
   const actions = {
-    onEditorChange: jest.fn()
+    onEditorChange: jest.fn(),
+    getValue: jest.fn()
   };
 
   let component = shallow(
@@ -26,6 +34,21 @@ describe('Components::Editor', () => {
     const { editor } = setup();
     expect(editor.prop('value')).toEqual(content);
   });
+
+  it('should render the Editor modes correctly', () => {
+    const types = {
+      'js': 'javascript',
+      'yml': 'yaml',
+      'csv': 'plain_text'
+    };
+    _.each(_.keys(types), type => {
+      const { editor } = setup(Object.assign({}, defaultProps, {
+        type: type
+      }));
+      expect(editor.prop('mode')).toEqual(types[type]);
+    });
+  });
+
   it('should call onEditorChange if editor is not changed', () => {
     const { actions, editor } = setup();
     editor.simulate('change');
