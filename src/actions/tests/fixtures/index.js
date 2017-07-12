@@ -212,3 +212,10 @@ export const theme = {
   version: "0.1.0",
   directories: [template]
 };
+
+export const meta = {
+  jekyll: { version: "3.5.0", environment: "development"},
+  admin: { version: "0.1.0", environment: "development"},
+  content_pages: [],
+  data_files: []
+};
