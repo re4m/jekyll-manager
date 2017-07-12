@@ -91,6 +91,13 @@ export const new_post_with_date = {
   foo: "bar"
 };
 
+export const new_post_without_date = {
+  collection: "posts",
+  raw_content: "# Test Post",
+  title: "Awesome Post",
+  foo: "bar"
+};
+
 export const page = {
   name: "page.md",
   raw_content: "# This is the base Jekyll theme.",
