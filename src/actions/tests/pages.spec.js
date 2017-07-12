@@ -17,6 +17,24 @@ describe('Actions::Pages', () => {
 
   it('fetches pages successfully', () => {
     nock(API)
+      .get('/pages/')
+      .reply(200, [page]);
+
+    const expectedActions = [
+      { type: types.FETCH_PAGES_REQUEST },
+      { type: types.FETCH_PAGES_SUCCESS, pages: [page] }
+    ];
+
+    const store = mockStore({ pages: [], isFetching: false });
+
+    return store.dispatch(actions.fetchPages())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  it('fetches pages from subdirectories successfully', () => {
+    nock(API)
       .get('/pages/page-dir')
       .reply(200, [page]);
 

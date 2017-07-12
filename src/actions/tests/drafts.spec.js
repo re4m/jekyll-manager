@@ -17,6 +17,24 @@ describe('Actions::Drafts', () => {
 
   it('fetches drafts successfully', () => {
     nock(API)
+      .get('/drafts/')
+      .reply(200, [draft]);
+
+    const expectedActions = [
+      { type: types.FETCH_DRAFTS_REQUEST },
+      { type: types.FETCH_DRAFTS_SUCCESS, drafts: [draft] }
+    ];
+
+    const store = mockStore({ drafts: [], isFetching: false });
+
+    return store.dispatch(actions.fetchDrafts())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  it('fetches drafts from subdirectories successfully', () => {
+    nock(API)
       .get('/drafts/draft-dir')
       .reply(200, [draft]);
 
