@@ -33,8 +33,24 @@ describe('Components::FilePreview', () => {
     expect(div.node).toBeFalsy();
   });
 
+  it('should render a placeholder image if the file has an image extension but is corrupted', () => {
+    const { image, div } = setup({
+      ...staticfile,
+      http_url: '/images/logo.png'
+    });
+    image.simulate('error');
+    expect(image.node).toBeTruthy();
+    expect(div.node).toBeFalsy();
+  });
+
   it('should render a div if the file does not have an image extension', () => {
-    const { image, div } = setup({...staticfile, extname: 'html'});
+    const { image, div } = setup({...staticfile, extname: '.html'});
+    expect(image.node).toBeFalsy();
+    expect(div.node).toBeTruthy();
+  });
+
+  it('should render a div if the file does not have any extension', () => {
+    const { image, div } = setup({...staticfile, extname: null});
     expect(image.node).toBeFalsy();
     expect(div.node).toBeTruthy();
   });
@@ -47,5 +63,11 @@ describe('Components::FilePreview', () => {
   it('should not render a delete-button if file is from theme-gem', () => {
     const { delete_btn } = setup({...staticfile, from_theme: true});
     expect(delete_btn.node).toBeFalsy();
+  });
+
+  it('should call onClickDelete', () => {
+    const { delete_btn, actions } = setup();
+    delete_btn.simulate('click');
+    expect(actions.onClickDelete).not.toHaveBeenCalled(); // TODO pass prompt
   });
 });
