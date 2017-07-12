@@ -17,6 +17,24 @@ describe('Actions::Templates', () => {
 
   it('fetches templates successfully', () => {
     nock(API)
+      .get('/templates/')
+      .reply(200, [template]);
+
+    const expectedActions = [
+      { type: types.FETCH_TEMPLATES_REQUEST },
+      { type: types.FETCH_TEMPLATES_SUCCESS, templates: [template] }
+    ];
+
+    const store = mockStore({ templates: [], isFetching: false });
+
+    return store.dispatch(actions.fetchTemplates())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  it('fetches templates from subdirectories successfully', () => {
+    nock(API)
       .get('/templates/template-dir')
       .reply(200, [template]);
 
@@ -105,6 +123,24 @@ describe('Actions::Templates', () => {
       });
   });
 
+  it('updates the template without front matter successfully', () => {
+    nock(API)
+      .put('/templates/template-dir/template.html')
+      .reply(200, template);
+
+    const expectedActions = [
+      { type: types.CLEAR_ERRORS },
+      { type: types.PUT_TEMPLATE_SUCCESS, template }
+    ];
+
+    const store = mockStore({ metadata: { metadata: template } });
+
+    return store.dispatch(actions.putTemplate('edit', 'template-dir', 'template.html', false))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
   it('creates the template successfully', () => {
     nock(API)
       .put('/templates/template-dir/new_template.html')
@@ -118,6 +154,24 @@ describe('Actions::Templates', () => {
     const store = mockStore({metadata: { metadata: { path: 'new_template.html' } } });
 
     return store.dispatch(actions.putTemplate('create', 'template-dir'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+  });
+
+  it('creates the template without front matter successfully', () => {
+    nock(API)
+      .put('/templates/template-dir/new_template.html')
+      .reply(200, template);
+
+    const expectedActions = [
+      { type: types.CLEAR_ERRORS },
+      { type: types.PUT_TEMPLATE_SUCCESS, template }
+    ];
+
+    const store = mockStore({metadata: { metadata: { path: 'new_template.html' } } });
+
+    return store.dispatch(actions.putTemplate('create', 'template-dir', null, false))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
