@@ -8,6 +8,11 @@ describe('Actions::Utils', () => {
     expect(actions.search(input)).toEqual(expectedAction);
   });
 
+  it('creates CLEAR_ERRORS', () => {
+    const expectedAction = { type: types.CLEAR_ERRORS };
+    expect(actions.clearErrors()).toEqual(expectedAction);
+  });
+
   it('creates VALIDATION_ERROR', () => {
     const errors = {
       title: 'Title is required.',
