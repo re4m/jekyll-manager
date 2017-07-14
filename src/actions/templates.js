@@ -4,7 +4,7 @@ import { validationError } from '../actions/utils';
 import { get, put, del } from '../utils/fetch';
 import { validator } from '../utils/validation';
 import { slugify, trimObject } from '../utils/helpers';
-import { getTitleRequiredMessage, getFilenameNotValidMessage } from '../constants/lang';
+import { getFilenameNotValidMessage, getContentRequiredMessage } from '../constants/lang';
 import { templatesAPIUrl, templateAPIUrl } from '../constants/api';
 
 export function fetchTemplates(directory = '') {
@@ -37,7 +37,7 @@ export function putTemplate(mode, directory, filename = '', include_front_matter
     const metadata = getState().metadata.metadata;
 
     let { path, raw_content } = metadata;
-    if (!path) {
+    if (!path || !raw_content) {
       return dispatch(
         validationError(validateTemplate(metadata))
       );
@@ -97,9 +97,10 @@ export function deleteTemplate(directory, filename) {
 const validateTemplate = (metadata) => {
   return validator(
     metadata,
-    { 'path': 'filename' },
+    { 'path': 'filename', 'raw_content': 'required' },
     {
-      'path.filename': getFilenameNotValidMessage()
+      'path.filename': getFilenameNotValidMessage(),
+      'raw_content.required': getContentRequiredMessage()
     }
   );
 };

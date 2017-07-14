@@ -15,7 +15,7 @@ describe('Actions::Templates', () => {
     nock.cleanAll();
   });
 
-  it('fetches templates successfully', () => {
+  it('fetches templates succesfully', () => {
     nock(API)
       .get('/templates/')
       .reply(200, [template]);
@@ -151,7 +151,7 @@ describe('Actions::Templates', () => {
       { type: types.PUT_TEMPLATE_SUCCESS, template }
     ];
 
-    const store = mockStore({metadata: { metadata: { path: 'new_template.html' } } });
+    const store = mockStore({metadata: { metadata: { path: 'new_template.html', raw_content: 'foo\n' } } });
 
     return store.dispatch(actions.putTemplate('create', 'template-dir'))
       .then(() => {
@@ -169,7 +169,7 @@ describe('Actions::Templates', () => {
       { type: types.PUT_TEMPLATE_SUCCESS, template }
     ];
 
-    const store = mockStore({metadata: { metadata: { path: 'new_template.html' } } });
+    const store = mockStore({metadata: { metadata: { path: 'new_template.html', raw_content: 'foo\n' } } });
 
     return store.dispatch(actions.putTemplate('create', 'template-dir', null, false))
       .then(() => {
@@ -200,7 +200,8 @@ describe('Actions::Templates', () => {
       {
         type: types.VALIDATION_ERROR,
         errors: [
-          "The filename is not valid."
+          "The filename is not valid.",
+          "The content is required."
         ]
       }
     ];
