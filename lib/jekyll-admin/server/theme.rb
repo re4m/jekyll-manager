@@ -105,12 +105,12 @@ module JekyllAdmin
       end
 
       def api_url(entry)
-        "#{base_url}/_api/theme/#{relative_path_of(entry)}"
+        File.join(base_url, "_api", "theme", relative_path_of(entry))
       end
 
       def http_url(entry)
         if splats.first.include?("assets") && !Jekyll::Utils.has_yaml_header?(entry)
-          "#{base_url}/#{relative_path_of(entry)}"
+          File.join(base_url, relative_path_of(entry))
         end
       end
 

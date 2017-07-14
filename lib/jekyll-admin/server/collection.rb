@@ -50,7 +50,7 @@ module JekyllAdmin
       end
 
       def document_id
-        path = "#{params["splat"].first}/#{filename}"
+        path = File.join(params["splat"].first, filename)
         path.gsub(%r!(\d{4})/(\d{2})/(\d{2})/(.*)!, '\1-\2-\3-\4')
       end
 
