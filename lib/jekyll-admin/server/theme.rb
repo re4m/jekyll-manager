@@ -29,7 +29,7 @@ module JekyllAdmin
       end
 
       get "/?*" do
-        ensure_theme && ensure_directory
+        ensure_directory_in_theme
         json({
           :name    => splats.first.split("/").last || theme.name,
           :path    => at_root(splats.first),
@@ -54,6 +54,11 @@ module JekyllAdmin
 
       def ensure_theme
         render_404 unless site.theme
+      end
+
+      def ensure_directory_in_theme
+        ensure_theme
+        ensure_directory
       end
 
       def ensure_requested_file
