@@ -28,6 +28,14 @@ export class TemplateView extends Component {
     fetchThemeItem(directory, filename);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.updated !== nextProps.updated) {
+      browserHistory.push(
+        `${ADMIN_PREFIX}/templates/${nextProps.template.relative_path}`
+      );
+    }
+  }
+
   toggle(e) {
     this.setState({ checkboxState: !this.state.checkboxState });
   }
