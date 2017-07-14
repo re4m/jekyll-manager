@@ -31,7 +31,7 @@ module JekyllAdmin
       get "/?*" do
         ensure_theme && ensure_directory
         json({
-          :name    => splats.first.split("/").last,
+          :name    => splats.first.split("/").last || theme.name,
           :path    => at_root(splats.first),
           :entries => entries.map(&:to_api).concat(subdir_entries),
         })
