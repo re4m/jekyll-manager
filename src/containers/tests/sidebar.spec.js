@@ -8,22 +8,16 @@ import { config, site, blank_site } from './fixtures';
 
 const defaultProps = {
   config,
-  site,
-  templates: ['_layouts/test.html']
+  site
 };
 
 const nonCollectionLinks = ['content_pages', 'data_files', 'static_files', 'configuration', 'drafts', 'posts'];
 
 function setup(props = defaultProps) {
-  const actions = {
-    fetchTemplates: jest.fn()
-  };
-
-  const component = mount(<Sidebar {...props} {...actions} />);
+  const component = mount(<Sidebar {...props} />);
 
   return {
     component: component,
-    actions: actions,
     links: component.find('.routes').find('li')
   };
 }
@@ -31,21 +25,16 @@ function setup(props = defaultProps) {
 describe('Containers::Sidebar', () => {
   it('should render correctly', () => {
     const { links, component } = setup();
-    const { config, templates } = component.props();
+    const { config } = component.props();
 
     const keys = _.filter(_.keys(site), key => nonCollectionLinks.includes(key));
     const collections = site.collections.length > 1 ? site.collections.length : 0;
     const theme = config.theme ? 1 : 0;
 
     const actual = links.length;
-    const expected = keys.length + collections + templates.length + theme + 1; // the link to /configuration
+    const expected = keys.length + collections + site.templates.length + theme + 1; // the link to /configuration
 
     expect(actual).toEqual(expected);
-  });
-
-  it('should call fetchTemplates action after mounted', () => {
-    const { actions } = setup();
-    expect(actions.fetchTemplates).toHaveBeenCalled();
   });
 
   it('should render collapsible list-item for collections', () => {
@@ -62,10 +51,9 @@ describe('Containers::Sidebar', () => {
 
   it('should render fine for a "blank" Jekyll site', () => {
     const minimal_config = { gems: ['jekyll-admin'] };
-    const { component, links, actions } = setup(Object.assign({}, defaultProps, {
+    const { component, links } = setup(Object.assign({}, defaultProps, {
       site: blank_site,
-      config: minimal_config,
-      templates: []
+      config: minimal_config
     }));
     expect(links.length).toEqual(1); // the link to /Configuration
   });

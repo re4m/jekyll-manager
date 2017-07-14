@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 import _ from 'underscore';
 import classnames from 'classnames';
 
-import { fetchTemplates } from '../actions/templates';
 import { capitalize } from '../utils/helpers';
 import { ADMIN_PREFIX } from '../constants';
 
@@ -16,11 +15,6 @@ export class Sidebar extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.state = { collapsedPanel: true };
-  }
-
-  componentDidMount() {
-    const { fetchTemplates } = this.props;
-    fetchTemplates();
   }
 
   handleClick() {
@@ -101,7 +95,7 @@ export class Sidebar extends Component {
   }
 
   renderRoutes() {
-    const { config, site, templates } = this.props;
+    const { config, site } = this.props;
     const collections = _.filter(site.collections, label => label !== 'posts');
 
     const routes = [
@@ -152,7 +146,7 @@ export class Sidebar extends Component {
         {
           'label': 'templates',
           'icon': 'clone',
-          'render': templates.length > 0
+          'render': site.templates.length > 0
         },
         {
           'label': 'theme gem',
@@ -196,18 +190,8 @@ export class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  fetchTemplates: PropTypes.func.isRequired,
   site: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
-  templates: PropTypes.array.isRequired
+  config: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  templates: state.templates.templates
-});
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  fetchTemplates
-}, dispatch);
-
-export default connect(mapStateToProps,mapDispatchToProps)(Sidebar);
+export default Sidebar;

@@ -61,7 +61,8 @@ export const site = {
   posts: ['2017-06-01-test-post.md'],
   collections: ['posts', 'puppies'],
   data_files: ['data.yml'],
-  static_files: ['static-text.txt']
+  static_files: ['static-text.txt'],
+  templates: ['_layouts/test.html']
 };
 
 export const blank_site = {
@@ -70,5 +71,6 @@ export const blank_site = {
   posts: [],
   collections: ['posts'],
   data_files: [],
-  static_files: []
+  static_files: [],
+  templates: []
 };

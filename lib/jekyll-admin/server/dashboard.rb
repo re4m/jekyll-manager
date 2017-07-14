@@ -32,6 +32,7 @@ module JekyllAdmin
           "collections"     => site.collection_names,
           "drafts"          => paths_to_drafts,
           "collection_docs" => collection_documents.flatten,
+          "templates"       => presentational_files.flatten,
         }.merge! site_docs
       end
 
@@ -56,6 +57,15 @@ module JekyllAdmin
 
       def layout_names
         site.layouts.map { |l| l[0] }
+      end
+
+      def presentational_files
+        %w(_layouts _includes _sass assets).map do |dname|
+          Dir["#{site.in_source_dir(dname)}/**/*"]
+            .reject { |entry| File.directory?(entry) }
+            .reject { |item| site.static_files.map(&:path).include?(item) }
+            .map { |fpath| fpath.sub("#{site.source}/", "") }
+        end
       end
     end
   end
