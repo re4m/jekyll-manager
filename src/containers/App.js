@@ -44,9 +44,9 @@ class App extends Component {
           {
             config &&
             <div>
-              <Sidebar config={config} site={site} />
+              {site && <Sidebar config={config} site={site} />}
               <div className="container">
-                <Header config={config} admin={admin} />
+                {admin && <Header config={config} admin={admin} />}
                 <div className="content">
                   {this.props.children}
                 </div>
