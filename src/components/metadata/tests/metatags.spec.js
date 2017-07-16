@@ -31,13 +31,6 @@ describe('Components::MetaTags', () => {
     expect(editable.node).toBeTruthy();
   });
 
-  it('should render an editable with "null" fieldValue prop', () => {
-    const { component, editable } = setup(Object.assign({}, defaultProps, {
-      fieldValue: null
-    }));
-    expect(editable.node).toBeTruthy();
-  });
-
   it('should render an error if fieldValue prop is a String', () => {
     const { component, editable } = setup(Object.assign({}, defaultProps, {
       fieldValue: 'foo'

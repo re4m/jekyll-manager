@@ -11,7 +11,7 @@ export class MetaTags extends Component {
 
     this.state = {
       tagInput: '',
-      pageTags: props.fieldValue || [''],
+      pageTags: props.fieldValue,
       autoSuggest: false
     };
   }
@@ -155,9 +155,9 @@ export class MetaTags extends Component {
 }
 
 MetaTags.propTypes = {
-  fieldValue: PropTypes.any,
+  fieldValue: PropTypes.any.isRequired,
   updateFieldValue: PropTypes.func.isRequired,
-  nameAttr: PropTypes.any.isRequired,
+  nameAttr: PropTypes.string.isRequired,
   suggestions: PropTypes.array
 };
 

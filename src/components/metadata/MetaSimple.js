@@ -139,7 +139,7 @@ export class MetaSimple extends Component {
 
     return (
       <MetaTags
-        fieldValue={fieldValue}
+        fieldValue={fieldValue || ['']}
         nameAttr={nameAttr}
         updateFieldValue={updateFieldValue}
         suggestions={appMeta.site.tags} />
