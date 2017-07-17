@@ -36,8 +36,13 @@ module JekyllAdmin
 
     def json(object, options = {})
       content_type :json
-      options = { :aligned => true, :around_colon => 1 }.merge options
-      JSON.neat_generate(object, options)
+      pretty_options = {
+        :array_nl  => "\n",
+        :object_nl => "\n",
+        :indent    => "  ",
+        :space     => " ",
+      }.merge(options)
+      Oj.generate(object, pretty_options)
     end
 
     def site

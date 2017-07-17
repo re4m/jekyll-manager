@@ -4,12 +4,11 @@
 # as it looks for sinatra/cross-origin, which is development only
 ENV["RACK_ENV"] = "production" if ENV["RACK_ENV"].to_s.empty?
 
-require "json"
+require "oj" # Optimized JSON. https://github.com/ohler55/oj
 require "jekyll"
 require "base64"
 require "webrick"
 require "sinatra"
-require "neatjson"
 require "fileutils"
 require "sinatra/base"
 require "sinatra/json"
