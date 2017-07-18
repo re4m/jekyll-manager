@@ -54,12 +54,6 @@ module JekyllAdmin
 
       private
 
-      def page_entries_in(dir)
-        dir.path.children.select do |entry|
-          front_matter? entry
-        end
-      end
-
       def source_dir(dir = "")
         site.in_source_dir(dir)
       end
@@ -182,6 +176,20 @@ module JekyllAdmin
         @file_contents ||= File.read(
           file, Jekyll::Utils.merged_file_read_opts(site, {})
         )
+      end
+
+      def page_entries_in(dir)
+        dir.path.children.select do |entry|
+          front_matter?(entry) || in_sass_dir?(entry)
+        end
+      end
+
+      # Jekyll does not consider files without front matter, within `_sass`
+      #   to be 'static files' as of Jekyll 3.5.x, ergo they should be
+      #   editable via the admin interface.
+      def in_sass_dir?(entry)
+        parent_dir = File.dirname(File.dirname(entry)).sub(source_dir, "")
+        parent_dir == "_sass"
       end
     end
   end
