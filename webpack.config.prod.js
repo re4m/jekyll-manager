@@ -10,7 +10,7 @@ const GLOBALS = {
 
 export default {
   node: { fs: 'empty' },
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   entry: './src/index',
   target: 'web',
   output: {
@@ -36,13 +36,35 @@ export default {
   ],
   module: {
     rules: [
-      {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel-loader']},
-      {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader'},
-      {test: /\.(woff|woff2)(\?.*$|$)/, loader: 'file-loader?prefix=font/&limit=30000'},
-      {test: /\.ttf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=application/octet-stream'},
-      {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?limit=10000&mimetype=image/svg+xml'},
-      {test: /\.(jpe?g|png|gif)$/i, loaders: ['file-loader']},
-      {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
+      {
+        test: /\.js$/,
+        include: path.join(__dirname, 'src'),
+        loaders: ['babel-loader']
+      },
+      {
+        test: /\.eot(\?v=\d+.\d+.\d+)?$/,
+        loader: 'file-loader?name=fonts/[name].[ext]?[hash:6]'
+      },
+      {
+        test: /\.(woff|woff2)(\?.*$|$)/,
+        loader: 'file-loader?name=fonts/[name].[ext]?[hash:6]&prefix=font/&limit=30000'
+      },
+      {
+        test: /\.ttf(\?v=\d+.\d+.\d+)?$/,
+        loader: 'file-loader?name=fonts/[name].[ext]?[hash:6]&limit=10000&mimetype=application/octet-stream'
+      },
+      {
+        test: /\.svg(\?v=\d+.\d+.\d+)?$/,
+        loader: 'file-loader?name=images/[name].[ext]?[hash:6]&limit=10000&mimetype=image/svg+xml'
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        loaders: ['file-loader?name=images/[name].[ext]?[hash:6]']
+      },
+      {
+        test: /\.ico$/,
+        loader: 'file-loader?name=[name].[ext]'
+      },
       {
         test: /(\.css|\.scss)$/,
         loader: ExtractTextPlugin.extract('css-loader?sourceMap!sass-loader?sourceMap')
