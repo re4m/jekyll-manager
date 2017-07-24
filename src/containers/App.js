@@ -39,7 +39,7 @@ class App extends Component {
     const { admin, site } = this.props.meta;
 
     return (
-      <DocumentTitle title="Jekyll Admin">
+      <DocumentTitle title="Jekyll Manager">
         <HotKeys keyMap={keyboardShortcuts} className="wrapper">
           {
             config &&

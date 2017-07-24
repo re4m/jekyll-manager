@@ -1,12 +1,12 @@
 ---
 title: Front End
 permalink: /frontend/
-description: The Javascript-based front end of Jekyll Admin, built on the Ruby-based HTTP API.
+description: The Javascript-based front end of Jekyll Manager, built on the Ruby-based HTTP API.
 ---
 
 ## Tech Stack
 
-Jekyll Admin uses the following technology stack for the front end.
+Jekyll Manager uses the following technology stack for the front end.
 
 * [React](https://facebook.github.io/react/)
 * [Redux](http://redux.js.org/)

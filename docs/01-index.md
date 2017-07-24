@@ -1,12 +1,12 @@
 ---
 title: Home
 permalink: /
-description: A Jekyll plugin that provides users with a traditional CMS-style graphical interface to author content and administer Jekyll sites. The project is divided into two parts. A Ruby-based HTTP API that handles Jekyll and filesystem operations, and a Javascript-based front end, built on that API.
+description: Jekyll Manager provides users with a traditional CMS-style graphical interface to author content and administer Jekyll sites. The project is divided into two parts. A Ruby-based HTTP API that handles Jekyll and filesystem operations, and a Javascript-based front end, built on that API.
 ---
 
 ## Installation
 
-Refer to [Install Plugins](https://jekyllrb.com/docs/plugins/#installing-a-plugin) in Jekyll docs and install the `jekyll-admin` plugin as you would normally by adding `jekyll-admin` to the `:jekyll_plugins` group in your `Gemfile` (or) to the `gems` list in your `_config.yml`.
+Refer to [Install Plugins](https://jekyllrb.com/docs/plugins/#installing-a-plugin) in Jekyll docs and install the `jekyll-manager` plugin as you would normally by adding `jekyll-manager` to the `:jekyll_plugins` group in your `Gemfile` and running `bundle install`.
 
 ## Usage
 
@@ -15,9 +15,10 @@ Refer to [Install Plugins](https://jekyllrb.com/docs/plugins/#installing-a-plugi
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at <https://github.com/{{ site.github.repository_nwo }}/>.
+Jekyll Manager is a fork of the official plugin Jekyll Admin with some [significant divergence](https://github.com/ashmaroli/jekyll-manager#divergence).
+Bug reports and pull requests to improve these changes or this documenation are welcome on GitHub at <https://github.com/ashmaroli/jekyll-manager>.
 
 ## Improve this portal
 
 Found a mistake? See something that can be made better? These docs are open source.
-Please help: <https://github.com/{{ site.github.repository_nwo }}/edit/master/docs/{{ page.path }}>.
+Please help: <https://github.com/ashmaroli/jekyll-manager/edit/master/docs/{{ page.path }}>.

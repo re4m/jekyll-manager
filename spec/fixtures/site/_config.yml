@@ -1,8 +1,8 @@
 title: Your awesome title
 
-# Load the admin interface.
+# Load the custom admin interface.
 gems:
-  - jekyll-admin
+  - jekyll-manager
 
 # Gem-based theme for this site.
 theme: test-theme

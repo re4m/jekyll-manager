@@ -16,7 +16,7 @@ module JekyllAdmin
             "environment" => Jekyll.env,
           },
           "admin"  => {
-            "version"     => VERSION,
+            "version"     => JekyllManager::VERSION,
             "environment" => ENV["RACK_ENV"],
           },
         }

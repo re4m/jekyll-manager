@@ -1,7 +1,7 @@
 {
-  "name": "jekyll-admin",
-  "version": "0.6.0",
-  "description": "Admin Panel for Jekyll",
+  "name": "jekyll-manager",
+  "version": "0.1.0",
+  "description": "Jekyll Admin repackaged with some alterations",
   "private": true,
   "scripts": {
     "start-message": "babel-node tools/startMessage.js",
@@ -24,7 +24,7 @@
     "test:watch": "npm run test -- --watch",
     "open:cover": "npm run test:cover && open ./coverage/lcov-report/index.html"
   },
-  "author": "Mert Kahyaoğlu",
+  "author": "Ashwin Maroli",
   "license": "MIT",
   "dependencies": {
     "brace": "0.9.1",

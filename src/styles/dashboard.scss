@@ -187,6 +187,7 @@ $progress-color: $dark-orange;
     float: right;
     .label {
       right: -1px;
+      padding-right: 15px;
       &:before {
         left: -31px;
         border-color: transparent $border-color $border-color transparent;

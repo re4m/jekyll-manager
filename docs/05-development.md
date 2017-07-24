@@ -5,7 +5,7 @@ permalink: /development/
 
 ## Installing locally
 
-1. `git clone https://github.com/jekyll/jekyll-admin && cd jekyll-admin`
+1. `git clone https://github.com/ashmaroli/jekyll-manager && cd jekyll-manager`
 2. `script/bootstrap`
 
 This will copy down the code and install all Node and Ruby dependencies.
@@ -20,7 +20,7 @@ This will run both Node and Ruby tests.
 You can run one or the other with `script/cibuild-node` and `script/cibuild-ruby`.
 
 
-## Running Jekyll Admin locally
+## Running Jekyll Manager locally
 
 There is a site in `spec/fixtures/site`, with some dummy content. Both local development servers below use that site's dummy content for development. Feel free to make any changes you'd like, just don't commit them, unless you're adding a new fixture (e.g., for a test).
 
@@ -48,6 +48,6 @@ You are going to need a Unix-like environment. The best choice would be Git Bash
 
 ## The environment flag
 
-When developing locally, it can be helpful to see error backtraces, disable template caching, have expanded request logs, and to allow cross-origin requests between the Ruby server and the Node server. By default, however, JekyllAdmin would run in `production` mode, meaning these development features are disabled.
+When developing locally, it can be helpful to see error backtraces, disable template caching, have expanded request logs, and to allow cross-origin requests between the Ruby server and the Node server. By default, however, Jekyll Manager would run in `production` mode, meaning these development features are disabled.
 
 To enable the development features, the environmental variable `RACK_ENV` is set to `development` in the `test-server` script. When enabled, the `/_api/` endpoint will add `Access-Control-Allow-Origin: any` headers, and respond to `OPTIONS` pre-flight checks.

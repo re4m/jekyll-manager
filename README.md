@@ -1,21 +1,22 @@
-[![Gem Version](https://img.shields.io/gem/v/jekyll-admin.svg)](https://rubygems.org/gems/jekyll-admin)
-[![Build Status](https://travis-ci.org/jekyll/jekyll-admin.svg?branch=master)](https://travis-ci.org/jekyll/jekyll-admin)
-[![Build status](https://ci.appveyor.com/api/projects/status/biop1r6ae524xlm2/branch/master?svg=true)](https://ci.appveyor.com/project/benbalter/jekyll-admin/branch/master)
-[![Coverage Status](https://coveralls.io/repos/github/jekyll/jekyll-admin/badge.svg?branch=master)](https://coveralls.io/github/jekyll/jekyll-admin?branch=master)
-[![NPM Dependencies](https://david-dm.org/jekyll/jekyll-admin.svg)](https://david-dm.org/jekyll/jekyll-admin)
+[![Gem Version](https://img.shields.io/gem/v/jekyll-manager.svg)](https://rubygems.org/gems/jekyll-manager)
+[![Build Status](https://travis-ci.org/ashmaroli/jekyll-manager.svg?branch=master)](https://travis-ci.org/ashmaroli/jekyll-manager)
+[![Build status](https://ci.appveyor.com/api/projects/status/biop1r6ae524xlm2/branch/master?svg=true)](https://ci.appveyor.com/project/ashmaroli/jekyll-manager/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/ashmaroli/jekyll-manager/badge.svg?branch=master)](https://coveralls.io/github/ashmaroli/jekyll-manager?branch=master)
+[![NPM Dependencies](https://david-dm.org/ashmaroli/jekyll-manager.svg)](https://david-dm.org/ashmaroli/jekyll-manager)
 
-A Jekyll plugin that provides users with a traditional CMS-style graphical interface to author content and administer Jekyll sites. The project is divided into two parts. A Ruby-based HTTP API that handles Jekyll and filesystem operations, and a Javascript-based front end, built on that API.
+Forked from the official Jekyll plugin [Jekyll Admin](https://github.com/jekyll/jekyll-admin), Jekyll Manager provides users with a traditional CMS-style graphical interface to author content and administer Jekyll sites.<br/>
+The project is divided into two parts. A Ruby-based HTTP API that handles Jekyll and filesystem operations, and a Javascript-based front end, built on that API.
 
-![screenshot of Jekyll Admin](/screenshot.png)
+![screenshot of Jekyll Manager](/screenshot.png)
 
 ## Installation
 
-Refer to the [installing plugins](https://jekyllrb.com/docs/plugins/#installing-a-plugin) section of Jekyll's documentation and install the `jekyll-admin` plugin as you would any other plugin. Here's the short version:
+Refer to the [installing plugins](https://jekyllrb.com/docs/plugins/#installing-a-plugin) section of Jekyll's documentation and install the `jekyll-manager` plugin as you would any other plugin. Here's the short version:
 
 1. Add the following to your site's Gemfile:
 
     ```ruby
-    gem 'jekyll-admin', group: :jekyll_plugins
+    gem 'jekyll-manager', group: :jekyll_plugins
     ```
 
 2. Run `bundle install`
@@ -25,29 +26,37 @@ Refer to the [installing plugins](https://jekyllrb.com/docs/plugins/#installing-
 1. Start Jekyll as you would normally (`bundle exec jekyll serve`)
 2. Navigate to `http://localhost:4000/admin` to access the administrative interface
 
-## Options
 
-Jekyll Admin related options can be specified in `_config.yml`
-under a key called `jekyll_admin`. Currently it has only one option `hidden_links`
-which is for hiding unwanted links on the sidebar. The following keys under `hidden_links` can be used in order to hide default links;
+## Divergence
 
-```yaml
-jekyll_admin:
-  hidden_links:
-    - posts
-    - pages
-    - staticfiles
-    - datafiles
-    - configuration
-```
+Jekyll Manager is an open source project, forked from the official Jekyll plugin [Jekyll Admin](https://github.com/jekyll/jekyll-admin), and repackaged with some alterations and additions, a few of which, may eventually be included in the official version.
+
+### Notable alterations:
+
+  * Sidebar routes cannot be manually hidden. They're rendered based on whether Jekyll has read-in at least one file of the concerned type.
+  * Routes to Collections other than Posts are hidden within a collapsed list-item by default.
+  * Metadata fields for front matter are hidden with a collapsed section by default.
+  * Input path fields show / require the full `relative_path` of the requested file.
+  * Minor style changes.
+  * Other miscellaneous changes.
+
+### Additional Features:
+
+  * A basic dashboard that provides insight on the current site and a means to add files to cetain empty content types (*Pages, Posts, Data Files, Static Files*).
+  * Draft posts can be created and edited via the admin interface provided your config file has `show_drafts: true`
+  * Template files (files within `_layouts`, `_includes`, `_sass` and `assets` at the root of your site) can be edited via the interface.
+  * Template files (and files within any directory) within a theme-gem can be *viewed* and copied over to the source directory for editing.
+  * Ability to select layouts for a document based on available layouts in the Site.
+  * Special metadata field for tags.
+
 
 ## Contributing
 
-Interested in contributing to Jekyll Admin? We’d love your help. Jekyll Admin is an open source project, built one contribution at a time by users like you. See [the contributing instructions](.github/CONTRIBUTING.md), and [the development docs](http://jekyll.github.io/jekyll-admin/development/) for more information.
+Unless your contribution improves the changes outlined above or updates this repo's documentation, we'd appreciate it if you propose those changes at the upstream repo. Upstream changes *may* eventually find their way here after being altered as
+required.
 
-## Looking for a hosted version?
+Interested in contributing to Jekyll Manager anyways?. See [the contributing instructions](.github/CONTRIBUTING.md), and [the development docs](http://ashmaroli.github.io/jekyll-manager/development/) for more information.
 
-Jekyll Admin is intended to be run on your computer alongside your local Jekyll installation. If you're looking for a hosted version, we'd recommend checking out [Siteleaf](https://www.siteleaf.com/) a hosted Jekyll editor with deep GitHub integration (whom we'd also like to thank for inspiring parts of Jekyll Admin itself!).
 
 ## License
 

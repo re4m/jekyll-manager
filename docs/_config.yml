@@ -1,6 +1,5 @@
-title: Jekyll Admin
-description: A Jekyll plugin that provides users with a traditional CMS-style graphical interface to author content and administer Jekyll sites.
-
+title: Jekyll Manager
+description: A repackaged Jekyll Admin fork with some alterations.
 collections:
   frontend:
     permalink: /frontend/:path/
@@ -20,4 +19,4 @@ defaults:
     values:
       layout: "page"
 
-baseurl: "/jekyll-admin"
+baseurl: "/jekyll-manager"

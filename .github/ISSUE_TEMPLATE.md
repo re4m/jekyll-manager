@@ -1,4 +1,4 @@
-<!-- JekyllAdmin Issue Ticket -->
+<!-- Jekyll Manager Issue Ticket -->
 <!-- To tackle bugs better, we recommend that you report one issue per ticket -->
 
 ### Description:
@@ -6,7 +6,7 @@
 
 
 ### Tell us a bit about yourself:
-* Version of JekyllAdmin I'm using <!-- HINT: use `bundle show` to check -->:
+* Version of Jekyll Manager I'm using <!-- HINT: use `bundle show` to check -->:
 * Version of Jekyll I'm using <!-- HINT: use `bundle show` to check -->:
 * Version of NodeJS I'm using <!-- HINT: use `node -v` to check -->:
 * Operating System <!-- e.g. OS X, Windows -->:

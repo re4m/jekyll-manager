@@ -7,7 +7,7 @@ AllCops:
     - src/**/*
     - node_modules/**/*
     - Gemfile
-    - jekyll-admin.gemspec
+    - jekyll-manager.gemspec
 Metrics/AbcSize:
   Max: 22
 Metrics/BlockLength:

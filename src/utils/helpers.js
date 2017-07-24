@@ -142,6 +142,6 @@ export const trimObject = (object) => {
  */
 export const generateTitle = (...args) => {
   let filteredArray = args.filter(Boolean);
-  filteredArray.push('Jekyll Admin');
+  filteredArray.push('Jekyll Manager');
   return filteredArray.join(`\xa0 | \xa0`);
 };

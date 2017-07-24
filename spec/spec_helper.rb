@@ -1,7 +1,7 @@
 ENV["RACK_ENV"] = "test"
 
 require "rspec"
-require "jekyll-admin"
+require "jekyll-manager"
 require "rack/test"
 require "fileutils"
 require "open3"

@@ -135,7 +135,7 @@ export class Dashboard extends Component {
                 {this.renderTile(jekyll)}
               </div>
               <div className="last tile">
-                <div className="label">Admin</div>
+                <div className="label">Manager</div>
                 {this.renderTile(admin)}
               </div>
             </div>
