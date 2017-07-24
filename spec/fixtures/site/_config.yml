@@ -1,7 +1,7 @@
 title: Your awesome title
 
 # Load the custom admin interface.
-gems:
+plugins:
   - jekyll-manager
 
 # Gem-based theme for this site.
