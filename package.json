@@ -1,6 +1,6 @@
 {
   "name": "jekyll-manager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Jekyll Admin repackaged with some alterations",
   "private": true,
   "scripts": {
