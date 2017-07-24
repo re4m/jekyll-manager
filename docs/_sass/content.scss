@@ -16,13 +16,14 @@
   }
 
   .description {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 45px;
     padding: 15px;
-    color: #545454;
+    color: #454545;
     font-size: 16px;
     font-weight: 700;
-    background-color: #fefefe;
-    border-left: 4px solid $dark-orange;
+    background-color: #fffbdb;
+    border-left: 8px solid $dark-orange;
   }
 
   .content-header {

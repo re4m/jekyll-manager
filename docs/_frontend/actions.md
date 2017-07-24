@@ -5,25 +5,27 @@ description: Actions are payloads of information that send data from the applica
 
 ## Configuration
 
-### `fetchConfig`
+### `fetchConfig()`
 
 Async action for fetching an object comprised of Jekyll project configuration (from `_config.yml` by default)
 
-### `putConfig(config)`
+### `putConfig(config, source='editor')`
 
 Async action for updating Jekyll project configuration, after ensuring the content is not empty.
+`source` denotes whether the point of origin is the `Editor` component (*`editor`*) or `DataGUI` (*`gui`*).
 
 ### `validateConfig(config)`
 
 Action for checking whether the YAML editor has content.
 
-### `onEditorChange`
+### `onEditorChange()`
 
 Action for notifying whether the YAML editor has changed after last update
 
+
 ## Pages
 
-### `fetchPages(directory)`
+### `fetchPages(directory = '')`
 
 Async action for fetching an array of page objects in a directory.
 
@@ -31,28 +33,25 @@ Async action for fetching an array of page objects in a directory.
 
 Async action for fetching the requested page in a directory.
 
-### `createPage(directory)`
+### `putPage(mode, directory, filename)`
 
-Async action for creating a page in the requested directory. The content comes
-from `state.metadata`. If the path is not provided, it is auto-generated from the title.
+Async action for creating and updating the requested page.<br/>
+The content comes from `state.metadata`. If the `path` is `nil`, it is auto-generated from the `title`.
 
-### `putPage(directory, filename)`
-
-Async action for updating the requested page. The updated content comes
-from `state.metadata`.
+`mode` may either be `create` or any other appropriate string (e.g. 'edit').
 
 ### `deletePage(directory, filename)`
 
-Async action for deleting the requested page in a directory.
-After deletion, page list is requested.
+Async action for deleting the requested page in a directory. After deletion, page list is requested.
+
 
 ## Collections
 
-### `fetchCollections`
+### `fetchCollections()`
 
 Async action for fetching an array of the registered collections (including posts).
 
-### `fetchCollection(collection_name, directory)`
+### `fetchCollection(collection_name, directory = '')`
 
 Async action for fetching documents and directories of the requested collection
 inside the requested directory.
@@ -62,20 +61,41 @@ inside the requested directory.
 Async action for fetching the requested document in a directory.
 The response includes the document body.
 
-### `createDocument(collection_name, directory)`
+### `putDocument(mode, collection_name, directory, filename = '')`
 
-Async action for creating a document in the requested directory.
-The content comes from `state.metadata`. If the path is not provided,
-it is auto-generated from the title.
+Async action for creating and updating the requested document. The content comes from `state.metadata`. If the filename is not provided, it is auto-generated from the title.
+The response includes the document body.
 
-### `putDocument(collection_name, directory, filename)`
+`mode` may either be `publish`, or `create`, or any other appropriate string (e.g. 'edit').
 
-Async action for updating the requested document. The updated content comes from `state.metadata`. If the filename is not provided, it is auto-generated from the title.
-The response includes the document body. 
+`publish` - special `create` mode for converting a draft into a post.
 
 ### `deleteDocument(collection_name, directory, filename)`
 
 Async action for deleting the document in a directory from disk. After deletion, collection documents are requested.
+
+
+## Drafts
+
+### fetchDrafts(directory = '')
+
+Async action for fetching an array of drafts inside given subdirectory. Empty parameter returns drafts at the root of `_drafts/`
+
+### fetchDraft(directory, filename)
+
+Async action for fetching requested draft in a subdirectory
+
+### putDraft(mode, directory, filename = '')
+
+Async action for creating and updating a draft in a given subdirectory.<br/>
+The content comes from `state.metadata`. If the `path` is `nil`, it is auto-generated from the `title`.
+
+`mode` may either be `create` or any other appropriate string (e.g. 'edit').
+
+### deleteDraft(directory, filename)
+
+Async action for deleting the requested draft in a sub-directory. After deletion, drafts list is requested.
+
 
 ## Metadata
 
@@ -117,32 +137,34 @@ Updates the content title when the input changes.
 
 Updates the content body when the markdown editor changes.
 
+### `updateTemplate(prop, value)`
+
+Updates the template state object. Currently used mainly to denote whether the template contains front matter dashes or not.
+
 ### `updatePath(path)`
 
 Updates the content path when the input changes.
 
-### `updateDraft(isDraft)`
-
-Updates the content visibility when the checkbox changes.
 
 ## Static Files
 
-### `fetchStaticFiles`
+### `fetchStaticFiles(directory = '')`
 
-Async action for fetching static files.
+Async action for fetching static files in a given directory.
 
-### `uploadStaticFiles(files)`
+### `uploadStaticFiles(directry, files)`
 
-Async action for uploading multiple static files at the same time.
+Async action for uploading multiple static files to the given directory at the same time.
 It encodes the uploaded `File` objects to `base64` before sending PUT request.
 
-### `deleteStaticFile(filename)`
+### `deleteStaticFile(directory, filename)`
 
 Async action for deleting the requested static file. After deletion, static file list is requested.
 
+
 ## Data Files
 
-### `fetchDataFiles(directory)`
+### `fetchDataFiles(directory = '')`
 
 Async action for fetching data files in a directory.
 `null` value for `directory` returns files in the configured data directory (`_data/` by default).
@@ -151,11 +173,12 @@ Async action for fetching data files in a directory.
 
 Async action for fetching the requested data file in a directory.
 
-### `putDataFile(directory, filename, data, new_path="", source="editor")`
+### `putDataFile(directory, filename, data, new_path = '', source = 'editor')`
 
-Async action for creating/updating the requested data file in a directory. It validates the given filename and data before the PUT request.
+Async action for creating and updating the requested data file in a directory. It validates the given filename and data before the PUT request.
+
 Optional parameter `new_path` will update the data file's `path` metadata.
-When another optional parameter `source` equals `gui`, the requested file is updated by parsing user input into valid YAML.
+Optional parameter `source` can be set to `gui`, to create or update the requested file by parsing user input into valid YAML.
 
 ### `deleteDataFile(directory, filename)`
 
@@ -164,6 +187,54 @@ Async action for deleting the requested data file in a directory. After deletion
 ### `onDataFileChanged`
 
 Action for keeping track of the updated form fields.
+
+
+## Templates
+
+Set of actions related to special directories (`_layouts`, `_includes`, `_sass` and `assets`), when they exist at the root of the site's source directory, and their contents.
+
+### fetchTemplates(directory = '')
+
+Async action for fetching an array of template files and sub-directories within given *template directory*.<br/>
+Request with an empty parameter returns an array of available *template directories*.
+
+### fetchTemplate(directory, filename)
+
+Async action for fetching the requested template file in a subdirectory within a given template directory.
+
+### putTemplate(mode, directory, filename = '', include_front_matter = true)
+
+Async action for creating and updating the requested template file in a subdirectory with a given template directory.
+
+`mode` may be either `create` or any other appropriate string (e.g. 'edit')<br/>
+`include_front_matter` determines whether `front_matter` is included in the request or not.
+
+### deleteTemplate(directory, filename)
+
+Async action for deleting the requested template file in a subdirectory within a given template directory.
+
+
+## Theme Gem
+
+### `fetchTheme(directory = '')`
+
+Async action for fetching theme files in a directory. <br/>
+Empty parameter fetches the theme's metadata as well as a list of available directories.
+
+### `fetchThemeItem(directory, filename)`
+
+Async action for fetching the requested theme file in a directory.
+
+### `putThemeItem(directory, filename, data)`
+
+Async action for copying a theme-file to the same path relative to the site's source directory.
+
+
+## Dashboard
+
+### `fetchMeta()`
+Async action that fetches a filtered aggregate of the current site's internal payload.
+
 
 ## Utils
 
@@ -175,9 +246,10 @@ Action for storing search input from the user
 
 Action for storing form errors.
 
-### `clearErrors`
+### `clearErrors()`
 
 Action for clearing form errors if any.
+
 
 ## Notifications
 

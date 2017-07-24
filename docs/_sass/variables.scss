@@ -4,6 +4,9 @@ $content-side-width: 260px;
 $orange: #ffcc00;
 $dark-orange: #ff9900;
 
-$border-color: #d4d7d9;
+$background-color: #fefefe;
+$sidebar-color: #333;
+
+$border-color: darken($background-color, 15%);
 $border-color-focus: $orange;
-$border-radius: 4px;
+$border-radius: 2px;

@@ -9,10 +9,10 @@ description: Specifies how the application’s state changes in response to acti
 
 ```javascript
 {
-  config: Object, // site config object
-  updated: Boolean, // set to true when the config is updated
+  config: Object,         // site config object
+  updated: Boolean,       // set to true when the config is updated
   editorChanged: Boolean, // set to true when the config editor changes
-  isFetching: Boolean // set to true when the config is being fetched
+  isFetching: Boolean     // set to true when the config is being fetched
 }
 ```
 
@@ -23,9 +23,9 @@ description: Specifies how the application’s state changes in response to acti
 ```javascript
 {
   pages: Array,
-  page: Object, // currently visited page
+  page: Object,        // currently visited page
   isFetching: Boolean, // set to true when the page is being fetched
-  updated: Boolean // set to true when the page is updated
+  updated: Boolean     // set to true when the page is updated
 }
 ```
 
@@ -38,8 +38,21 @@ description: Specifies how the application’s state changes in response to acti
   collections: Array,
   entries: Array,
   currentDocument: Object,
-  isFetching: Boolean, // set to true when the document is being fetched
-  updated: Boolean // set to true when the document is updated
+  isFetching: Boolean,     // set to true when the document is being fetched
+  updated: Boolean         // set to true when the document is updated
+}
+```
+
+## Drafts
+
+### State
+
+```javascript
+{
+  drafts: Array,
+  draft: Object,       // currently requested draft
+  isFetching: Boolean, // set to true when the draft is being fetched
+  updated: Boolean     // set to true when the draft is updated
 }
 ```
 
@@ -49,10 +62,10 @@ description: Specifies how the application’s state changes in response to acti
 
 ```javascript
 {
-  metadata: Object, // stores current document's metadata
+  metadata: Object,        // stores current document's metadata
   new_field_count: Number, // for naming newly created fields
-  key_prefix: String, // Unique component key for sorting MetaArrayItem's properly
-  fieldChanged: Boolean // form submit buttons are enabled when true
+  key_prefix: String,      // Unique component key for sorting MetaArrayItem's properly
+  fieldChanged: Boolean    // form submit buttons are enabled when true
 }
 ```
 
@@ -62,10 +75,12 @@ description: Specifies how the application’s state changes in response to acti
 
 ```javascript
 {
-  files: Array, // stores all of the data files
-  currentFile: Object, // stores current datafile
-  updated: Boolean, // stores upload state
-  isFetching: Boolean
+  files: Array,             // contains all data files and subdirectories in current directory
+  currentFile: Object,      // stores current datafile
+  isFetching: Boolean       // set to true when a data file is being fetched
+  updated: Boolean,         // set to true when a data file is updated
+  datafileChanged: Boolean, // set to true when the file is changed in 'Editor' mode
+  fieldChanged: Boolean     // set to true when the file is changed in 'GUI' mode
 }
 ```
 
@@ -75,9 +90,46 @@ description: Specifies how the application’s state changes in response to acti
 
 ```javascript
 {
-  files: Array, // stores all of the static files
+  files: Array,        // stores all of the static files
   isFetching: Boolean,
-  uploading: Boolean // stores upload state
+  uploading: Boolean   // stores upload state
+}
+```
+
+## Templates
+
+### State
+
+```javascript
+{
+  templates: Array,
+  template: Object,    // currently requested template
+  isFetching: Boolean, // set to true when the template is being fetched
+  updated: Boolean     // set to true when the template is updated
+}
+```
+
+## Theme
+
+### State
+
+```javascript
+{
+  theme: Object,       // data from currently used theme-gem
+  template: Object,    // currently requested theme-file
+  isFetching: Boolean, // set to true when the theme-file is being fetched
+  updated: Boolean     // set to true when the theme-file is copied to source directory
+}
+```
+
+## Dashboard
+
+### State
+
+```javascript
+{
+  meta: Object,        // contains meta information regarding the Admin interface, the current Site and Jekyll
+  isFetching: Boolean, // set to true when the draft is being fetched
 }
 ```
 
@@ -88,7 +140,7 @@ description: Specifies how the application’s state changes in response to acti
 ```javascript
 {
   input: String, // search input
-  errors: Array // form errors
+  errors: Array  // form errors
 }
 ```
 

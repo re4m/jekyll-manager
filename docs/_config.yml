@@ -11,10 +11,7 @@ gems:
   - jekyll-sitemap
 
 sass:
-  sass_dir: _sass
   style: compressed
-
-markdown: kramdown
 
 defaults:
   -

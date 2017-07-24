@@ -6,11 +6,11 @@
 
 
 ### Tell us a bit about yourself:
-* Version of JekyllAdmin I'm using <HINT: use `bundle show` to check>:
-* Version of Jekyll I'm using <HINT: use `bundle show` to check>:
-* Version of NodeJS I'm using <HINT: use `node -v` to check>:
-* Operating System <e.g. OS X, Windows>:
-* Browser <e.g, Safari, Chrome>:
+* Version of JekyllAdmin I'm using <!-- HINT: use `bundle show` to check -->:
+* Version of Jekyll I'm using <!-- HINT: use `bundle show` to check -->:
+* Version of NodeJS I'm using <!-- HINT: use `node -v` to check -->:
+* Operating System <!-- e.g. OS X, Windows -->:
+* Browser <!-- e.g, Safari, Chrome -->:
 
 ### Steps to reproduce:
 <!-- List the steps someone else can take to reproduce the conditions you're reporting. -->

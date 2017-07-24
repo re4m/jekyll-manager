@@ -5,36 +5,30 @@ description: Container components which connect the presentational components to
 
 ## Sidebar
 
-Container for listing all of routes' links. The links can be hidden from `Sidebar` by adding
-an option to `_config.yml` like the following;
+Container for listing all of routes' links.<br/>
+The links are dynamically rendered based on individual category size. e.g. The link to `/datafiles` won't be rendered if there are no data files at the site's source.
 
-```yaml
-jekyll_admin:
-  hidden_links:
-    - posts
-    - pages
-```
+> ***Tip:** In the above case, create a new data file via the Dashboard*
 
 ### PropTypes
 
 ```javascript
 {
-  collections: Array,
-  fetchCollections: Function
+  site: Object,  // Filtered cummulative payload data of current site
+  config: Object // Current site's configuration data
 }
 ```
 
 ## Header
 
-Container for displaying header which includes title and homepage link.
+Container for displaying header which includes title, homepage link and the current version of the admin interface.
 
 ### PropTypes
 
 ```javascript
 {
-  config: Object,
-  fetchConfig: Function,
-  updated: Boolean \\ optional
+  admin: Object, // Meta info regarding the admin interface
+  config: Object // Current site's configuration data
 }
 ```
 
@@ -51,7 +45,7 @@ and `'false'`.
 
 ```javascript
 {
-  content: Object,
+  fields: Object,
   metadata: Object,
   key_prefix: String,
   storeContentFields: Function,
@@ -61,7 +55,10 @@ and `'false'`.
   updateFieldValue: Function,
   moveArrayItem: Function,
   convertField: Function,
-  dataview: Boolean
+  dataview: Boolean,              // *Optional*
+  type: String,                   // *Optional*
+  fetchMeta: Function,            // *Optional*
+  appMeta: Object                 // *Optional*
 }
 ```
 
@@ -78,9 +75,7 @@ Container for showing notifications at the right bottom of the screen
 ```
 
 
-# Views
-
-Contains all of the views linked with the routes.
+The following contain views linked with the routes.
 
 ## Configuration
 
@@ -121,7 +116,8 @@ Container for Pages view. Lists available pages and directories.
   fetchPages: Function,
   deletePage: Function,
   isFetching: Boolean,
-  searchByTitle: Function
+  search: Function,
+  params: Object
 }
 ```
 
@@ -135,7 +131,7 @@ Container for editing a page.
 {
   page: Object,
   fetchPage: Function,
-  deletePage: Function,Boolean,
+  deletePage: Function,
   putPage: Function,
   updateTitle: Function,
   updateBody: Function,
@@ -145,7 +141,10 @@ Container for editing a page.
   errors: Array,
   fieldChanged: Boolean,
   updated: Boolean,
-  params: Object
+  params: Object,
+  router: Object,
+  route: Object,
+  new_field_count: Number // *Optional*
 }
 ```
 
@@ -161,10 +160,14 @@ Container for creating a new page.
   updateTitle: Function,
   updateBody: Function,
   updatePath: Function,
-  updateDraft: Function,
   clearErrors: Function,
   errors: Array,
-  fieldChanged: Boolean
+  fieldChanged: Boolean,
+  updated: Boolean,
+  params: Object,
+  router: Object,
+  route: Object,
+  new_field_count: Number  // *Optional*
 }
 ```
 
