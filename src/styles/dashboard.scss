@@ -198,3 +198,61 @@ $progress-color: $dark-orange;
     }
   }
 }
+
+/*
+** Health Status sticker
+*/
+
+// set colors based on logger output level
+$info-color: #689f38;
+$warn-color: #e6ac00;
+$error-color: #c70525;
+
+.health-card {
+  position: relative;
+  width: 360px;
+  color: #fff;
+  @include transition(0.75s);
+
+  header { cursor: pointer; }
+  header, article {
+    padding: 10px 15px;
+    border: 1px solid;
+    opacity: 1;
+    @include transition(0.5s 0.75s);
+  }
+
+  .chevrons {
+    position: absolute;
+    right: 15px;
+    display: inline-block;
+    i {
+      margin-right: 0px;
+      margin-left: 10px;
+    }
+  }
+
+  &.error {
+    @include healthCard($error-color, 130px)
+  }
+
+  &.info {
+    @include healthCard($info-color, 40px, center)
+  }
+
+  &.warn {
+    @include healthCard($warn-color, 100px)
+  }
+
+  &.collapsed {
+    width: 160px;
+    @include transition(0.5s 0.75s);
+    article {
+      padding: 0 15px;
+      height: 0;
+      opacity: 0;
+      overflow: hidden;
+      @include transition(0.75s);
+    }
+  }
+}

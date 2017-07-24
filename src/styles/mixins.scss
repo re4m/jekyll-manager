@@ -69,6 +69,20 @@
   }
 }
 
+@mixin healthCard($color, $article-height, $article-align: left) {
+  header {
+    background-color: $color;
+    border-color: $color;
+  }
+  article {
+    text-align: $article-align;
+    height: $article-height;
+    color: $color;
+    background-color: lighten($color, 48%);
+    border-color: lighten($color, 40%);
+  }
+}
+
 @mixin nodrag() {
   user-drag: none;
   user-select: none;

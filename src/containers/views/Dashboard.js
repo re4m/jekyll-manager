@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'underscore';
+import classnames from 'classnames';
 import DocumentTitle from 'react-document-title';
 
 import { fetchMeta } from '../../actions/dashboard';
@@ -11,6 +12,14 @@ import { generateTitle } from '../../utils/helpers';
 import Splitter from '../../components/Splitter';
 
 export class Dashboard extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      collapsed: true
+    };
+  }
 
   componentDidMount() {
     const { fetchMeta } = this.props;
@@ -55,6 +64,32 @@ export class Dashboard extends Component {
     });
   }
 
+  toggleCard() {
+    this.setState({ collapsed: !this.state.collapsed });
+  }
+
+  renderHealthCard(site) {
+    const cardClasses = classnames({
+      'pull-right': true,
+      'health-card': true,
+      'collapsed': this.state.collapsed
+    });
+    const health = site.health;
+    return (
+      <section className={`${cardClasses} ${health.report_lvl}`}>
+        <header onClick={() => this.toggleCard()}>
+          <i className="fa fa-stethoscope fa-lg" />
+          Site Health
+          <div className="chevrons">
+           { this.state.collapsed && <i className="fa fa-chevron-down" /> }
+           { !this.state.collapsed && <i className="fa fa-chevron-up" /> }
+          </div>
+        </header>
+        <article>{health.report_txt}</article>
+      </section>
+    );
+  }
+
   render() {
     const { isFetching, meta } = this.props;
     if (isFetching) {
@@ -83,6 +118,7 @@ export class Dashboard extends Component {
         <div className="single">
           <div className="content-header">
             <h1>Welcome, {user}!</h1>
+            {this.renderHealthCard(site)}
           </div>
           <div className="dashboard">
             <div className="main">
