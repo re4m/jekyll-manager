@@ -1,7 +1,7 @@
 ---
 title: Home
 permalink: /
-description: Jekyll Manager provides users with a traditional CMS-style graphical interface to author content and administer Jekyll sites. The project is divided into two parts. A Ruby-based HTTP API that handles Jekyll and filesystem operations, and a Javascript-based front end, built on that API.
+description: Site Description
 ---
 
 ## Installation
@@ -21,4 +21,3 @@ Bug reports and pull requests to improve these changes or this documenation are 
 ## Improve this portal
 
 Found a mistake? See something that can be made better? These docs are open source.
-Please help: <https://github.com/ashmaroli/jekyll-manager/edit/master/docs/{{ page.path }}>.

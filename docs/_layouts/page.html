@@ -4,7 +4,13 @@ layout: default
 
 <section>
   {% if page.description %}
-    <p class="description">{{ page.description }}</p>
+    <p class="description">
+      {% if page.description == "Site Description" %}
+        {{ site.description }}
+      {% else %}
+        {{ page.description }}
+      {% endif %}
+    </p>
   {% endif %}
   <div>
     {{ content }}
