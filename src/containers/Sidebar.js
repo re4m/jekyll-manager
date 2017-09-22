@@ -180,7 +180,7 @@ export class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
-        <Link className="logo" to={ADMIN_PREFIX} />
+        <Link className="logo" to={ADMIN_PREFIX+'/dashboard'} />
         <ul className="routes">
           {this.renderRoutes()}
         </ul>

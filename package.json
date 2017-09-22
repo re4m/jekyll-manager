@@ -1,6 +1,6 @@
 {
   "name": "jekyll-manager",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Jekyll Admin repackaged with some alterations",
   "private": true,
   "scripts": {
@@ -50,6 +50,7 @@
     "redux": "3.6.0",
     "redux-logger": "2.6.1",
     "redux-thunk": "2.1.0",
+    "sha1": "^1.1.1",
     "simplemde": "1.11.2",
     "sortablejs": "1.4.2",
     "underscore": "1.8.3"

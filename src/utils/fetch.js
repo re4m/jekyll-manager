@@ -8,6 +8,7 @@ import {
 } from '../constants/lang';
 import { BadInputError } from './api_errors';
 
+
 /**
  * Fetch wrapper for GET request that dispatches actions according to the
  * request status
@@ -17,7 +18,11 @@ import { BadInputError } from './api_errors';
  * @return {Function} dispatch
  */
 export const get = (url, action_success, action_failure, dispatch) => {
-  return fetch(url)
+  var headers = {
+    "X_USER_AUTH": window.auth
+  };
+
+  return fetch(url, {headers})
     .then(res => res.json())
     .then(data => dispatch({
       type: action_success.type,

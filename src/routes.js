@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 import { ADMIN_PREFIX } from './constants';
 
 import App from './containers/App';
+import Login from './containers/views/Login';
 import Dashboard from './containers/views/Dashboard';
 import Configuration from './containers/views/Configuration';
 import Pages from './containers/views/Pages';
@@ -29,51 +30,54 @@ import TemplateView from './containers/views/TemplateView';
 import NotFound from './containers/views/NotFound';
 
 export default (
-  <Route path={`${ADMIN_PREFIX}`} component={App}>
-    <IndexRoute component={Dashboard} />
-    <Route path="configuration" component={Configuration} />
-    <Route path="pages">
-      <IndexRoute component={Pages} />
-      <Route path="(**/)new" component={PageNew} />
-      <Route path="(**/)*.*" component={PageEdit} />
-      <Route path="**" component={Pages} />
-    </Route>
-    <Route path="collections">
-      <Route path=":collection_name">
-        <IndexRoute component={Documents} />
-        <Route path="(**/)new" component={DocumentNew} />
-        <Route path="(**/)*.*" component={DocumentEdit} />
-        <Route path="**" component={Documents} />
+  <Route path={`${ADMIN_PREFIX}`}>
+    // <IndexRoute component={Login} />
+    <Route path={`${ADMIN_PREFIX}`} component={App}>
+      <Route path="dashboard" component={Dashboard} />
+      <Route path="configuration" component={Configuration} />
+      <Route path="pages">
+        <IndexRoute component={Pages} />
+        <Route path="(**/)new" component={PageNew} />
+        <Route path="(**/)*.*" component={PageEdit} />
+        <Route path="**" component={Pages} />
       </Route>
+      <Route path="collections">
+        <Route path=":collection_name">
+          <IndexRoute component={Documents} />
+          <Route path="(**/)new" component={DocumentNew} />
+          <Route path="(**/)*.*" component={DocumentEdit} />
+          <Route path="**" component={Documents} />
+        </Route>
+      </Route>
+      <Route path="drafts">
+        <IndexRoute component={Drafts} />
+        <Route path="(**/)new" component={DraftNew} />
+        <Route path="(**/)*.*" component={DraftEdit} />
+        <Route path="**" component={Drafts} />
+      </Route>
+      <Route path="datafiles">
+        <IndexRoute component={DataFiles} />
+        <Route path="(**/)new" component={DataFileNew} />
+        <Route path="(**/)*.*" component={DataFileEdit} />
+        <Route path="**" component={DataFiles} />
+      </Route>
+      <Route path="staticfiles">
+        <IndexRoute component={StaticFiles} />
+        <Route path="index" component={StaticIndex} />
+        <Route path="**" component={StaticFiles} />
+      </Route>
+      <Route path="templates">
+        <IndexRoute component={Templates} />
+        <Route path="(**/)new" component={TemplateNew} />
+        <Route path="(**/)*.*" component={TemplateEdit} />
+        <Route path="**" component={TemplateDirectory} />
+      </Route>
+      <Route path="theme">
+        <IndexRoute component={ThemeManifest} />
+        <Route path="(**/)*.*" component={TemplateView} />
+        <Route path="**" component={ThemeDirectory} />
+      </Route>
+      <Route path={`${ADMIN_PREFIX}/*`} component={NotFound} />
     </Route>
-    <Route path="drafts">
-      <IndexRoute component={Drafts} />
-      <Route path="(**/)new" component={DraftNew} />
-      <Route path="(**/)*.*" component={DraftEdit} />
-      <Route path="**" component={Drafts} />
-    </Route>
-    <Route path="datafiles">
-      <IndexRoute component={DataFiles} />
-      <Route path="(**/)new" component={DataFileNew} />
-      <Route path="(**/)*.*" component={DataFileEdit} />
-      <Route path="**" component={DataFiles} />
-    </Route>
-    <Route path="staticfiles">
-      <IndexRoute component={StaticFiles} />
-      <Route path="index" component={StaticIndex} />
-      <Route path="**" component={StaticFiles} />
-    </Route>
-    <Route path="templates">
-      <IndexRoute component={Templates} />
-      <Route path="(**/)new" component={TemplateNew} />
-      <Route path="(**/)*.*" component={TemplateEdit} />
-      <Route path="**" component={TemplateDirectory} />
-    </Route>
-    <Route path="theme">
-      <IndexRoute component={ThemeManifest} />
-      <Route path="(**/)*.*" component={TemplateView} />
-      <Route path="**" component={ThemeDirectory} />
-    </Route>
-    <Route path={`${ADMIN_PREFIX}/*`} component={NotFound} />
   </Route>
 );

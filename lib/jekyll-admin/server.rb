@@ -1,3 +1,4 @@
+require 'digest/sha1'
 module JekyllAdmin
   class Server < Sinatra::Base
     ROUTES = %w(
@@ -22,12 +23,15 @@ module JekyllAdmin
       set :allow_methods, %i[delete get options post put]
     end
 
+    use Authenticator
+
     get "/" do
       json ROUTES.map { |r| ["#{r}_api", URI.join(base_url, "/_api/", r)] }.to_h
     end
 
     # CORS preflight
     options "*" do
+      response.headers["Access-Control-Allow-Headers"] = "X_USER_AUTH"
       render_404 unless settings.development? || settings.test?
       status 204
     end
