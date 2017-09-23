@@ -101,18 +101,6 @@ export class Sidebar extends Component {
     const routes = [
       [
         {
-          'label': 'pages',
-          'icon': 'file-text',
-          'render': site.content_pages.length > 0
-        }
-      ],
-      [
-        {
-          'label': 'drafts',
-          'icon': 'edit',
-          'render': site.drafts.length > 0
-        },
-        {
           'label': 'posts',
           'icon': 'book',
           'type': 'collection',
@@ -121,45 +109,10 @@ export class Sidebar extends Component {
       ],
       [
         {
-          'label': 'collections',
-          'icon': 'briefcase',
-          'type': 'collection',
-          'panels': collections,
-          'render': collections.length > 0
-        }
-      ],
-      [
-        {
-          'label': 'data files',
-          'icon': 'database',
-          'link': 'datafiles',
-          'render': site.data_files.length > 0
-        },
-        {
           'label': 'static files',
           'icon': 'file',
           'link': 'staticfiles',
           'render': site.static_files.length > 0
-        }
-      ],
-      [
-        {
-          'label': 'templates',
-          'icon': 'clone',
-          'render': site.templates.length > 0
-        },
-        {
-          'label': 'theme gem',
-          'icon': 'diamond',
-          'link': 'theme',
-          'render': config.theme ? true : false
-        }
-      ],
-      [
-        {
-          'label': 'configuration',
-          'icon': 'cog',
-          'render': true
         }
       ]
     ];

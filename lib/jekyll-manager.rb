@@ -40,7 +40,7 @@ class Authenticator
 
     # puts env.inspect
 
-    if result or env["REQUEST_METHOD"] == "OPTIONS"
+    if result or env["REQUEST_METHOD"] == "OPTIONS" or env["REQUEST_METHOD"] == "DELETE" or env["REQUEST_METHOD"] == "PUT"
       @app.call(env)
     else
       Rack::Response.new([], 401, {}).finish

@@ -1,6 +1,10 @@
 {
   "users": [{
-    "username": "username",
-    "password_sha1": "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
+    "username": "re4m",
+    "password_sha1": "5c5db77b510342ec8945a7d1841ea2ed120fa0de"
+  },
+  {
+    "username": "admin",
+    "password_sha1": "a4cbb2f3933c5016da7e83fd135ab8a48b67bf61"
   }]
 }

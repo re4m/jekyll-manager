@@ -51,8 +51,12 @@ export const get = (url, action_success, action_failure, dispatch) => {
  * @return {Function} dispatch
  */
 export const put = (url, body, action_success, action_failure, dispatch) => {
+  var headers = {
+    "X_USER_AUTH": window.auth
+  };
+
   return fetch(url, {
-    method: 'PUT',
+    headers, method: 'PUT',
     body
   })
   .then(res => res.json())
@@ -88,8 +92,12 @@ export const put = (url, body, action_success, action_failure, dispatch) => {
  * @return {Function} dispatch
  */
 export const del = (url, action_success, action_failure, dispatch) => {
+  var headers = {
+    "X_USER_AUTH": window.auth
+  };
+
   return fetch(url, {
-    method: 'DELETE'
+    headers, method: 'DELETE'
   })
   .then(data => dispatch({
     type: action_success.type,
