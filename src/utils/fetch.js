@@ -19,7 +19,7 @@ import { BadInputError } from './api_errors';
  */
 export const get = (url, action_success, action_failure, dispatch) => {
   var headers = {
-    "X_USER_AUTH": window.auth
+    "X-USER-AUTH": window.auth
   };
 
   return fetch(url, {headers})
