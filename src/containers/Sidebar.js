@@ -101,6 +101,18 @@ export class Sidebar extends Component {
     const routes = [
       [
         {
+          'label': 'pages',
+          'icon': 'file-text',
+          'render': site.content_pages.length > 0
+        }
+      ],
+      [
+        {
+          'label': 'drafts',
+          'icon': 'edit',
+          'render': site.drafts.length > 0
+        },
+        {
           'label': 'posts',
           'icon': 'book',
           'type': 'collection',
